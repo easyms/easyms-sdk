@@ -1,2 +1,2 @@
 # easyms-starter
-Mutli function starter for Java microservice projet based on spring-boot and docker
+Mutli function starter for Java microservice projets based on spring-boot and docker
