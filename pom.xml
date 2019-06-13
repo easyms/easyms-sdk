@@ -12,11 +12,11 @@
 
 
     <groupId>com.easyms</groupId>
-    <artifactId>easyms-starter-parent</artifactId>
+    <artifactId>easyms-sdk</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>easyms-starter-parent</name>
+    <name>easyms-starter-sdk</name>
 
     <prerequisites>
         <maven>${maven.version}</maven>
@@ -34,9 +34,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:git://github.com/easyms/easyms-starter.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/easyms/easyms-starter.git</developerConnection>
-        <url>https://github.com/easyms/easyms-starter</url>
+        <connection>scm:git:git://github.com/easyms/easyms-sdk.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/easyms/easyms-sdk.git</developerConnection>
+        <url>https://github.com/easyms/easyms-sdk</url>
     </scm>
     <developers>
         <developer>
@@ -49,7 +49,7 @@
 
     <properties>
         <maven.version>3.5.0</maven.version>
-        <easyms.starter.parent.version>1.0.0-SNAPSHOT</easyms.starter.parent.version>
+        <easyms.sdk.version>1.0.0-SNAPSHOT</easyms.sdk.version>
         <jacoco.version>0.8.4</jacoco.version>
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
