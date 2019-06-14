@@ -53,6 +53,9 @@
         <jacoco.version>0.8.4</jacoco.version>
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
+        <guava.version>18.0</guava.version>
+        <javax.inject.version>1</javax.inject.version>
+        <commons-collections4.version>4.3</commons-collections4.version>
     </properties>
 
 
@@ -148,26 +151,51 @@
                         <optimize>true</optimize>
                     </configuration>
                 </plugin>
+
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.0</version>
                     <configuration>
-                        <argLine>
-                            --illegal-access=permit
-                        </argLine>
+                        <!-- Sets the VM argument line used when unit tests are run. -->
+                        <argLine>${surefireArgLine}</argLine>
+                        <!-- Skips unit tests if the value of skip.unit.tests property is true -->
+                        <skipTests>${skip.unit.tests}</skipTests>
+                        <!-- Excludes integration tests when unit tests are run. -->
+                        <excludes>
+                            <exclude>**/IT*.java</exclude>
+                        </excludes>
                     </configuration>
                 </plugin>
+
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.22.0</version>
-                    <configuration>
-                        <argLine>
-                            --illegal-access=permit
-                        </argLine>
-                    </configuration>
+                    <executions>
+                        <!--
+                            Ensures that both integration-test and verify goals of the Failsafe Maven
+                            plugin are executed.
+                        -->
+                        <execution>
+                            <id>integration-tests</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                            <configuration>
+                                <!-- Sets the VM argument line used when integration tests are run. -->
+                                <argLine>${failsafeArgLine}</argLine>
+                                <!--
+                                    Skips integration tests if the value of skip.integration.tests property
+                                    is true
+                                -->
+                                <skipTests>${skip.integration.tests}</skipTests>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
+
                 <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -249,45 +277,36 @@
                     </execution>
                 </executions>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <!-- Sets the VM argument line used when unit tests are run. -->
-                        <argLine>${surefireArgLine}</argLine>
-                        <!-- Skips unit tests if the value of skip.unit.tests property is true -->
-                        <skipTests>${skip.unit.tests}</skipTests>
-                        <!-- Excludes integration tests when unit tests are run. -->
-                        <excludes>
-                            <exclude>**/IT*.java</exclude>
-                        </excludes>
-                    </configuration>
-                </plugin>
-
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin.version}</version>
                     <executions>
-                        <!--
-                            Ensures that both integration-test and verify goals of the Failsafe Maven
-                            plugin are executed.
-                        -->
                         <execution>
-                            <id>integration-tests</id>
+                            <id>enforce-versions</id>
+                            <phase>validate</phase>
                             <goals>
-                                <goal>integration-test</goal>
-                                <goal>verify</goal>
+                                <goal>enforce</goal>
                             </goals>
                             <configuration>
-                                <!-- Sets the VM argument line used when integration tests are run. -->
-                                <argLine>${failsafeArgLine}</argLine>
-                                <!--
-                                    Skips integration tests if the value of skip.integration.tests property
-                                    is true
-                                -->
-                                <skipTests>${skip.integration.tests}</skipTests>
+                                <fail>true</fail>
+                                <failFast>true</failFast>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <version>[${maven.version},)</version>
+                                        <message>You are running an older version of Maven. Impulse
+                                            requires at
+                                            least Maven ${maven.version}
+                                        </message>
+                                    </requireMavenVersion>
+                                    <requireJavaVersion>
+                                        <version>[${java.version}.0,)</version>
+                                        <message>You are running an older version of Java. Impulse
+                                            requires at
+                                            least JDK ${java.version}
+                                        </message>
+                                    </requireJavaVersion>
+                                </rules>
                             </configuration>
                         </execution>
                     </executions>
@@ -328,10 +347,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -346,7 +362,28 @@
             </plugin>
         </plugins>
     </build>
+    <dependencyManagement>
+        <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${javax.inject.version}</version>
+            </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
+        </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
+
+        <!-- complementary dependencies for Java 11 -->
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
@@ -362,5 +399,53 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>2.4.0-b180725.0644</version>
         </dependency>
-    </dependencies>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>log4j-over-slf4j</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+            </dependency>
+            <!-- common dependencies -->
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+            </dependency>
+            <!-- common dependencies -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        </dependencies>
 </project>
