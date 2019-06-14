@@ -15,8 +15,7 @@ import org.springframework.context.annotation.Import;
 @Data
 @Slf4j
 @Configuration
-@Import({RestConfiguration.class
-})
+@Import({RestConfiguration.class})
 @ComponentScan(basePackages = {"com.easyms.common.ms"})
 public class EasyMsAutoConfiguration {
 
