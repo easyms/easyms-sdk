@@ -24,4 +24,4 @@ Mutli function starter for Java microservice projets based on spring-boot and do
 + test get client : api/v1/clients/1
 + actuator endpoints : http://localhost:8080/actuator
 + info endpoint : http://localhost:8080/info
-+ info endpoint : http://localhost:8080/health
++ health endpoint : http://localhost:8080/health
