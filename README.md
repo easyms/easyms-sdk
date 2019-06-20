@@ -18,5 +18,10 @@ Mutli function starter for Java microservice projets based on spring-boot and do
   -Xmx256m
 
  PATH_TO_TARGET : is path to your build dir. Under Intellij use can use $MODULE_DIR$ variable
-
+ 
 ```
++ access to api through swagger : http://localhost:8080/swagger-ui.html
++ test get client : api/v1/clients/1
++ actuator endpoints : http://localhost:8080/actuator
++ info endpoint : http://localhost:8080/info
++ info endpoint : http://localhost:8080/health
