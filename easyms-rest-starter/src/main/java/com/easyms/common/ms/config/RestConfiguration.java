@@ -27,10 +27,6 @@ public class RestConfiguration {
     private static final int HTTP_CACHE_MAX_ENTRIES = 1000;
     private static final int HTTP_CACHE_MAX_SIZE = 8192;
 
-    @Bean
-    public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 
     @Bean
     public CacheConfig getCacheConfig() {

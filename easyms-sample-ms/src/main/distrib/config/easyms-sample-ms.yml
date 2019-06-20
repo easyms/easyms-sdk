@@ -24,5 +24,5 @@ swagger:
     license: license
     licenseUrl: http://easyms.fr/LICENSE-0.0.1.html
 
-management.endpoints.web.exposure.include: *.
+management.endpoints.web.exposure.include: "*"
 
