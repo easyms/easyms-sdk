@@ -2,7 +2,7 @@
 Mutli function starter for Java microservice projets based on spring-boot and docker
 
 # How to compile
-+ Use at least Java 11 and maven 3.5.2`
++ Use at least Java 11 and maven 3.5.2
 
 ```
 > mvn clean install
@@ -19,7 +19,4 @@ Mutli function starter for Java microservice projets based on spring-boot and do
 
  PATH_TO_TARGET : is path to your build dir. Under Intellij use can use $MODULE_DIR$ variable
 
-``
-
-
-`
+```
