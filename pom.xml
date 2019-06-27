@@ -80,6 +80,15 @@
         <source.docker.registry.url>index.docker.io</source.docker.registry.url>
         <source.docker.openjdk.image.name>openjdk</source.docker.openjdk.image.name>
         <source.docker.openjdk.image.version>11.0.3-jdk-slim-stretch</source.docker.openjdk.image.version>
+        <target.docker.registry.url>index.docker.io</target.docker.registry.url>
+        <docker-maven-spotify-plugin.version>1.2.0</docker-maven-spotify-plugin.version>
+        <docker.dockerfile.directory>
+            ${distrib.dir}/${project.artifactId}-${project.version}/${project.artifactId}-${project.version}/docker
+        </docker.dockerfile.directory>
+        <docker.image.name>${target.docker.registry.url}/${app.id}</docker.image.name>
+        <docker.image.version>${project.version}-${current.time}-${git.commit.id.abbrev}</docker.image.version>
+
+        <distrib.dir>${project.build.directory}/distrib</distrib.dir>
     </properties>
 
 
@@ -154,6 +163,7 @@
         </testResources>
         <pluginManagement>
             <plugins>
+                <!-- Versions plugin : manage versions at build-->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
@@ -162,6 +172,7 @@
                         <generateBackupPoms>false</generateBackupPoms>
                     </configuration>
                 </plugin>
+                <!-- Compiler plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -175,6 +186,7 @@
                         <optimize>true</optimize>
                     </configuration>
                 </plugin>
+                <!-- Surefire plugin : Unit test execution -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -189,8 +201,7 @@
                         </excludes>
                     </configuration>
                 </plugin>
-
-
+                <!-- Failsafe plugin : Integration test execution-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
@@ -217,7 +228,7 @@
                         </execution>
                     </executions>
                 </plugin>
-
+                <!-- Jacoco plugin : Code coverage analysis and checks -->
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
@@ -299,6 +310,7 @@
                         </execution>
                     </executions>
                 </plugin>
+                <!-- Enforcer plugin : dependency compatibility check-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
@@ -329,6 +341,25 @@
                                         </message>
                                     </requireJavaVersion>
                                 </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- build-helper to get current time -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <id>timestamp-property</id>
+                            <goals>
+                                <goal>timestamp-property</goal>
+                            </goals>
+                            <configuration>
+                                <name>current.time</name>
+                                <pattern>yyyyMMdd-HHmmss</pattern>
+                                <timeZone>GMT+2</timeZone>
                             </configuration>
                         </execution>
                     </executions>
@@ -380,6 +411,10 @@
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -541,6 +576,7 @@
             <build>
                 <pluginManagement>
                     <plugins>
+                        <!-- spring-boot plugin : self contained jar generation and startup using maven-->
                         <plugin>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-maven-plugin</artifactId>
@@ -568,6 +604,7 @@
                                 </folders>
                             </configuration>
                         </plugin>
+                        <!-- dependency plugin : unpacking inherited resources from other artifacts-->
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-dependency-plugin</artifactId>
@@ -593,6 +630,7 @@
                                 </execution>
                             </executions>
                         </plugin>
+                        <!-- assembly plugin : assembly builing -->
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-assembly-plugin</artifactId>
@@ -608,7 +646,7 @@
                                             <descriptorRef>easyms-assembly</descriptorRef>
                                         </descriptorRefs>
                                         <appendAssemblyId>false</appendAssemblyId>
-                                        <outputDirectory>${project.build.directory}/distrib</outputDirectory>
+                                        <outputDirectory>${distrib.dir}</outputDirectory>
                                         <formats>
                                             <format>zip</format>
                                             <format>dir</format>
@@ -686,6 +724,57 @@
                 </testResources>
 
 
+            </build>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <file>
+                    <exists>src/main/distrib/config</exists>
+                </file>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.spotify</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <version>${docker-maven-spotify-plugin.version}</version>
+                            <executions>
+                                <execution>
+                                    <phase>install</phase>
+                                    <goals>
+                                        <goal>build</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <serverId>docker-push-hub</serverId>
+                                <registryUrl>https://${target.docker.registry.url}</registryUrl>
+                                <dockerDirectory>${docker.dockerfile.directory}</dockerDirectory>
+                                <!-- <useConfigFile>true</useConfigFile>  -->
+                                <imageName>${docker.image.name}</imageName>
+                                <resources>
+                                    <resource>
+                                        <targetPath>/</targetPath>
+                                        <directory>
+                                            ${distrib.dir}/${project.artifactId}-${project.version}/${project.artifactId}-${project.version}
+                                        </directory>
+                                    </resource>
+                                </resources>
+                                <imageTags>
+                                    <imageTag>${docker.image.version}</imageTag>
+                                </imageTags>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
     </profiles>
