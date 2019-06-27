@@ -25,3 +25,8 @@ Mutli function starter for Java microservice projets based on spring-boot and do
 + actuator endpoints : http://localhost:8080/actuator
 + info endpoint : http://localhost:8080/info
 + health endpoint : http://localhost:8080/health
++ You can find your distrib ready to deploy in your maven ${project.build.directory}. Inside distrib, you'll find :
+    - config dir containing your yml spring-config, Logback.xml file and JVM args file used by startup script
+    - bin dir containing startup script and healthcheck script
+    - lib dir containing le self contained jar spring-boot
+    - Dockerfile needed to build the docker image

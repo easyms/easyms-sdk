@@ -1,0 +1,1 @@
+${JAVA_OPTS:-Xms128m -Xmx512m} -Dnetworkaddress.cache.ttl=60 -Djava.security.egd=file:/dev/./urandom
