@@ -1,7 +1,7 @@
 # easyms-sdk
 Mutli function starter for Java microservice projets based on spring-boot and docker
 
-# How to compile or build (and push) docker image
+# How to compile, build (and push) docker image
 + Use at least Java 11 and maven 3.5.2
 
 ```
