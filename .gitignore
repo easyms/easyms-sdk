@@ -28,8 +28,12 @@ nbdist/
 
 ### Maven ###
 /log/**
-/target/**
+*/target/**
+/target/*
 *.bak
+
+### Mac ###
+.DS_Store
 
 
 
