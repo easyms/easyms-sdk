@@ -24,8 +24,14 @@
     </prerequisites>
 
     <modules>
+
+        <!--
         <module>easyms-rest-starter</module>
+        -->
+
+        <module>easyms-basic-starter</module>
         <module>easyms-sample-ms</module>
+
     </modules>
 
     <organization>
@@ -70,6 +76,10 @@
         <spring.config.name>${project.artifactId}</spring.config.name>
         <spring.profiles.active>dev</spring.profiles.active>
         <app.id>${project.artifactId}</app.id>
+        <inherited.resources.dir>${build.directory}/inherited-resources</inherited.resources.dir>
+        <source.docker.registry.url>index.docker.io</source.docker.registry.url>
+        <source.docker.openjdk.image.name>openjdk</source.docker.openjdk.image.name>
+        <source.docker.openjdk.image.version>11.0.3-jdk-slim-stretch</source.docker.openjdk.image.version>
     </properties>
 
 
@@ -90,7 +100,7 @@
                     <include>**/*.sh</include>
                     <include>**/*.args</include>
                     <include>**/*.factories</include>
-                    <include>**/Dockerfile</include>
+                    <include>**/*dockerfile</include>
                     <include>**/*.wsdl</include>
                     <include>**/*.pem</include>
                 </includes>
@@ -165,8 +175,6 @@
                         <optimize>true</optimize>
                     </configuration>
                 </plugin>
-
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -325,34 +333,6 @@
                         </execution>
                     </executions>
                 </plugin>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>repackage</goal>
-                                <goal>build-info</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <addResources>false</addResources>
-                        <jvmArguments>-Xmx256m
-                            -Dspring.config.name=${spring.config.name}
-                            -Dspring.profiles.active=${spring.profiles.active}
-                            -Dspring.config.location=${project.build.testOutputDirectory}/
-                            -Dlogging.config=${project.build.testOutputDirectory}/logback.xml
-                            -XX:+UnlockCommercialFeatures -XX:+FlightRecorder
-                            -XX:+HeapDumpOnOutOfMemoryError
-                            -XX:HeapDumpPath=${project.build.testOutputDirectory}
-                        </jvmArguments>
-                        <folders>
-                            <folder>${project.build.testOutputDirectory}</folder>
-                        </folders>
-                    </configuration>
-                </plugin>
-
             </plugins>
         </pluginManagement>
         <plugins>
@@ -417,6 +397,12 @@
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-rest-starter</artifactId>
+                <version>${easyms.sdk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.easyms</groupId>
+                <artifactId>easyms-basic-starter</artifactId>
                 <version>${easyms.sdk.version}</version>
             </dependency>
 
@@ -546,11 +532,115 @@
                     <exists>src/main/distrib/config</exists>
                 </file>
             </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.easyms</groupId>
+                    <artifactId>easyms-basic-starter</artifactId>
+                </dependency>
+            </dependencies>
             <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>repackage</goal>
+                                        <goal>build-info</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <addResources>false</addResources>
+                                <jvmArguments>-Xmx256m
+                                    -Dspring.config.name=${spring.config.name}
+                                    -Dspring.profiles.active=${spring.profiles.active}
+                                    -Dspring.config.location=${project.build.testOutputDirectory}/
+                                    -Dlogging.config=${project.build.testOutputDirectory}/logback.xml
+                                    -XX:+UnlockCommercialFeatures -XX:+FlightRecorder
+                                    -XX:+HeapDumpOnOutOfMemoryError
+                                    -XX:HeapDumpPath=${project.build.testOutputDirectory}
+                                </jvmArguments>
+                                <folders>
+                                    <folder>${project.build.testOutputDirectory}</folder>
+                                </folders>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-dependency-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>copy-inherited-resources</id>
+                                    <phase>generate-resources</phase>
+                                    <goals>
+                                        <goal>unpack</goal>
+                                    </goals>
+                                    <configuration>
+                                        <artifactItems>
+                                            <artifactItem>
+                                                <groupId>com.easyms</groupId>
+                                                <artifactId>easyms-basic-starter</artifactId>
+                                                <version>${easyms.sdk.version}</version>
+                                                <type>jar</type>
+                                                <overWrite>true</overWrite>
+                                                <outputDirectory>${inherited.resources.dir}</outputDirectory>
+                                            </artifactItem>
+                                        </artifactItems>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-assembly-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>build-assembly</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>single</goal>
+                                    </goals>
+                                    <configuration>
+                                        <descriptorRefs>
+                                            <descriptorRef>easyms-assembly</descriptorRef>
+                                        </descriptorRefs>
+                                        <appendAssemblyId>false</appendAssemblyId>
+                                        <outputDirectory>${project.build.directory}/distrib</outputDirectory>
+                                        <formats>
+                                            <format>zip</format>
+                                            <format>dir</format>
+                                        </formats>
+                                        <delimiters>
+                                            <delimiter>%_*_%</delimiter>
+                                        </delimiters>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>com.easyms</groupId>
+                                    <artifactId>easyms-basic-starter</artifactId>
+                                    <version>${easyms.sdk.version}</version>
+                                </dependency>
+                            </dependencies>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
                 <plugins>
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
                     </plugin>
                 </plugins>
                 <resources>
@@ -594,6 +684,7 @@
                         <directory>src/main/distrib/config</directory>
                     </testResource>
                 </testResources>
+
 
             </build>
         </profile>
