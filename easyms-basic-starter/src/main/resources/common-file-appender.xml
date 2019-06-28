@@ -1,57 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-File appender logback configuration provided for import, equivalent to the programmatic
-initialization performed by Boot
--->
 
 <included>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
-
-    <property name="RABBIT_MQ_ADDRESSES" value="${MONITORING_RABBITMQ_ADDRESSES}"/>
-    <property name="RABBIT_MQ_USER" value="${APP_ID}_kern"/>
-    <property name="RABBIT_MQ_PASSWORD" value="${MONITORING_RABBITMQ_PASSWORD}"/>
-    <property name="RABBIT_MQ_EXCHANGE" value="${MONITORING_RABBITMQ_EXCHANGE}"/>
-    <property name="RABBIT_MQ_VIRTUAL_HOST" value="${MONITORING_RABBITMQ_VIRTUAL_HOST}"/>
-    <property name="PROJECT_ID" value="${PROJECT_ID}"/>
-    <springProperty scope="context" name="LOGBACK_QUEUE_MAX_SIZE" source="${MONITORING_LOGBACK_QUEUE_MAX_SIZE}" defaultValue="100000" />
-
-    <jmxConfigurator/>
-
-    <conversionRule conversionWord="loggerType" converterClass="com.sgdbf.impulse.common.ms.log.LoggerTypeConverter"/>
-
-    <appender name="amqp-appender" class="com.sgdbf.impulse.common.ms.log.LogbackAmqpAppender">
-        <addresses>${RABBIT_MQ_ADDRESSES}</addresses>
-        <username>${RABBIT_MQ_USER}</username>
-        <password>${RABBIT_MQ_PASSWORD}</password>
-        <exchangeName>${RABBIT_MQ_EXCHANGE}</exchangeName>
-        <virtualHost>${RABBIT_MQ_VIRTUAL_HOST}</virtualHost>
-        <!-- this layout is not used, but its mandatory to initialize the AmqpAppender -->
-        <!-- this is the default pattern used by logstash encoder -->
-        <layout>
-            <pattern><![CDATA[ %d %p %t [%c] - <%m>]]></pattern>
-        </layout>
-        <applicationId>${PROJECT_ID}_${APP_ID}_${APP_VERSION}</applicationId>
-        <queueSize>${LOGBACK_QUEUE_MAX_SIZE}</queueSize>
-        <routingKeyPattern>%loggerType.${APP_ID}.%c.%p</routingKeyPattern>
-        <generateId>true</generateId>
-        <charset>UTF-8</charset>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeContext>false</includeContext>
-            <customFields>{"hostname":"${HOSTNAME}"}</customFields>
-        </encoder>
-    </appender>
-
-    <turboFilter class="com.sgdbf.impulse.common.ms.log.AmqpAppenderDuplicateMessageFilter"/>
-
-    <logger name="flows" additivity="false" level="INFO">
-        <appender-ref ref="amqp-appender"/>
-    </logger>
-
-    <logger name="metrics" additivity="false" level="INFO">
-        <appender-ref ref="amqp-appender"/>
-    </logger>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
