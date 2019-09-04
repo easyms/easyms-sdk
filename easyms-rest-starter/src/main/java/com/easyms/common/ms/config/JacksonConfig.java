@@ -23,6 +23,8 @@ public class JacksonConfig {
                 .featuresToEnable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
                 .timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()))
                 .featuresToDisable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-                .modules(new JavaTimeModule());
+                .modules(new JavaTimeModule())
+                ;
+
     }
 }

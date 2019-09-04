@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8090
 
 #Admin configuration
 info:
@@ -8,11 +8,16 @@ info:
   version: @pom.version@
   stage: local
 
-
 spring:
   application:
     id: @app.id@
     name: @app.id@
+  boot:
+    admin:
+      client:
+        url: ${boot.admin.client.url}
+        username: ${boot.admin.client.username}
+        password: ${boot.admin.client.password}
 
 swagger:
   paths: /api.*
@@ -23,6 +28,14 @@ swagger:
     version: @pom.version@
     license: license
     licenseUrl: http://easyms.fr/LICENSE-0.0.1.html
+
+easyms:
+  logging:
+    logstash: # Forward logs to logstash over a socket, used by LoggingConfig
+      enabled: false
+      host: localhost
+      port: 5000
+      queue-size: 512
 
 management.endpoints.web.exposure.include: "*"
 

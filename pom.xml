@@ -3,10 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.3.RELEASE</version>
         <relativePath/>
     </parent>
@@ -22,15 +21,13 @@
     <prerequisites>
         <maven>${maven.version}</maven>
     </prerequisites>
-
     <modules>
 
-        <!--
         <module>easyms-rest-starter</module>
-        -->
-
+        <module>easyms-secured-rest-starter</module>
         <module>easyms-basic-starter</module>
         <module>easyms-sample-ms</module>
+        <module>easyms-secured-sample-ms</module>
 
     </modules>
 
@@ -59,6 +56,9 @@
 
 
     <properties>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.version>3.5.0</maven.version>
         <easyms.sdk.version>1.0.0-SNAPSHOT</easyms.sdk.version>
         <jacoco.version>0.8.4</jacoco.version>
@@ -76,7 +76,7 @@
         <spring.config.name>${project.artifactId}</spring.config.name>
         <spring.profiles.active>dev</spring.profiles.active>
         <app.id>${project.artifactId}</app.id>
-        <inherited.resources.dir>${build.directory}/inherited-resources</inherited.resources.dir>
+        <inherited.resources.dir>${project.build.directory}/inherited-resources</inherited.resources.dir>
         <source.docker.registry.url>index.docker.io</source.docker.registry.url>
         <source.docker.openjdk.image.name>openjdk</source.docker.openjdk.image.name>
         <source.docker.openjdk.image.version>11.0.3-jdk-slim-stretch</source.docker.openjdk.image.version>
@@ -328,14 +328,14 @@
                                 <rules>
                                     <requireMavenVersion>
                                         <version>[${maven.version},)</version>
-                                        <message>You are running an older version of Maven. Impulse
+                                        <message>You are running an older version of Maven.
                                             requires at
                                             least Maven ${maven.version}
                                         </message>
                                     </requireMavenVersion>
                                     <requireJavaVersion>
                                         <version>[${java.version}.0,)</version>
-                                        <message>You are running an older version of Java. Impulse
+                                        <message>You are running an older version of Java. Easyms
                                             requires at
                                             least JDK ${java.version}
                                         </message>
@@ -432,6 +432,12 @@
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-rest-starter</artifactId>
+                <version>${easyms.sdk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.easyms</groupId>
+                <artifactId>easyms-secured-rest-starter</artifactId>
                 <version>${easyms.sdk.version}</version>
             </dependency>
 
@@ -564,7 +570,7 @@
             <id>microservice</id>
             <activation>
                 <file>
-                    <exists>src/main/distrib/config</exists>
+                    <exists>/src/main/resources/application.yml</exists>
                 </file>
             </activation>
             <dependencies>
@@ -593,8 +599,8 @@
                                 <jvmArguments>-Xmx256m
                                     -Dspring.config.name=${spring.config.name}
                                     -Dspring.profiles.active=${spring.profiles.active}
-                                    -Dspring.config.location=${project.build.testOutputDirectory}/
-                                    -Dlogging.config=${project.build.testOutputDirectory}/logback.xml
+                                    <!--                                    -Dspring.config.location=${project.build.testOutputDirectory}/-->
+                                    <!--                                    -Dlogging.config=${project.build.testOutputDirectory}/logback.xml-->
                                     -XX:+UnlockCommercialFeatures -XX:+FlightRecorder
                                     -XX:+HeapDumpOnOutOfMemoryError
                                     -XX:HeapDumpPath=${project.build.testOutputDirectory}
@@ -602,6 +608,10 @@
                                 <folders>
                                     <folder>${project.build.testOutputDirectory}</folder>
                                 </folders>
+                                <additionalProperties>
+                                    <java.source>${maven.compiler.source}</java.source>
+                                    <java.target>${maven.compiler.target}</java.target>
+                                </additionalProperties>
                             </configuration>
                         </plugin>
                         <!-- dependency plugin : unpacking inherited resources from other artifacts-->
@@ -711,6 +721,12 @@
                         <targetPath>${project.build.directory}/config</targetPath>
                         <filtering>true</filtering>
                         <directory>src/main/distrib/config</directory>
+                        <excludes>
+                            <exclude>**/*assembly.xml</exclude>
+                            <exclude>**/*access.xml</exclude>
+                            <exclude>**/*.zip</exclude>
+                            <exclude>**/*.gz</exclude>
+                        </excludes>
                     </resource>
                 </resources>
                 <testResources>
@@ -728,11 +744,11 @@
         </profile>
         <profile>
             <id>docker</id>
-            <activation>
+            <!--activation>
                 <file>
                     <exists>src/main/distrib/config</exists>
                 </file>
-            </activation>
+            </activation -->
             <build>
                 <pluginManagement>
                     <plugins>
