@@ -14,7 +14,7 @@ import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 /**
- * @author yfo.
+ * @author khames.
  */
 @Configuration
 @EnableWebSecurity

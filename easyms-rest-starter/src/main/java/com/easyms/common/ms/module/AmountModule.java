@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
- * @author sla.
+ * @author khames.
  */
 public class AmountModule extends SimpleModule {
 

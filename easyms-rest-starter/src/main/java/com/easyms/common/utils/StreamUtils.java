@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * @author sla.
+ * @author khames.
  */
 public class StreamUtils {
 

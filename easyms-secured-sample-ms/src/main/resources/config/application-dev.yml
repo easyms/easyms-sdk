@@ -7,11 +7,6 @@ info:
   description: @app.id@
   version: @pom.version@
   stage: local
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
 
 spring:
   application:
@@ -30,13 +25,13 @@ security:
       jwt:
         key-value: |
           -----BEGIN PUBLIC KEY-----
-          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0OIcJ+scLFXw23UtBfhI
-          v3jqJ5qIivlZdL3T1gP3qZKaNicPvIVk1ozBJUan1hhUQE1gTI3PGi+Uhjb7zvvP
-          GQnPR/nn3SzqtDGus99p5TVpMxNEQuPlMNVTQMcOOeWY2XoPTFFcWHgJJi0M1Fuc
-          2KdbodvuT/h5FtRKQeTitAW1O0eZn9WUmYw9BD2N9Ijry3xaoA/rMvNDMWUBYlMH
-          sicV/pUxK+t6EnMbUK1N7SHaXzZqEANLwP1ujuXdtJasYBg/Dk+2IIF7IV6MUKFh
-          96xO+blmodP8GN+UtRicIHrQkFGuBh/slROluMPZSse0ISYmhJXPTRMNwmffEt/f
-          FwIDAQAB
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1tkDD7SrIgQRadKBYJje
+          9rxadzHOvpThUwW/zJV6VG2XsDXFwltYcbHHzOwanBWvecsHaAomdS+VzmA7bjjR
+          EsOa8G6N2uBhRHxPn4vRJldbUkl/NyOfxOJLJGZ5bruCMwIjBTjNM2mmowj9wD3p
+          0VLrJs65U/7BIY4mwZDaWz0IYBN3JBvk2EFeBONUXkp71CdZPDutnTnwkO/dLK6W
+          UQ8aTQFzQtYNZxxRV/G/5nYN/Bo2aAsgI4G2MRCfKzVdjVK3eEgsvHDWO0YIHhoF
+          kpOCZjFYt0Ve4Wzz0XYnZQgdv9qkhhy0GQUnmuttHXrRCS0xBHRx4uy8kneE3AQD
+          zQIDAQAB
           -----END PUBLIC KEY-----
 swagger:
   paths: /api.*

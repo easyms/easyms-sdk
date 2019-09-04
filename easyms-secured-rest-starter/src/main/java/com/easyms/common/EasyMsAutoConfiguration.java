@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author yfo.
+ * @author khames.
  */
 @Data
 @Slf4j
