@@ -1,0 +1,39 @@
+### Easyms ###
+tomcat/
+*.pid
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.ids
+*.orig
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### Maven ###
+/log/**
+*/target/**
+/target/*
+*.bak
+
+### Mac ###
+.DS_Store
+
+
+
