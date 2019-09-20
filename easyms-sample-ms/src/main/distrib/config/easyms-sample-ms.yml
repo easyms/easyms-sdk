@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+#Admin configuration
+info:
+  name: @app.id@
+  description: @app.id@
+  version: @pom.version@
+  stage: local
+
+
+spring:
+  application:
+    id: @app.id@
+    name: @app.id@
+
+swagger:
+  paths: /api.*
+  api.info:
+    title: @app.id@
+    description: @pom.description@ Documentation
+    contact: @swagger.project.contact@
+    version: @pom.version@
+    license: license
+    licenseUrl: http://easyms.fr/LICENSE-0.0.1.html
+
+management.endpoints.web.exposure.include: "*"
+
