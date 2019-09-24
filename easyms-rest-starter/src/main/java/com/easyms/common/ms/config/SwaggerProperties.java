@@ -36,4 +36,10 @@ public class SwaggerProperties {
     @Value("${swagger.api.info.licenseUrl:}")
     private String apiInfoLicenseUrl;
 
+    @Value("${swagger.securityDefinitions.oauthSecurity.scopes:}")
+    private String scopes;
+
+    @Value("${swagger.securityDefinitions.oauthSecurity.tokenUrl:}")
+    private String tokenUrl;
+
 }

@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ClientResource {
 
     @ApiOperation("returns all details of a client")
     @Timed
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/{id}")
     public ResponseEntity<Client> findById(@PathVariable String id) {
         log.info("get client by id {}", id);
