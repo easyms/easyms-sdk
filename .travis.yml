@@ -1,20 +1,19 @@
 language: java
 before_deploy:
 - mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
-- export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep
-  -v '\[')
+- export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep  -v
+  '\[')
 deploy:
   provider: releases
   api_key:
-    secure: EXrfAnIgCkt760ybZ7v3du54u0ewwalFgcRiVIpOLp0sHkKxuqJFby3hpPOYZP+M3p62ei1zwMFjxxZumpMQhCVA6as9nqpIapXdEQwGddS6u1ZEVKiB+O8F4ItT2cXU38wY3ASi6EvFwPaHtzZL6YxAOjF4lRLHCXMUNCRGd8lKmca8w14YLYoGNtuM2QwZZVuzJaEun0bNFMGk1jk3Ek8H+dCaQGEgGpQA69PZMPnUc5AYxru1TL/EQvljSAKKa9ChrR0wnv4n3sl9J8tykxplU/KOF4VjYMhQGy9XH/++EMgwoCsL8U1KyMScrdtHDMePj7+VPDc0N/UIcNRmljKE63k9daoR2mIczNSdvnkNbWrkxq1RaukuCff38zUROByRXZuPxCqkgtK4bzY59VlT8BRoc/GLmYKEDTswBTL076f/Jayb5xMhuYQyhEMPBA86qbgUwxplqbF4cjYLIDUHjmqv8uinDq6ej7Shf3KsI91VAN4JW/2fXDr8SZGTE2A4tZAxual7FXMMz1UrirGz+Hc1HDHteUZOHfoq66Sk07/fNxQCPxtQnmjioOmJYnwyOl1qaEhqxvlLW5bUoepAMWNASe572K0YyA9WGNjeod1qwQJbVnzL3inHK0lV5yrPze7/szj+iyU14JLFf0O6bDvUMFID1ozjH0feKoU=
+    secure: GIhNtcEZ63zpa3Ldb+xqcov2ke+xn3vd/fWjEo1Nou4eOU+GOyMz1FT1Tjl30lvDm832PbyhF4gAUJZctr98KIgT+vqZmTpz5KfGnl/DtfVwts66nEMIF3O3GQMpPAlfKvKDY1jnNRfPmbUKiZUx9Rk2xo/Vjl/s9ek3TKqjQw6Kx94anobUro4R8zGq5HhqY+UZZ7x7wvQsCw77ngrwU5+kTvkdZC7yt9Lh8Gk5Mfpsd79FkeGUGQioZGNUJhgUqfwfihed5dmdO7f5YeeKp9IJYxMHH2ScNKGEXjmx9JMSTOnn35w6afrnP7RfNrX3rNn3swJ9nLs3DfyzHYH49laGcjvug0zPV5pJyKycTKJB33FqowuYZ/HPL/QupIhMeYoTQcYisuI1FnoNK/1qvW+WFxYQ7bmehXsOckQMVkVferiUD3T9JiHy1MfvwxuVCadsue2AVDrq97fUdaRUhTrroaxlK7XQIShALafBrRGD+y2FivftQ48CKWnVAjyEqogEcNU2v9hkFbSyihuwVAJxElonAIbhjF1YJnEaIMPUpziicq2WGyAxhUVXA7Oto9B1mAfOncDtlw3xiSKxtreItPoPABli6KYft+ASnKuwfLEjf/rW9BQ31b92zujeqknzvDbqwQB5870uD9AMLW7EBrqYIS1vivifevPsB1A=
   file:
-    - easyms-basic-starter/target/easyms-basic-starter-$project_version.jar
+    -easyms-basic-starter/target/easyms-basic-starter-$project_version.jar
     - easyms-rest-starter/target/easyms-rest-starter-$project_version.jar
     - easyms-sample-ms/target/easyms-sample-ms-$project_version.jar
     - easyms-secured-rest-starter/target/easyms-secured-rest-starter-$project_version.jar
     - easyms-secured-sample-ms/target/easyms-secured-sample-ms-$project_version.jar
-
   skip_cleanup: true
   on:
     repo: SahloulIheb/easyms-sdk
-  name: $project_version
+  name: easyms-$project_version
