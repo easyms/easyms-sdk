@@ -1,3 +1,6 @@
+Build status: [![build_status](https://travis-ci.com/SahloulIheb/easyms-sdk.svg?branch=master)](https://travis-ci.com/SahloulIheb/easyms-sdk)
+
+
 # easyms-sdk
 Mutli function starter for Java microservice projets based on spring-boot and docker
 
