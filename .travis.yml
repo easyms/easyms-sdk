@@ -1,4 +1,6 @@
 language: java
+notifications:
+  email: false
 before_deploy:
 - mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
 - export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep  -v
