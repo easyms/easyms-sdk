@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class LogstashProperties {
 
     @Value("${easyms.logging.logstash.enabled:}")
-    private boolean enabled = false;
+    private Boolean enabled = false;
     @Value("${easyms.logging.logstash.host:}")
     private String host = "localhost";
     @Value("${easyms.logging.logstash.port:}")
-    private int port = 5000;
+    private Integer port = 5000;
     @Value("${easyms.logging.logstash.queue-size:}")
-    private int queueSize = 512;
+    private Integer queueSize = 512;
 }

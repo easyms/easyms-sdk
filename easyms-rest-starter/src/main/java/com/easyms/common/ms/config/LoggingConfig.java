@@ -31,7 +31,7 @@ public class LoggingConfig {
         map.put("app_port", serverPort);
         String customFields = mapper.writeValueAsString(map);
 
-        if (logstashProperties.isEnabled()) {
+        if (logstashProperties.getEnabled()) {
             addLogstashTcpSocketAppender(context, customFields, logstashProperties);
         }
     }
