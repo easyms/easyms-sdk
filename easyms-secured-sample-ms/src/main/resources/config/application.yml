@@ -18,6 +18,9 @@ spring:
         url: ${boot.admin.client.url}
         username: ${boot.admin.client.username}
         password: ${boot.admin.client.password}
+        instance:
+          metadata:
+            enable-oauth2: true
 
 security:
   oauth2:
