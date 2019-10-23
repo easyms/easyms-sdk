@@ -1,7 +1,7 @@
-package com.easyms.common.ms.config;
+package com.easyms.secured.common.ms.config;
 
 
-import com.google.common.base.Predicates;
+import com.easyms.common.ms.config.SwaggerProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +46,6 @@ public class SwaggerConfig {
     }
 
     @Bean
-    @Primary
     public Docket securedSwaggerSpringMvcPlugin() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(getApiInfo())

@@ -1,33 +1,31 @@
-package com.easyms.common.ms.log;
+package com.easyms.secured.common.ms.log;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
+import com.easyms.common.ms.config.RequestResponseLoggerConfig;
+import com.easyms.common.ms.log.RequestResponseLogger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 
-@Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
 public class SecuredRequestResponseLogger extends RequestResponseLogger {
 
-    @Value("${logging.includeUser:true}")
-    private boolean includeUser;
+
+    public SecuredRequestResponseLogger(RequestResponseLoggerConfig requestResponseLoggerConfig) {
+        super(requestResponseLoggerConfig);
+    }
 
     private boolean isIncludeUser() {
-        return includeUser || logger.isDebugEnabled();
+        return requestResponseLoggerConfig.isIncludeUser() || logger.isDebugEnabled();
     }
 
 
     protected String extratRequestFrom(HttpServletRequest requestToUse) {
         String from = super.extratRequestFrom(requestToUse);
-        if(from.equals(UNKNOWN_USER)) {
-          return extractAuthenticatedUser().orElse(UNKNOWN_USER);
+        if(from.equals(API_CLIENT)) {
+          return extractAuthenticatedUser().orElse(API_CLIENT);
         } else {
             return from;
         }

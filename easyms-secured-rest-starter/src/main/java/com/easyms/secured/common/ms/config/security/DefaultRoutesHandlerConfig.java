@@ -1,4 +1,4 @@
-package com.easyms.common.ms.config.security;
+package com.easyms.secured.common.ms.config.security;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

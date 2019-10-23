@@ -1,16 +1,12 @@
 package com.easyms.common.ms.log;
 
+import com.easyms.common.ms.config.RequestResponseLoggerConfig;
 import lombok.Builder;
 import lombok.Data;
 import net.logstash.logback.marker.ObjectFieldsAppendingMarker;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
@@ -22,30 +18,23 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
+import static com.easyms.common.ms.config.RequestResponseLoggerConfig.IncludePayloadConfig.ALWAYS;
+import static com.easyms.common.ms.config.RequestResponseLoggerConfig.IncludePayloadConfig.ONLY_ON_ERROR;
 
-@Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
+
 public class RequestResponseLogger extends OncePerRequestFilter {
 
 
-    public static final String UNKNOWN_USER = "unknown";
+    public static final String API_CLIENT = "api-client";
     protected static Logger logger = LoggerFactory.getLogger("flows");
-
 
     public static final String EMPTY_PAYLOAD = "";
 
+    protected RequestResponseLoggerConfig requestResponseLoggerConfig;
 
-    @Value("${spring.application.id}")
-    private String appId;
-
-    @Value("${logging.includeRequestPayload:true}")
-    private boolean includeRequestPayload;
-
-    @Value("${logging.includeResponsePayload:true}")
-    private boolean includeResponsePayload;
-
-    @Value("${logging.includeQueryString:true}")
-    private boolean includeQueryString;
-
+    public RequestResponseLogger(RequestResponseLoggerConfig requestResponseLoggerConfig) {
+        this.requestResponseLoggerConfig = requestResponseLoggerConfig;
+    }
 
     /**
      * The default value is "false" so that the filter may log a "before" message
@@ -77,7 +66,7 @@ public class RequestResponseLogger extends OncePerRequestFilter {
         }
 
 
-        if (isIncludeResponsePayload() && !(response instanceof ContentCachingResponseWrapper)) {
+        if (shouldWrapResponse() && !(response instanceof ContentCachingResponseWrapper)) {
             responseToUse = new ContentCachingResponseWrapper(response);
         }
 
@@ -94,8 +83,8 @@ public class RequestResponseLogger extends OncePerRequestFilter {
         } finally {
             if (shouldLog && !isAsyncStarted(requestToUse)) {
                 afterRequest(requestToUse, commonRequestResponseLogging, responseToUse);
-                if (responseToUse instanceof ContentCachingResponseWrapper){
-                    ((ContentCachingResponseWrapper)responseToUse).copyBodyToResponse();
+                if (responseToUse instanceof ContentCachingResponseWrapper) {
+                    ((ContentCachingResponseWrapper) responseToUse).copyBodyToResponse();
                 }
             }
         }
@@ -104,9 +93,13 @@ public class RequestResponseLogger extends OncePerRequestFilter {
     private RequestResponseLogging buildCommontRequestResponseLogging(HttpServletRequest requestToUse) {
         return RequestResponseLogging.builder()
                 .from(extratRequestFrom(requestToUse))
-                .to(Optional.ofNullable(appId).orElse("Unknown"))
+                .to(Optional.ofNullable(getAppId()).orElse("Unknown"))
                 .url(extractRequestURL(requestToUse))
                 .flowType("rest").build();
+    }
+
+    private String getAppId() {
+        return requestResponseLoggerConfig.getAppId();
     }
 
     private String extractRequestURL(HttpServletRequest request) {
@@ -118,12 +111,30 @@ public class RequestResponseLogger extends OncePerRequestFilter {
     }
 
     private boolean isIncludeQueryString() {
-        return includeQueryString || logger.isDebugEnabled();
+        return getIncludeQueryString() || logger.isDebugEnabled();
+    }
+
+    private boolean getIncludeQueryString() {
+        return requestResponseLoggerConfig.isIncludeQueryString();
     }
 
 
-    private boolean isIncludeResponsePayload() {
-        return includeResponsePayload || logger.isDebugEnabled();
+    private boolean isIncludeResponsePayload(HttpServletResponse response) {
+        return isIncludeErrorResponse(response) ||
+                getIncludeResponsePayload().equals(ALWAYS) ||
+                logger.isDebugEnabled();
+    }
+
+    private String getIncludeResponsePayload() {
+        return requestResponseLoggerConfig.getIncludeResponsePayload();
+    }
+
+    private boolean isIncludeErrorResponse(HttpServletResponse response) {
+        return isErrorResponse(response) && getIncludeResponsePayload().equals(ONLY_ON_ERROR);
+    }
+
+    private boolean isErrorResponse(HttpServletResponse response) {
+        return response.getStatus() >= 400;
     }
 
     protected String extratRequestFrom(HttpServletRequest requestToUse) {
@@ -131,11 +142,9 @@ public class RequestResponseLogger extends OncePerRequestFilter {
         if (from != null) {
             return from;
         } else {
-            return UNKNOWN_USER;
+            return API_CLIENT;
         }
     }
-
-
 
 
     /**
@@ -176,6 +185,7 @@ public class RequestResponseLogger extends OncePerRequestFilter {
      */
     protected void afterRequest(HttpServletRequest request, RequestResponseLogging logging, HttpServletResponse response) {
         logging.setFlowWay("response");
+        logging.setHttpCode(response.getStatus());
         logging.setPayload(extractResponseBody(response));
         logger.info(new ObjectFieldsAppendingMarker(logging), "response");
 
@@ -192,12 +202,18 @@ public class RequestResponseLogger extends OncePerRequestFilter {
     }
 
     private boolean isIncludeRequestPayload() {
-        return includeRequestPayload || logger.isDebugEnabled();
+        return requestResponseLoggerConfig.isIncludeRequestPayload() || logger.isDebugEnabled();
+    }
+
+    private boolean shouldWrapResponse() {
+        return requestResponseLoggerConfig.getIncludeResponsePayload().equals(ONLY_ON_ERROR) ||
+                requestResponseLoggerConfig.getIncludeResponsePayload().equals(ALWAYS) ||
+                logger.isDebugEnabled();
     }
 
     private String extractResponseBody(HttpServletResponse response) {
-        if (response instanceof ContentCachingResponseWrapper && isIncludeResponsePayload()) {
-            String body = this.extractBodyAsString(((ContentCachingResponseWrapper)response).getContentAsByteArray());
+        if (response instanceof ContentCachingResponseWrapper && isIncludeResponsePayload(response)) {
+            String body = this.extractBodyAsString(((ContentCachingResponseWrapper) response).getContentAsByteArray());
             return body;
         } else return EMPTY_PAYLOAD;
     }
@@ -223,4 +239,6 @@ public class RequestResponseLogger extends OncePerRequestFilter {
         private String flowType;
         private String flowWay;
     }
+
+
 }

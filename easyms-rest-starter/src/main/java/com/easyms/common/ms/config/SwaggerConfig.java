@@ -31,6 +31,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @Configuration
 @EnableSwagger2
 @AllArgsConstructor
+@ConditionalOnProperty(prefix = "easyms.secured", name = "enabled", havingValue = "false", matchIfMissing = true)
 public class SwaggerConfig {
 
     private final SwaggerProperties properties;
