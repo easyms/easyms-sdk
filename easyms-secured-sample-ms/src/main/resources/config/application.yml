@@ -61,6 +61,8 @@ easyms:
       host: localhost
       port: 5000
       queue-size: 512
+  secured:
+    enabled: true
 
 management.endpoints.web.exposure.include: "*"
 

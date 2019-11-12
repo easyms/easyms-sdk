@@ -1,4 +1,4 @@
-package com.easyms.common.ms.config.security;
+package com.easyms.secured.common.ms.config.security;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ArrayUtils;

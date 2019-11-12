@@ -1,4 +1,4 @@
-package com.easyms.common.ms.error;
+package com.easyms.secured.common.ms.error;
 
 
 import lombok.extern.slf4j.Slf4j;
