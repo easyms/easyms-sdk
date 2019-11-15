@@ -570,7 +570,7 @@
             <id>microservice</id>
             <activation>
                 <file>
-                    <exists>/src/main/resources/application.yml</exists>
+                    <exists>src/main/resources/config/application.yml</exists>
                 </file>
             </activation>
             <dependencies>
