@@ -93,7 +93,7 @@
         <spring.profiles.active>dev</spring.profiles.active>
         <app.id>${project.artifactId}</app.id>
         <inherited.resources.dir>${project.build.directory}/inherited-resources</inherited.resources.dir>
-        <source.docker.registry.url>index.docker.io</source.docker.registry.url>
+        <source.docker.registry.url>registry-1.docker.io</source.docker.registry.url>
         <source.docker.openjdk.image.name>openjdk</source.docker.openjdk.image.name>
         <source.docker.openjdk.image.version>11.0.3-jdk-slim-stretch</source.docker.openjdk.image.version>
         <target.docker.registry.url>index.docker.io</target.docker.registry.url>
@@ -105,6 +105,7 @@
         <docker.image.version>${project.version}-${current.time}-${git.commit.id.abbrev}</docker.image.version>
 
         <distrib.dir>${project.build.directory}/distrib</distrib.dir>
+        <app.config.name>src/main/resources/config/application.yml</app.config.name>
     </properties>
 
 
@@ -380,6 +381,24 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>1.8.0</version>
+                    <configuration>
+                        <from>
+                            <image>
+                                ${source.docker.registry.url}/${source.docker.openjdk.image.name}:${source.docker.openjdk.image.version}
+                            </image>
+                        </from>
+                        <to>
+                            <image>${docker.image.name}</image>
+                            <tags>
+                                <tag>${docker.image.version}</tag>
+                            </tags>
+                        </to>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -431,6 +450,10 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -625,7 +648,7 @@
             <id>microservice</id>
             <activation>
                 <file>
-                    <exists>/src/main/resources/application.yml</exists>
+                    <exists>${app.config.name}</exists>
                 </file>
             </activation>
             <dependencies>
@@ -730,6 +753,7 @@
                                 </dependency>
                             </dependencies>
                         </plugin>
+
                     </plugins>
                 </pluginManagement>
                 <plugins>
@@ -762,6 +786,7 @@
                         <filtering>false</filtering>
                         <directory>src/main/resources</directory>
                         <includes>
+                            <include>**/*.jks</include>
                             <include>**/*assembly.xml</include>
                             <include>**/*access.xml</include>
                             <include>**/*.zip</include>

@@ -10,4 +10,4 @@ HEALTHCHECK --interval=40s --timeout=6s --retries=3 CMD microservice/bin/%_proje
 
 RUN chmod 755 microservice/bin/*.sh
 
-ENTRYPOINT ["microservice/bin/%_project.artifactId_%-docker.sh","start"]
+ENTRYPOINT ["microservice/bin/%_project.artifactId_%-launch-ms.sh","start"]
