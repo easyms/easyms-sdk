@@ -15,7 +15,7 @@ jarFile="./lib/${prog}.jar"
 configDir="${BASEDIR}/config"
 runDir="${BASEDIR}/run"
 
-logConfigFile="${configDir}/logback.xml"
+logConfigFile="${configDir}/logback-console.xml"
 PID_FILE="$runDir/application.pid"
 JVM_ARGUMENTS="-D${progParamName}=${prog}"
 JVM_ARGS="$(cat ${configDir}/jvm.args) ${JVM_ARGUMENTS}"
