@@ -3,6 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.easyms</groupId>
         <artifactId>easyms-sdk</artifactId>
@@ -15,6 +16,9 @@
     <name>easyms-secured-rest-starter</name>
     <description>Easy Microservice Secured Rest Starter</description>
 
+    <properties>
+        <spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -24,11 +28,17 @@
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
-            <version>2.3.4.RELEASE</version>
+            <version>${spring-security-oauth2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.security.oauth</groupId>
+                    <artifactId>spring-security-oauth2</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

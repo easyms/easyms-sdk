@@ -57,7 +57,7 @@ public interface RoutesHandler {
 
     default String[] technicalEndPoints() {
         return new String[]{
-                SPRING_BOOT_ACTUATOR,
+//                SPRING_BOOT_ACTUATOR,
                 SPRING_BOOT_AUDIT_EVENTS,
                 SPRING_BOOT_AUTOCONFIG,
                 SPRING_BOOT_BEANS,
