@@ -77,7 +77,7 @@
         <spring.profiles.active>dev</spring.profiles.active>
         <app.id>${project.artifactId}</app.id>
         <inherited.resources.dir>${project.build.directory}/inherited-resources</inherited.resources.dir>
-        <source.docker.registry.url>index.docker.io</source.docker.registry.url>
+        <source.docker.registry.url>registry-1.docker.io</source.docker.registry.url>
         <source.docker.openjdk.image.name>openjdk</source.docker.openjdk.image.name>
         <source.docker.openjdk.image.version>11.0.3-jdk-slim-stretch</source.docker.openjdk.image.version>
         <target.docker.registry.url>index.docker.io</target.docker.registry.url>
@@ -364,6 +364,25 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>1.8.0</version>
+                    <configuration>
+                        <from>
+                            <image>
+                                ${source.docker.registry.url}/${source.docker.openjdk.image.name}:${source.docker.openjdk.image.version}
+                            </image>
+                        </from>
+                        <to>
+                            <image>${docker.image.name}</image>
+                            <tags>
+                                <tag>${docker.image.version}</tag>
+                            </tags>
+                        </to>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -415,6 +434,10 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
