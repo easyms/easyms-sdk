@@ -47,6 +47,7 @@ public interface RoutesHandler {
     String SPRING_BOOT_PROXY_STREAM = "/proxy.stream";
     String SPRING_BOOT_HYSTRIX_STREAM = "/hystrix.stream";
     String SPRING_BOOT_HYSTRIX = "/hystrix/**";
+    String H2_CONSOLE = "/h2-console/**";
 
     // Swagger
     String SWAGGER_INDEX = "/swagger-ui.html";
@@ -57,7 +58,7 @@ public interface RoutesHandler {
 
     default String[] technicalEndPoints() {
         return new String[]{
-//                SPRING_BOOT_ACTUATOR,
+                SPRING_BOOT_ACTUATOR,
                 SPRING_BOOT_AUDIT_EVENTS,
                 SPRING_BOOT_AUTOCONFIG,
                 SPRING_BOOT_BEANS,
@@ -92,6 +93,7 @@ public interface RoutesHandler {
                 SPRING_BOOT_HYSTRIX_STREAM,
                 SPRING_BOOT_PROXY_STREAM,
                 SPRING_BOOT_HYSTRIX,
+                H2_CONSOLE,
                 "/csrf"
         };
     }
