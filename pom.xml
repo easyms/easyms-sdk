@@ -91,6 +91,18 @@
         <distrib.dir>${project.build.directory}/distrib</distrib.dir>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>Maven_Feed2</id>
+            <url>https://pkgs.dev.azure.com/altengroup/muse-ng/_packaging/Maven_Feed2/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </distributionManagement>
 
     <build>
         <resources>
