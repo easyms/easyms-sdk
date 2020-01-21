@@ -1,4 +1,4 @@
-package com.easyms.common.ms.config.security;
+package com.easyms.common.secured.ms.config.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;

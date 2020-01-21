@@ -1,8 +1,10 @@
-package com.easyms.common.ms.config;
+package com.easyms.common.secured.ms.config;
 
 
+import com.easyms.common.ms.config.SwaggerProperties;
 import com.google.common.base.Predicates;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -27,7 +29,8 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @Configuration
 @EnableSwagger2
 @AllArgsConstructor
-public class SwaggerConfig {
+@ConditionalOnProperty(value="easyms.secured", havingValue = "true")
+public class SecuredSwaggerConfig {
     private static final String SECURITY_SCHEMA_O_AUTH_2 = "oauth2schema";
 
 
@@ -45,7 +48,7 @@ public class SwaggerConfig {
                 .build();
     }
 
-    @Bean
+    @Bean(name = "secured_docket")
     @Primary
     public Docket securedSwaggerSpringMvcPlugin() {
         return new Docket(DocumentationType.SWAGGER_2)
