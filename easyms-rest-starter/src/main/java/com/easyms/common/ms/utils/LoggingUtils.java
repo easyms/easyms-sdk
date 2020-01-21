@@ -1,4 +1,4 @@
-package com.easyms.common.utils;
+package com.easyms.common.ms.utils;
 
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;

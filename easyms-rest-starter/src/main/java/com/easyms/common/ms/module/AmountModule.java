@@ -1,6 +1,6 @@
 package com.easyms.common.ms.module;
 
-import com.easyms.common.utils.AmountUtils;
+import com.easyms.common.ms.utils.AmountUtils;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
