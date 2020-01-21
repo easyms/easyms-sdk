@@ -1,4 +1,4 @@
-package com.easyms.common.ms.config.security;
+package com.easyms.common.secured.ms.config.security;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

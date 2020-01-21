@@ -1,4 +1,4 @@
-package com.easyms.common.utils;
+package com.easyms.common.ms.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
