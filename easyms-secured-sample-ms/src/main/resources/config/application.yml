@@ -22,6 +22,7 @@ spring:
           metadata:
             enable-oauth2: true
 
+
 security:
   oauth2:
     resource:
@@ -45,11 +46,7 @@ swagger:
     version: @pom.version@
     license: license
     licenseUrl: http://easyms.fr/LICENSE-0.0.1.html
-  security:
-    oauth2:
-      client:
-        clientId: swagger
-        clientSecret: secret
+
   securityDefinitions:
     oauthSecurity:
       type: oauth2
@@ -58,6 +55,7 @@ swagger:
       scopes:
 
 easyms:
+  secured: true
   logging:
     logstash: # Forward logs to logstash over a socket, used by LoggingConfig
       enabled: false
