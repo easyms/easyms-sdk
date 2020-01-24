@@ -1,7 +1,9 @@
 package com.easyms.sampleapp.api;
 
-import com.easyms.sampleapp.dto.Client;
+import com.easyms.sampleapp.model.dto.ClientDto;
+import com.easyms.sampleapp.model.dto.ClientRequest;
 import com.easyms.sampleapp.service.ClientService;
+import com.easyms.sampleapp.service.ClientValidationService;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -9,12 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Optional;
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -28,15 +30,46 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class ClientResource {
 
     private final ClientService clientService;
+    private final ClientValidationService clientValidationService;
 
     @ApiOperation("returns all details of a client")
     @Timed
     @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/{id}")
-    public ResponseEntity<Client> findById(@PathVariable String id) {
-        log.info("get client by id {}", id);
-        Optional<Client> client = clientService.getById(id);
-        return client.map(clientDto -> ResponseEntity.ok().body(clientDto)).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ClientDto> findById(@PathVariable Long id) {
+        ClientDto clientDto = clientService.getById(id);
+        return ResponseEntity.ok().body(clientDto);
     }
+
+    @ApiOperation("returns all details of a client by email")
+    @Timed
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
+    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/by-email")
+    public ResponseEntity<ClientDto> findByEmail(@RequestParam String email){
+        ClientDto clientDto = clientService.getByEmail(email);
+        return ResponseEntity.ok().body(clientDto);
+    }
+
+
+    @ApiOperation("create new client")
+    @Timed
+    @PostMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients")
+    ResponseEntity<ClientDto> createClient(@RequestBody @Valid ClientRequest clientRequest){
+        log.info("create new client");
+        clientValidationService.validateCreateClient(clientRequest);
+        ClientDto clientDto = clientService.create(clientRequest);
+        final URI location = ServletUriComponentsBuilder.fromCurrentServletMapping().path("/api/v1/clients").build().expand(clientDto.getId()).toUri();
+        return ResponseEntity.created(location).body(clientDto);
+    }
+
+    @ApiOperation("search all clients")
+    @Timed
+    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/findAll")
+    ResponseEntity<List<ClientDto>> getAllClients(){
+
+        List<ClientDto> clientDtos = clientService.getAll();
+        return ResponseEntity.ok().body(clientDtos);
+    }
+
 
 }

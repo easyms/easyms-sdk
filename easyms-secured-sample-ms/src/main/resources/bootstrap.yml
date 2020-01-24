@@ -1,7 +1,11 @@
 spring:
-  profiles:
-    active: dev
+  cloud:
+    config:
+      uri: ${spring.cloud.config.uri}
 
+---
+spring:
+  profiles: local
   cloud:
     config:
       uri: http://localhost:2001

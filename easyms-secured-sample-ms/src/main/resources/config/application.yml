@@ -8,10 +8,21 @@ info:
   version: @pom.version@
   stage: local
 
+
 spring:
   application:
     id: @app.id@
     name: @app.id@
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: ${datasource.url}
+    username: ${datasource.username}
+    password: ${datasource.password}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:config/db/db.changelog-master.xml
+  profiles.active: dev
   boot:
     admin:
       client:
@@ -21,7 +32,6 @@ spring:
         instance:
           metadata:
             enable-oauth2: true
-
 
 security:
   oauth2:
@@ -37,16 +47,9 @@ security:
           kpOCZjFYt0Ve4Wzz0XYnZQgdv9qkhhy0GQUnmuttHXrRCS0xBHRx4uy8kneE3AQD
           zQIDAQAB
           -----END PUBLIC KEY-----
+
 swagger:
   paths: /api.*
-  api.info:
-    title: @app.id@
-    description: @pom.description@ Documentation
-    contact: @swagger.project.contact@
-    version: @pom.version@
-    license: license
-    licenseUrl: http://easyms.fr/LICENSE-0.0.1.html
-
   securityDefinitions:
     oauthSecurity:
       type: oauth2
@@ -65,3 +68,34 @@ easyms:
 
 management.endpoints.web.exposure.include: "*"
 
+---
+spring:
+  profiles: sample
+
+liquibase.contexts: data
+
+---
+spring:
+  profiles: h2
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:sdkdb;DB_CLOSE_DELAY=-1
+    username: sdk
+    password: secret
+    driver-class-name: org.h2.Driver
+  h2.console:
+    enabled: true
+    path: /h2-console
+
+---
+spring:
+  profiles: test
+  jpa:
+    hibernate.ddl-auto: none
+  h2.console.enabled: false
+
+spring.profiles.include:
+  - h2
+
+liquibase.contexts: testData
