@@ -3,7 +3,9 @@ package com.easyms.common.ms.error;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Map<Class, HttpStatus> CLIENT_EXCEPTIONS = new HashMap<Class, HttpStatus>() {{
@@ -71,6 +74,19 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
                 .errors(Lists.newArrayList(new ErrorItemDto(ex.getParameter().getParameterName(), CommonErrorMessages.method_argument_type_mismatch.getErrorKey()))).build();
 
         return handleExceptionInternal(ex, errorDto, new HttpHeaders(), BAD_REQUEST, new ServletWebRequest(req));
+    }
+
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        String url = ((ServletWebRequest) request).getRequest().getRequestURL().toString();
+        List<ErrorItemDto> fieldErrorDtos = ex.getBindingResult().getFieldErrors().stream()
+                .map(f -> new ErrorItemDto(f.getField(), f.getDefaultMessage()))
+                .collect(Collectors.toList());
+        ErrorDto errorDto = ErrorDto.builder().url(url)
+                .code(status.value())
+                .message(status.getReasonPhrase())
+                .errors(fieldErrorDtos).build();
+        return handleExceptionInternal(ex, errorDto, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(IllegalStateException.class)
@@ -117,19 +133,6 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, errorDto, new HttpHeaders(), status, request);
     }
 
-    @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-        String url = ((ServletWebRequest) request).getRequest().getRequestURL().toString();
-        List<ErrorItemDto> fieldErrorDtos = ex.getBindingResult().getFieldErrors().stream()
-                .map(f -> new ErrorItemDto(f.getField(), f.getDefaultMessage()))
-                .collect(Collectors.toList());
-        ErrorDto errorDto = ErrorDto.builder().url(url)
-                .code(status.value())
-                .message(status.getReasonPhrase())
-                .errors(fieldErrorDtos).build();
-        return handleExceptionInternal(ex, errorDto, new HttpHeaders(), status, request);
-    }
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {

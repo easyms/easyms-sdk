@@ -1,5 +1,11 @@
 package com.easyms.common.ms.error;
 
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class ErrorItemDto {
 
     private String field;
