@@ -49,10 +49,6 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, null, new HttpHeaders(), ex.getStatusCode(), new ServletWebRequest(req));
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Object> handleAccessDeniedException(HttpServletRequest req, AccessDeniedException ex) {
-        return handleExceptionInternal(ex, null, new HttpHeaders(), FORBIDDEN, new ServletWebRequest(req));
-    }
 
     @ExceptionHandler(HttpServerErrorException.class)
     public ResponseEntity<Object> handleHttpServerErrorException(HttpServletRequest req, HttpServerErrorException ex) {
