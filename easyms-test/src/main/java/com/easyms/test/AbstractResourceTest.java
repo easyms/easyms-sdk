@@ -1,12 +1,10 @@
 package com.easyms.test;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
@@ -14,12 +12,11 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.security.oauth2.provider.authentication.TokenExtractor;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.stereotype.Component;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.inject.Inject;
 
-@MockBean(classes = {ResourceServerTokenServices.class, BearerTokenExtractor.class, AuthenticationManager.class})
+@MockBean(classes = {BearerTokenExtractor.class, AuthenticationManager.class})
 @ExtendWith(value = {SecurityTestExtension.class})
 @AutoConfigureMockMvc
 public class AbstractResourceTest extends AbstractTest{
@@ -27,8 +24,6 @@ public class AbstractResourceTest extends AbstractTest{
     @Inject
     protected MockMvc mockMvc;
 
-    @Inject
-    ResourceServerTokenServices resourceServerTokenServices;
 
     @Inject
     TokenExtractor tokenExtractor;
