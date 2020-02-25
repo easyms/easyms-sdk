@@ -3,6 +3,7 @@ package com.easyms.common.ms.error;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.nio.file.AccessDeniedException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,7 +35,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @ControllerAdvice
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@ConditionalOnMissingBean(annotation = ControllerAdvice.class)
 public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Map<Class, HttpStatus> CLIENT_EXCEPTIONS = new HashMap<Class, HttpStatus>() {{
@@ -46,6 +48,7 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleHttpClientErrorException(HttpServletRequest req, HttpClientErrorException ex) {
         return handleExceptionInternal(ex, null, new HttpHeaders(), ex.getStatusCode(), new ServletWebRequest(req));
     }
+
 
     @ExceptionHandler(HttpServerErrorException.class)
     public ResponseEntity<Object> handleHttpServerErrorException(HttpServletRequest req, HttpServerErrorException ex) {
@@ -76,6 +79,7 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, errorDto, new HttpHeaders(), BAD_REQUEST, new ServletWebRequest(req));
     }
 
+    @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         String url = ((ServletWebRequest) request).getRequest().getRequestURL().toString();

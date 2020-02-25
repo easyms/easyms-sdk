@@ -1,7 +1,7 @@
 spring:
   cloud:
     config:
-      uri: ${spring.cloud.config.uri}
+      uri: ${sampleapp.spring.cloud.config.uri}
 
 ---
 spring:

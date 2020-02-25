@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 public class ClientService {
     private final ClientRepository clientRepository;
 
-    public ClientDto getById(Long id) {
+    public Optional<ClientDto> getById(Long id) {
        Optional<Client> client = clientRepository.findById(id);
-       return ClientConverter.newInstance().convert(client.orElse(null));
+       return client.map(cl -> ClientConverter.newInstance().convert(cl));
     }
 
     public ClientDto create(ClientRequest clientRequest){

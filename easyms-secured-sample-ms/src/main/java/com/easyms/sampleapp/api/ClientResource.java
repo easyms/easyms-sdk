@@ -12,11 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -37,8 +39,9 @@ public class ClientResource {
     @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/{id}")
     public ResponseEntity<ClientDto> findById(@PathVariable Long id) {
-        ClientDto clientDto = clientService.getById(id);
-        return ResponseEntity.ok().body(clientDto);
+        Optional<ClientDto> clientDto = clientService.getById(id);
+        return clientDto.map(clDto -> ResponseEntity.ok().body(clDto)).orElseGet(() -> ResponseEntity.notFound().build());
+
     }
 
     @ApiOperation("returns all details of a client by email")
