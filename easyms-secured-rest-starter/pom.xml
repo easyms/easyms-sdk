@@ -16,9 +16,6 @@
     <name>easyms-secured-rest-starter</name>
     <description>Easy Microservice Secured Rest Starter</description>
 
-    <properties>
-        <spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
-    </properties>
 
     <dependencies>
         <dependency>
