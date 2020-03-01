@@ -61,13 +61,13 @@ public class ClientResource {
         log.info("create new client");
         clientValidationService.validateCreateClient(clientRequest);
         ClientDto clientDto = clientService.create(clientRequest);
-        final URI location = ServletUriComponentsBuilder.fromCurrentServletMapping().path("/api/v1/clients").build().expand(clientDto.getId()).toUri();
+        final URI location = ServletUriComponentsBuilder.fromCurrentServletMapping().path("/api/v1/clients/{id}").build().expand(clientDto.getId()).toUri();
         return ResponseEntity.created(location).body(clientDto);
     }
 
     @ApiOperation("search all clients")
     @Timed
-    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/findAll")
+    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients")
     ResponseEntity<List<ClientDto>> getAllClients(){
 
         List<ClientDto> clientDtos = clientService.getAll();
