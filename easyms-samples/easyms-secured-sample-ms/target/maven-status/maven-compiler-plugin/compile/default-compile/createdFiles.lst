@@ -1,0 +1,15 @@
+com/easyms/sampleapp/model/entity/Client.class
+com/easyms/sampleapp/utils/SampleAppMessages.class
+com/easyms/sampleapp/service/ClientService.class
+com/easyms/sampleapp/model/dto/ClientDto.class
+com/easyms/sampleapp/repository/ClientRepository.class
+com/easyms/sampleapp/config/EasyMsSampleMsConfiguration.class
+com/easyms/sampleapp/service/ClientValidationService.class
+com/easyms/sampleapp/EasyMsSecuredSampleApplication.class
+com/easyms/sampleapp/model/dto/ClientDto$ClientDtoBuilder.class
+com/easyms/sampleapp/api/ClientResource.class
+com/easyms/sampleapp/model/dto/ClientRequest$ClientRequestBuilder.class
+com/easyms/sampleapp/model/entity/Client$ClientBuilder.class
+com/easyms/sampleapp/converter/ClientRequestConverter.class
+com/easyms/sampleapp/model/dto/ClientRequest.class
+com/easyms/sampleapp/converter/ClientConverter.class
