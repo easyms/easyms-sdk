@@ -26,9 +26,9 @@
         <module>easyms-rest-starter</module>
         <module>easyms-secured-rest-starter</module>
         <module>easyms-basic-starter</module>
-        <module>easyms-sample-ms</module>
-        <module>easyms-secured-sample-ms</module>
         <module>easyms-test</module>
+        <module>easyms-azure-ad-secured-starter</module>
+        <module>easyms-samples</module>
 
     </modules>
 
@@ -463,6 +463,12 @@
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-secured-rest-starter</artifactId>
+                <version>${easyms.sdk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.easyms</groupId>
+                <artifactId>easyms-azure-ad-secured-rest-starter</artifactId>
                 <version>${easyms.sdk.version}</version>
             </dependency>
 

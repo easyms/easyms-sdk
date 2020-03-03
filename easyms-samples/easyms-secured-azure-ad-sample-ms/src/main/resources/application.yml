@@ -1,0 +1,94 @@
+server:
+  port: 8092
+
+#Admin configuration
+info:
+  name: @app.id@
+  description: @app.id@
+  version: @pom.version@
+  stage: local
+
+
+spring:
+  application:
+    id: @app.id@
+    name: @app.id@
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#  datasource:
+#    url: ${datasource.url}
+#    username: ${datasource.username}
+#    password: ${datasource.password}
+#    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:config/db/db.changelog-master.xml
+  profiles.active: dev
+  boot:
+    admin:
+      client:
+        url: ${boot.admin.client.url}
+        username: ${boot.admin.client.username}
+        password: ${boot.admin.client.password}
+        instance:
+          metadata:
+            enable-oauth2: true
+
+azure:
+  activedirectory:
+    client-id: 49853e3d-2579-4adf-acb2-e0a44b35dc90
+    client-secret: s-q0ctSEkCh:y@[xtH66rizriViW57wx
+    ActiveDirectoryGroups : museng-users
+
+swagger:
+  paths: /api.*
+  securityDefinitions:
+    oauthSecurity:
+      type: oauth2
+      tokenUrl: http://localhost:2000/oauth/token
+      flow: password
+      scopes:
+
+easyms:
+  secured:
+    azuread : true
+    oauth2: false
+  logging:
+    logstash: # Forward logs to logstash over a socket, used by LoggingConfig
+      enabled: false
+      host: localhost
+      port: 5000
+      queue-size: 512
+
+management.endpoints.web.exposure.include: "*"
+
+---
+spring:
+  profiles: sample
+
+liquibase.contexts: data
+
+---
+spring:
+  profiles: h2
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:sdkdb;DB_CLOSE_DELAY=-1
+    username: sdk
+    password: secret
+    driver-class-name: org.h2.Driver
+  h2.console:
+    enabled: true
+    path: /h2-console
+
+---
+spring:
+  profiles: test
+  jpa:
+    hibernate.ddl-auto: none
+  h2.console.enabled: false
+
+spring.profiles.include:
+  - h2
+
+liquibase.contexts: testData

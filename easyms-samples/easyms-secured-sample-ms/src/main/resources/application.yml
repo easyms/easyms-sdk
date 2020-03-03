@@ -8,6 +8,7 @@ info:
   version: @pom.version@
   stage: local
 
+debug: true
 
 spring:
   application:
@@ -58,7 +59,9 @@ swagger:
       scopes:
 
 easyms:
-  secured: true
+  secured:
+    oauth2: true
+
   logging:
     logstash: # Forward logs to logstash over a socket, used by LoggingConfig
       enabled: false
