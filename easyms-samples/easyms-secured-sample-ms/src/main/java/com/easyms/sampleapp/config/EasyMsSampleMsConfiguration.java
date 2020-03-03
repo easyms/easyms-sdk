@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Slf4j
 @Configuration
-@ComponentScan(basePackages = {"com.easyms.sampleapp"})
+@ComponentScan(basePackages = {"com.easyms.sampleapp", "com.easyms.common"})
 @EnableJpaRepositories(basePackages = "com.easyms.sampleapp.repository")
 public class EasyMsSampleMsConfiguration {
 

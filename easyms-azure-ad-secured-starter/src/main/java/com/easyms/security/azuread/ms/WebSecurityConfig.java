@@ -5,6 +5,7 @@
  */
 package com.easyms.security.azuread.ms;
 
+import com.microsoft.azure.spring.autoconfigure.aad.AADAppRoleStatelessAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AADCustomAuthenticationFilter aadAuthFilter;
+    //private AADAppRoleStatelessAuthenticationFilter aadAuthFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

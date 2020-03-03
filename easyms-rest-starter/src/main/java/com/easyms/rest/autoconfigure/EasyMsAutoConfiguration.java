@@ -28,7 +28,6 @@ import java.time.ZonedDateTime;
 @Configuration
 @ComponentScan(basePackages = {"com.easyms.rest.ms"})
 @EnableFeignClients
-@AutoConfigureOrder(Ordered.LOWEST_PRECEDENCE)
 public class EasyMsAutoConfiguration {
 
     private final SwaggerProperties properties;

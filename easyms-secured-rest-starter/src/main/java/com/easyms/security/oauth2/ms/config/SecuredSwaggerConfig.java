@@ -5,6 +5,7 @@ import com.easyms.rest.ms.config.SwaggerProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;

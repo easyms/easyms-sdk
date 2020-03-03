@@ -1,5 +1,5 @@
 server:
-  port: 8091
+  port: 8095
 
 #Admin configuration
 info:
@@ -70,6 +70,8 @@ easyms:
       queue-size: 512
 
 management.endpoints.web.exposure.include: "*"
+
+logging.level.org.springframework.boot.autoconfigure: TRACE
 
 ---
 spring:

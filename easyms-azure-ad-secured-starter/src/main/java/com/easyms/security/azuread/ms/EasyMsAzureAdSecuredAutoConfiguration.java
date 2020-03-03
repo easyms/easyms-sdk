@@ -17,12 +17,4 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(value="easyms.secured.azuread", havingValue = "true")
 @ComponentScan
 public class EasyMsAzureAdSecuredAutoConfiguration {
-
-
-    @Bean("toto")
-    String provideData() {
-        return "toto";
-    }
-
-
 }

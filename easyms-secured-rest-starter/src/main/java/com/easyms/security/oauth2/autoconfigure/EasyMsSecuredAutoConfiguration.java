@@ -11,7 +11,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
@@ -33,8 +35,12 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @Slf4j
 @Configuration
 @ComponentScan(basePackages = {"com.easyms.security.oauth2.ms"})
-@EnableResourceServer
 @ConditionalOnProperty(value="easyms.secured.oauth2", havingValue = "true", matchIfMissing = true)
 @AutoConfigureBefore(EasyMsAutoConfiguration.class)
 public class EasyMsSecuredAutoConfiguration {
+
+    @Bean("toto")
+    public String toto() {
+        return "oto";
+    }
 }
