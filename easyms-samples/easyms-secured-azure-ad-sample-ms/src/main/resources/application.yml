@@ -36,9 +36,11 @@ spring:
 azure:
   activedirectory:
 #    session-stateless: true
-    client-id: 49853e3d-2579-4adf-acb2-e0a44b35dc90
-    client-secret: s-q0ctSEkCh:y@[xtH66rizriViW57wx
-    ActiveDirectoryGroups : museng-users
+    client-id: xxxxxx-your-client-id-xxxxxx
+    client-secret: xxxxxx-your-client-secret-xxxxxx
+    tenant-id: xxxxxx-your-tenant-id-xxxxxx
+    ActiveDirectoryGroups : xxxxxx-directory-groups-xxxxxx
+
 
 swagger:
   paths: /api.*
