@@ -32,14 +32,18 @@ spring:
         instance:
           metadata:
             enable-oauth2: true
+  security:
+    oauth2:
+      client:
+        provider:
+          azure:
+            jwk-set-uri: https://login.microsoftonline.com/xxxxxx-your-tenant-id-xxxxxx/discovery/keys
 
 azure:
   activedirectory:
-#    session-stateless: true
+    session-stateless: true
     client-id: xxxxxx-your-client-id-xxxxxx
-    client-secret: xxxxxx-your-client-secret-xxxxxx
-    tenant-id: xxxxxx-your-tenant-id-xxxxxx
-    ActiveDirectoryGroups : xxxxxx-directory-groups-xxxxxx
+    appIdUri: your-client-uri
 
 
 swagger:
@@ -53,7 +57,16 @@ swagger:
 
 easyms:
   secured:
-    azuread : true
+    azuread :
+      enabled: true
+      rolesToAuthorities:
+        ADMIN_CLIENT:
+          - MODIFY_CLIENT
+          - READ_CLIENT
+        SUPER_ADMIN_CLIENT:
+          - MODIFY_CLIENT
+          - READ_CLIENT
+          - DELETE_CLIENT
 
 
   logging:

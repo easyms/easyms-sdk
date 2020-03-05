@@ -36,7 +36,10 @@ public class ClientResource {
     private final ClientService clientService;
     private final ClientValidationService clientValidationService;
 
-
+    @PostConstruct
+    public void init() {
+        System.out.println("toto");
+    }
 
     @ApiOperation("returns all details of a client")
     @Timed

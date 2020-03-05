@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -34,9 +35,14 @@ public class ClientResource {
     private final ClientService clientService;
     private final ClientValidationService clientValidationService;
 
+    @PostConstruct
+    public void init() {
+        System.out.println("toto");
+    }
+
     @ApiOperation("returns all details of a client")
     @Timed
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
+    @PreAuthorize("hasAuthority('PERM_READ_CLIENT')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/{id}")
     public ResponseEntity<ClientDto> findById(@PathVariable Long id) {
         Optional<ClientDto> clientDto = clientService.getById(id);
@@ -46,7 +52,7 @@ public class ClientResource {
 
     @ApiOperation("returns all details of a client by email")
     @Timed
-    @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
+    @PreAuthorize("hasAuthority('PERM_READ_CLIENT')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/by-email")
     public ResponseEntity<ClientDto> findByEmail(@RequestParam String email){
         ClientDto clientDto = clientService.getByEmail(email);
@@ -56,6 +62,7 @@ public class ClientResource {
 
     @ApiOperation("create new client")
     @Timed
+    @PreAuthorize("hasAuthority('PERM_MODIFY_CLIENT')")
     @PostMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients")
     ResponseEntity<ClientDto> createClient(@RequestBody @Valid ClientRequest clientRequest){
         log.info("create new client");

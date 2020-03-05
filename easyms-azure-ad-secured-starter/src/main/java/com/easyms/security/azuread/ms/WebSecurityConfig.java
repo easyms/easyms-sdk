@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -19,13 +20,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AADCustomAuthenticationFilter aadAuthFilter;
-    //private AADAppRoleStatelessAuthenticationFilter aadAuthFilter;
+    private AADAppRoleStatelessAuthenticationFilter aadAuthFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers("/home").permitAll();
+       /* http.authorizeRequests().antMatchers("/home").permitAll();
         http.authorizeRequests().antMatchers("/api/**").authenticated();
 
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -35,6 +35,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
+        http.addFilterBefore(aadAuthFilter, UsernamePasswordAuthenticationFilter.class);*/
+
+        http.csrf().disable();
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
+
+        http.authorizeRequests()
+                .antMatchers("/admin/**").hasRole("Admin")
+                .antMatchers("/", "/index.html", "/public").permitAll()
+                .anyRequest().authenticated();
+
         http.addFilterBefore(aadAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
 }

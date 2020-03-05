@@ -23,7 +23,7 @@ import java.net.MalformedURLException;
 import java.text.ParseException;
 
 @Slf4j
-@Component
+//@Component
 public class AADCustomAuthenticationFilter extends AADAuthenticationFilter {
 
     private static final String CURRENT_USER_PRINCIPAL = "CURRENT_USER_PRINCIPAL";
