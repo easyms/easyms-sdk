@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.easyms.security.azuread.ms.EasyMsAzureAdSecuredAutoConfiguration
+  com.easyms.security.azuread.autoconfigure.EasyMsAzureAdSecuredAutoConfiguration

@@ -37,13 +37,13 @@ spring:
       client:
         provider:
           azure:
-            jwk-set-uri: https://login.microsoftonline.com/xxxxxx-your-tenant-id-xxxxxx/discovery/keys
+            jwk-set-uri: https://login.microsoftonline.com/c71fd48e-38e8-4d94-9e3b-6c431356afd3/discovery/keys
 
 azure:
   activedirectory:
     session-stateless: true
-    client-id: xxxxxx-your-client-id-xxxxxx
-    appIdUri: your-client-uri
+    client-id: 49853e3d-2579-4adf-acb2-e0a44b35dc90
+    appIdUri: https://api.museng.com
 
 
 swagger:
@@ -51,14 +51,18 @@ swagger:
   securityDefinitions:
     oauthSecurity:
       type: oauth2
-      tokenUrl: http://localhost:2000/oauth/token
-      flow: password
+      tokenUrl: https://login.microsoftonline.com/c71fd48e-38e8-4d94-9e3b-6c431356afd3/oauth2/token
+      flow: client-credentials
       scopes:
 
 easyms:
   secured:
     azuread :
       enabled: true
+      rolesToRoles:
+        SWAGGER:
+          - ADMIN_CLIENT
+          - SUPER_ADMIN_CLIENT
       rolesToAuthorities:
         ADMIN_CLIENT:
           - MODIFY_CLIENT
