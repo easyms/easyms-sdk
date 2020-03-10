@@ -1,4 +1,4 @@
-package com.easyms.security.azuread.ms;
+package com.easyms.security.azuread.ms.filter;
 
 import com.microsoft.aad.msal4j.MsalServiceException;
 import com.microsoft.azure.spring.autoconfigure.aad.*;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
 
 import javax.naming.ServiceUnavailableException;
 import javax.servlet.FilterChain;

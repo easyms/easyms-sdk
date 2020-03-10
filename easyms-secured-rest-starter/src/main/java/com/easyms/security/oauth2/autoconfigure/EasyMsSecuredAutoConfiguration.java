@@ -39,8 +39,4 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @AutoConfigureBefore(EasyMsAutoConfiguration.class)
 public class EasyMsSecuredAutoConfiguration {
 
-    @Bean("toto")
-    public String toto() {
-        return "oto";
-    }
 }

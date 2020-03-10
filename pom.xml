@@ -87,8 +87,8 @@
             ${distrib.dir}/${project.artifactId}-${project.version}/${project.artifactId}-${project.version}/docker
         </docker.dockerfile.directory>
         <docker.image.name>${target.docker.registry.url}/${app.id}</docker.image.name>
-        <docker.image.version>${project.version}-${current.time}-${git.commit.id.abbrev}</docker.image.version>
-
+        <docker.image.postfix></docker.image.postfix>
+        <docker.image.version>${project.version}-${current.time}-${git.commit.id.abbrev}${docker.image.postfix}</docker.image.version>
         <distrib.dir>${project.build.directory}/distrib</distrib.dir>
         <spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
     </properties>

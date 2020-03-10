@@ -8,7 +8,7 @@ info:
   version: @pom.version@
   stage: local
 
-debug: true
+#debug: true
 
 spring:
   application:

@@ -1,4 +1,4 @@
-package com.easyms.security.azuread.ms;
+package com.easyms.security.azuread.ms.filter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
