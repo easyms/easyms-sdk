@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.easyms.common.secured.ms.EasyMsSecuredAutoConfiguration
+  com.easyms.security.oauth2.autoconfigure.EasyMsSecuredAutoConfiguration

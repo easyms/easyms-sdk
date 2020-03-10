@@ -1,0 +1,5 @@
+com/easyms/sampleapp/config/EasyMsSampleMsConfiguration.class
+com/easyms/sampleapp/api/ClientResource.class
+com/easyms/sampleapp/EasyMsSampleApplication.class
+com/easyms/sampleapp/dto/Client.class
+com/easyms/sampleapp/service/ClientService.class

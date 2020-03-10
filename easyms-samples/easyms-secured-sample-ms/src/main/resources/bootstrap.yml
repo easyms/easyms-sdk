@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    config:
+      uri: ${sampleapp.spring.cloud.config.uri}
+
+---
+spring:
+  profiles: local
+  cloud:
+    config:
+      uri: http://localhost:2001

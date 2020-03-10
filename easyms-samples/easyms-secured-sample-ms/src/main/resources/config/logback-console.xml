@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Specific configuration -->
+    <property name="APP_ID" value="${app.id}"/>
+    <property name="APP_VERSION" value="${project.version}"/>
+
+    <!-- Common logging configuration -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <root level="TRACE">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
