@@ -37,13 +37,13 @@ spring:
       client:
         provider:
           azure:
-            jwk-set-uri: https://login.microsoftonline.com/c71fd48e-38e8-4d94-9e3b-6c431356afd3/discovery/keys
+            jwk-set-uri: https://login.microsoftonline.com/${eayms.azure.activedirectory.tenant}/discovery/keys
 
 azure:
   activedirectory:
     session-stateless: true
-    client-id: 49853e3d-2579-4adf-acb2-e0a44b35dc90
-    appIdUri: https://api.museng.com
+    client-id: ${easyms.azure.activedirectory.clientId}
+    appIdUri: ${easyms.azure.activedirectory.appIdUri}
 
 
 swagger:
@@ -51,7 +51,7 @@ swagger:
   securityDefinitions:
     oauthSecurity:
       type: oauth2
-      tokenUrl: https://login.microsoftonline.com/c71fd48e-38e8-4d94-9e3b-6c431356afd3/oauth2/token
+      tokenUrl: https://login.microsoftonline.com/${eayms.azure.activedirectory.tenant}/oauth2/token
       flow: client-credentials
       scopes:
 
@@ -87,6 +87,7 @@ spring:
   profiles: sample
 
 liquibase.contexts: data
+
 
 ---
 spring:
