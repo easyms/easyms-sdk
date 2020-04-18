@@ -9,7 +9,7 @@ info:
   stage: local
 
 #debug: true
-
+client.service.url: http://localhost:8095
 spring:
   application:
     id: @app.id@
@@ -40,13 +40,13 @@ security:
       jwt:
         key-value: |
           -----BEGIN PUBLIC KEY-----
-          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1tkDD7SrIgQRadKBYJje
-          9rxadzHOvpThUwW/zJV6VG2XsDXFwltYcbHHzOwanBWvecsHaAomdS+VzmA7bjjR
-          EsOa8G6N2uBhRHxPn4vRJldbUkl/NyOfxOJLJGZ5bruCMwIjBTjNM2mmowj9wD3p
-          0VLrJs65U/7BIY4mwZDaWz0IYBN3JBvk2EFeBONUXkp71CdZPDutnTnwkO/dLK6W
-          UQ8aTQFzQtYNZxxRV/G/5nYN/Bo2aAsgI4G2MRCfKzVdjVK3eEgsvHDWO0YIHhoF
-          kpOCZjFYt0Ve4Wzz0XYnZQgdv9qkhhy0GQUnmuttHXrRCS0xBHRx4uy8kneE3AQD
-          zQIDAQAB
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjp5THs6U8BmJzmUNA0ze
+          YXELAPfG7J7FxPz5GLB4bgwpkQYth3/06H+zvUX6SR3ilAhUWYIyGqG21s60tSF2
+          0DNcZxC0rnKf5iQ5F/GfVZF9zdiu3AONXGWn6EA0lgWNKWA2XRTL7DfUwJ9Elxco
+          6j4KrM3wl9q1uSngDPXohogZvXp8qtZMXYTulXuUpfRT9HG+t2ycrIrRIwfr9XCk
+          Eojo1P+8gDoLbk4C1OzZ4awgiCp+SmUZ+bKOqqVZ/PXn59a0PwyQUrQ+act7gLPq
+          0pudl9QdNS22j0Z78bmgAlLCLbMqhIZ/lf+NWxNCfL9rKWzqOHP/uQG3OkBzM858
+          EwIDAQAB
           -----END PUBLIC KEY-----
 
 swagger:
@@ -71,7 +71,7 @@ easyms:
 
 management.endpoints.web.exposure.include: "*"
 
-logging.level.org.springframework.boot.autoconfigure: TRACE
+#logging.level.org.springframework.boot.autoconfigure: TRACE
 
 ---
 spring:
