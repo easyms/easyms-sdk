@@ -4,9 +4,7 @@ import com.easyms.security.azuread.ms.filter.CORSFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,8 +16,9 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 /**
  * @author khames.
  */
-//@Configuration
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Configuration
+@EnableWebSecurity
+@Order(SecurityProperties.BASIC_AUTH_ORDER)
 @AllArgsConstructor
 public class PublicEndpointsWebSecurityConfig extends WebSecurityConfigurerAdapter {
 

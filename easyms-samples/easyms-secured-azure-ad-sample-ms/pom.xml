@@ -38,6 +38,7 @@
         <dependency>
             <groupId>com.easyms</groupId>
             <artifactId>easyms-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
 
