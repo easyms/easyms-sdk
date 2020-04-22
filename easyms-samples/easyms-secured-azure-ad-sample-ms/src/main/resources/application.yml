@@ -37,10 +37,12 @@ spring:
       client:
         provider:
           azure:
-            jwk-set-uri: https://login.microsoftonline.com/${eayms.azure.activedirectory.tenant}/discovery/keys
+            jwk-set-uri: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/discovery/keys
 
 azure:
   activedirectory:
+    jwtConnectTimeout: 3000
+    jwtReadTimeout: 3000
     session-stateless: true
     client-id: ${easyms.azure.activedirectory.clientId}
     appIdUri: ${easyms.azure.activedirectory.appIdUri}
@@ -51,9 +53,11 @@ swagger:
   securityDefinitions:
     oauthSecurity:
       type: oauth2
-      tokenUrl: https://login.microsoftonline.com/${eayms.azure.activedirectory.tenant}/oauth2/token
-      flow: client-credentials
-      scopes:
+      tokenUrl: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/oauth2/v2.0/token
+      tokenRequestUrl: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/oauth2/v2.0/authorize
+      clientId: ${easyms.azure.activedirectory.swaggerclientId:clientId}
+      scopes: ${easyms.azure.activedirectory.swagger.scopes}
+
 
 easyms:
   secured:
