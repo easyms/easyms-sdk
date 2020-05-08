@@ -1,4 +1,4 @@
-package com.easyms.test;
+package com.easyms.azure.test;
 
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
 import org.springframework.security.oauth2.provider.authentication.TokenExtractor;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 

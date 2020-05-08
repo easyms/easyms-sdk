@@ -27,6 +27,7 @@
         <module>easyms-secured-rest-starter</module>
         <module>easyms-basic-starter</module>
         <module>easyms-test</module>
+        <module>easyms-azure-test</module>
         <module>easyms-azure-ad-secured-starter</module>
         <module>easyms-samples</module>
 

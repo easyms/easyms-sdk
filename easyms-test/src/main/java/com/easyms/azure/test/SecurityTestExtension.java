@@ -1,4 +1,4 @@
-package com.easyms.test;
+package com.easyms.azure.test;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;

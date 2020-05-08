@@ -1,18 +1,9 @@
 package com.easyms.sampleapp.api;
 
-import com.easyms.test.AbstractResourceTest;
-import com.easyms.test.SecurityTestExtension;
-import lombok.extern.slf4j.Slf4j;
+import com.easyms.azure.test.AbstractResourceTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-
-import javax.inject.Inject;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
