@@ -27,7 +27,8 @@
         <module>easyms-secured-rest-starter</module>
         <module>easyms-basic-starter</module>
         <module>easyms-test</module>
-        <module>easyms-azure-ad-secured-starter</module>
+        <module>easyms-azure-test</module>
+        <module>easyms-azure-ad-secured-rest-starter</module>
         <module>easyms-samples</module>
 
     </modules>
@@ -61,7 +62,6 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.version>3.5.0</maven.version>
-        <easyms.sdk.version>1.0.0-SNAPSHOT</easyms.sdk.version>
         <jacoco.version>0.8.4</jacoco.version>
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
@@ -462,31 +462,37 @@
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-rest-starter</artifactId>
-                <version>${easyms.sdk.version}</version>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-secured-rest-starter</artifactId>
-                <version>${easyms.sdk.version}</version>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-azure-ad-secured-rest-starter</artifactId>
-                <version>${easyms.sdk.version}</version>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-basic-starter</artifactId>
-                <version>${easyms.sdk.version}</version>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-test</artifactId>
-                <version>${easyms.sdk.version}</version>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.easyms</groupId>
+                <artifactId>easyms-azure-test</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>

@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.easyms.security.azuread.autoconfigure.EasyMsAzureAdSecuredAutoConfiguration
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.easyms.security.azuread.autoconfigure.EasyMsAzureAdSecuredEnvProcessor

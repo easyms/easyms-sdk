@@ -1,0 +1,6 @@
+spring:
+  profiles: test
+  boot:
+    admin:
+      client:
+        enabled: false
