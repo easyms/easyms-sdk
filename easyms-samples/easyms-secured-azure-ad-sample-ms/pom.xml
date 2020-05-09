@@ -37,8 +37,7 @@
         </dependency>
         <dependency>
             <groupId>com.easyms</groupId>
-            <artifactId>easyms-test</artifactId>
-            <scope>test</scope>
+            <artifactId>easyms-azure-test</artifactId>
         </dependency>
 
 

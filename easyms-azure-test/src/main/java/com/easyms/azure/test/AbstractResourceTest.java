@@ -1,26 +1,21 @@
 package com.easyms.azure.test;
 
 import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipalManager;
-import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
-import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import javax.inject.Inject;
 
 @MockBean(classes = {UserPrincipalManager.class})
 @ExtendWith(value = {SecurityTestExtension.class})
 @AutoConfigureMockMvc
-public class AbstractResourceTest extends AbstractTest{
+public class AbstractResourceTest extends AbstractTest {
+
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String BEARER_TOKEN_TYPE = "Bearer";
 
     @Inject
     protected MockMvc mockMvc;
@@ -28,7 +23,12 @@ public class AbstractResourceTest extends AbstractTest{
     @Inject
     UserPrincipalManager userPrincipalManager;
 
-
+    protected RequestPostProcessor bearerToken() {
+        return mockHttpServletRequest -> {
+            mockHttpServletRequest.addHeader(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, "fake-token"));
+            return mockHttpServletRequest;
+        };
+    }
 
 
 }

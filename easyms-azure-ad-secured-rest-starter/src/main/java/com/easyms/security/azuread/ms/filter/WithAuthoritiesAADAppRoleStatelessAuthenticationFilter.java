@@ -47,7 +47,7 @@ public class WithAuthoritiesAADAppRoleStatelessAuthenticationFilter extends AADA
         //add roles as Authorities
         Set<SimpleGrantedAuthority> allAuthorities = roles.stream()
                 .filter(Objects::nonNull)
-                .map(s -> new SimpleGrantedAuthority(ROLE_PREFIX + s))
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
 
         //Map roles to authorities
@@ -58,7 +58,7 @@ public class WithAuthoritiesAADAppRoleStatelessAuthenticationFilter extends AADA
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .flatMap(Collection::stream)
-                .map(s -> new SimpleGrantedAuthority(PERM_PREFIX + s))
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
         allAuthorities.addAll(authorities);
 

@@ -1,0 +1,13 @@
+spring:
+  profiles: test
+
+easyms:
+  azure:
+    activedirectory:
+      tenant: fakeTenant
+      clientId: fakeClientId
+      appIdUri : fakeAppIdUri
+      swaggerclientId: fakeSwaggerClientId
+      swagger:
+        scopes: fakeSwaggerScopes
+

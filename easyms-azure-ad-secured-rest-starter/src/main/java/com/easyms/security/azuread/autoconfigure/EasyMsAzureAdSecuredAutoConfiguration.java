@@ -36,13 +36,22 @@ public class EasyMsAzureAdSecuredAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(AADAppRoleStatelessAuthenticationFilter.class)
     @ConditionalOnProperty(prefix = PROPERTY_PREFIX, value = "session-stateless", havingValue = "true")
-    public WithAuthoritiesAADAppRoleStatelessAuthenticationFilter customAzureADStatelessAuthFilter(ResourceRetriever resourceRetriever,
-                                                                                                   ServiceEndpointsProperties serviceEndpointsProps,
-                                                                                                   AADAuthenticationProperties aadAuthProps,
+    public WithAuthoritiesAADAppRoleStatelessAuthenticationFilter customAzureADStatelessAuthFilter(UserPrincipalManager userPrincipalManager,
                                                                                                    RoleAndAuthoritiesMappingProperties roleAndAuthoritiesMappingProperties) {
         log.info("Creating WithAuthoritiesAADAppRoleStatelessAuthenticationFilter bean.");
         final boolean useExplicitAudienceCheck = true;
-        return new WithAuthoritiesAADAppRoleStatelessAuthenticationFilter(new UserPrincipalManager(serviceEndpointsProps, aadAuthProps,
-                resourceRetriever, useExplicitAudienceCheck), roleAndAuthoritiesMappingProperties);
+        return new WithAuthoritiesAADAppRoleStatelessAuthenticationFilter(userPrincipalManager, roleAndAuthoritiesMappingProperties);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(UserPrincipalManager.class)
+    @ConditionalOnProperty(prefix = PROPERTY_PREFIX, value = "session-stateless", havingValue = "true")
+    public UserPrincipalManager provideUserPrincipalManager(ResourceRetriever resourceRetriever,
+                                                            ServiceEndpointsProperties serviceEndpointsProps,
+                                                            AADAuthenticationProperties aadAuthProps) {
+        log.info("Creating UserPrincipalManager bean.");
+        final boolean useExplicitAudienceCheck = true;
+        return new UserPrincipalManager(serviceEndpointsProps, aadAuthProps,
+                resourceRetriever, useExplicitAudienceCheck);
     }
 }

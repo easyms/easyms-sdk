@@ -1,6 +1,6 @@
 package com.easyms.sampleapp.api;
 
-import com.easyms.azure.test.AbstractResourceTest;
+import com.easyms.test.AbstractResourceTest;
 import net.logstash.logback.encoder.org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;

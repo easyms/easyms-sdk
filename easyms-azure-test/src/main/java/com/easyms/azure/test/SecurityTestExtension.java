@@ -3,10 +3,10 @@ package com.easyms.azure.test;
 import com.google.common.collect.Lists;
 import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipal;
 import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipalManager;
+import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.mockito.Mockito;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.*;
@@ -27,19 +27,26 @@ public class SecurityTestExtension implements BeforeEachCallback {
         UserPrincipal userPrincipal = Mockito.mock(UserPrincipal.class);
         Map<String, Object> claims = new HashMap<>();
 
-        addRolesAndAuthoritoesToClaims(withMockUserTarget.map((userMock) -> Arrays.asList(userMock.authorities())).orElse(Lists.newArrayList()));
+        JSONArray rolesAndAuthorities = getRolesAndAuthorities(withMockUserTarget.map((userMock) -> Arrays.asList(userMock.authorities())).orElse(newArrayList()),
+                withMockUserTarget.map((userMock) -> Arrays.asList(userMock.roles())).orElse(newArrayList()));
+
+        claims.put("roles", rolesAndAuthorities);
 
         when(userPrincipal.getClaims()).thenReturn(claims);
         when(userPrincipalManager.buildUserPrincipal(Mockito.any())).thenReturn(userPrincipal);
 
-
-
     }
 
-    private void addRolesAndAuthoritoesToClaims(List<String> authorities) {}
 
 
-    public List<GrantedAuthority> createAuthorityList(List<String> roles, List<String> permissions) {
+    public JSONArray getRolesAndAuthorities(List<String> authorities, List<String> roles) {
+        JSONArray jsonArray = new JSONArray();
+        roles.forEach(jsonArray::appendElement);
+        authorities.forEach(jsonArray::appendElement);
+
+        return jsonArray;
+    }
+
 //        List<GrantedAuthority> authorities = Optional.ofNullable(roles).orElse(Lists.newArrayList()).stream()
 //                .filter(StringUtils::isNotBlank)
 //                .map(SimpleGrantedAuthority::new)
@@ -50,7 +57,5 @@ public class SecurityTestExtension implements BeforeEachCallback {
 //                .map(SimpleGrantedAuthority::new)
 //                .collect(Collectors.toList()));
 
-        return authorities;
-    }
 
 }

@@ -11,6 +11,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @ExtendWith(value = {SpringExtension.class})
 @SpringBootTest
-@ComponentScan
+@ComponentScan(basePackages = "com.easyms.azure.test")
 public class AbstractTest {
 }
