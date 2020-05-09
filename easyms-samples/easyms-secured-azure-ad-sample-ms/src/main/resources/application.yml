@@ -69,12 +69,12 @@ easyms:
           - SUPER_ADMIN_CLIENT
       rolesToAuthorities:
         ADMIN_CLIENT:
-          - MODIFY_CLIENT
-          - READ_CLIENT
+          - PERM_MODIFY_CLIENT
+          - PERM_READ_CLIENT
         SUPER_ADMIN_CLIENT:
-          - MODIFY_CLIENT
-          - READ_CLIENT
-          - DELETE_CLIENT
+          - PERM_MODIFY_CLIENT
+          - PERM_READ_CLIENT
+          - PERM_DELETE_CLIENT
 
 
   logging:
