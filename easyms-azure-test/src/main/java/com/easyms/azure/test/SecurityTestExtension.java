@@ -47,15 +47,5 @@ public class SecurityTestExtension implements BeforeEachCallback {
         return jsonArray;
     }
 
-//        List<GrantedAuthority> authorities = Optional.ofNullable(roles).orElse(Lists.newArrayList()).stream()
-//                .filter(StringUtils::isNotBlank)
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
-//
-//        authorities.addAll(Optional.ofNullable(permissions).orElse(Lists.newArrayList()).stream()
-//                .filter(StringUtils::isNotBlank)
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList()));
-
 
 }
