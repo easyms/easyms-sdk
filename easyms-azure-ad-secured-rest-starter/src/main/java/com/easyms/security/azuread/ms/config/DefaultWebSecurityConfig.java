@@ -25,16 +25,10 @@ public class DefaultWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-
-        http.csrf().disable();
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
-
-        http.authorizeRequests()
-                .anyRequest().authenticated();
-
-        http.addFilterBefore(aadAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().csrf().disable()
+                .authorizeRequests().anyRequest().authenticated()
+                .and().addFilterBefore(aadAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 }
