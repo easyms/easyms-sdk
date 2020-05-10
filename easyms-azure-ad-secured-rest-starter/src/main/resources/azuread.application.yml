@@ -13,8 +13,8 @@ swagger:
       type: oauth2
       tokenUrl: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/oauth2/v2.0/token
       tokenRequestUrl: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/oauth2/v2.0/authorize
-      clientId: ${easyms.azure.activedirectory.swaggerclientId:swaggerClientId}
-      scopes: ${easyms.azure.activedirectory.swagger.scopes}
+      clientId: ${easyms.azure.activedirectory.swaggerclientId}
+      scopes: ${easyms.azure.activedirectory.swaggerscopes}
 
 easyms:
   secured:
@@ -40,6 +40,5 @@ easyms:
       clientId: fakeClientId
       appIdUri : fakeAppIdUri
       swaggerclientId: fakeSwaggerClientId
-      swagger:
-        scopes: fakeSwaggerScopes
+      swaggerscopes: fakeSwaggerScopes
 
