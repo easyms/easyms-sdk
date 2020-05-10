@@ -10,6 +10,12 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <jacoco.easyms.instr.coverage>0.33</jacoco.easyms.instr.coverage>
+        <jacoco.easyms.branch.coverage>0.06</jacoco.easyms.branch.coverage>
+        <jacoco.easyms.class.missed>1</jacoco.easyms.class.missed>
+    </properties>
+
     <artifactId>easyms-secured-azure-ad-sample-ms</artifactId>
     <packaging>jar</packaging>
     <dependencies>
