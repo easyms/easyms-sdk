@@ -1,4 +1,36 @@
 spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          azure:
+            jwk-set-uri: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/discovery/keys
+
+swagger:
+  paths: /api.*
+  securityDefinitions:
+    oauthSecurity:
+      type: oauth2
+      tokenUrl: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/oauth2/v2.0/token
+      tokenRequestUrl: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/oauth2/v2.0/authorize
+      clientId: ${easyms.azure.activedirectory.swaggerclientId:swaggerClientId}
+      scopes: ${easyms.azure.activedirectory.swagger.scopes}
+
+easyms:
+  secured:
+    azuread :
+      enabled: true
+
+azure:
+  activedirectory:
+    jwtConnectTimeout: 3000
+    jwtReadTimeout: 3000
+    session-stateless: true
+    client-id: ${easyms.azure.activedirectory.clientId}
+    appIdUri: ${easyms.azure.activedirectory.appIdUri}
+
+---
+spring:
   profiles: test
 
 easyms:
