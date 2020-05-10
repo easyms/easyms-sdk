@@ -12,6 +12,12 @@
     <artifactId>easyms-secured-sample-ms</artifactId>
     <description>Sample ms using easyms-secured-rest-starter</description>
 
+    <properties>
+        <jacoco.easyms.instr.coverage>0.30</jacoco.easyms.instr.coverage>
+        <jacoco.easyms.branch.coverage>0.05</jacoco.easyms.branch.coverage>
+        <jacoco.easyms.class.missed>1</jacoco.easyms.class.missed>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.easyms</groupId>

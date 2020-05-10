@@ -92,6 +92,16 @@
         </docker.image.version>
         <distrib.dir>${project.build.directory}/distrib</distrib.dir>
         <spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
+        <jacoco.ut.exec.datafile>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.exec.datafile>
+        <jacoco.it.exec.datafile>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.exec.datafile>
+        <jacoco.easyms.instr.coverage>0.70</jacoco.easyms.instr.coverage>
+        <jacoco.easyms.branch.coverage>0.70</jacoco.easyms.branch.coverage>
+        <jacoco.easyms.class.missed>0</jacoco.easyms.class.missed>
+        <jacoco.additional.exclude1>SET_ME</jacoco.additional.exclude1>
+        <jacoco.additional.exclude2>SET_ME</jacoco.additional.exclude2>
+        <jacoco.additional.exclude3>SET_ME</jacoco.additional.exclude3>
+        <jacoco.additional.exclude4>SET_ME</jacoco.additional.exclude4>
+        <jacoco.additional.exclude5>SET_ME</jacoco.additional.exclude5>
     </properties>
 
 
@@ -248,7 +258,7 @@
                             </goals>
                             <configuration>
                                 <!-- Sets the path to the file which contains the execution data. -->
-                                <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+                                <destFile>${jacoco.ut.exec.datafile}</destFile>
                                 <!--
                                     Sets the name of the property containing the settings
                                     for JaCoCo runtime agent.
@@ -268,9 +278,26 @@
                             </goals>
                             <configuration>
                                 <!-- Sets the path to the file which contains the execution data. -->
-                                <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+                                <dataFile>${jacoco.ut.exec.datafile}</dataFile>
                                 <!-- Sets the output directory for the code coverage report. -->
                                 <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+
+                                <excludes>
+                                    <exclude>JAVAC.SYNTHCLASS</exclude>
+                                    <exclude>JAVAC.SYNTHMETH</exclude>
+                                    <exclude>**/*Config*.*</exclude>
+                                    <exclude>**/*Configuration.*</exclude>
+                                    <exclude>**/*Application.*</exclude>
+                                    <exclude>**/*Constant*.*</exclude>
+                                    <exclude>**/dto/**/*</exclude>
+                                    <exclude>**/model/**/*</exclude>
+                                    <exclude>${jacoco.additional.exclude1}</exclude>
+                                    <exclude>${jacoco.additional.exclude2}</exclude>
+                                    <exclude>${jacoco.additional.exclude3}</exclude>
+                                    <exclude>${jacoco.additional.exclude4}</exclude>
+                                    <exclude>${jacoco.additional.exclude5}</exclude>
+                                </excludes>
+
                             </configuration>
                         </execution>
                         <!-- The Executions required by unit tests are omitted. -->
@@ -286,7 +313,7 @@
                             </goals>
                             <configuration>
                                 <!-- Sets the path to the file which contains the execution data. -->
-                                <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
+                                <destFile>${jacoco.it.exec.datafile}</destFile>
                                 <!--
                                     Sets the name of the property containing the settings
                                     for JaCoCo runtime agent.
@@ -306,9 +333,90 @@
                             </goals>
                             <configuration>
                                 <!-- Sets the path to the file which contains the execution data. -->
-                                <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
+                                <dataFile>${jacoco.it.exec.datafile}</dataFile>
                                 <!-- Sets the output directory for the code coverage report. -->
                                 <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+                                <excludes>
+                                    <exclude>JAVAC.SYNTHCLASS</exclude>
+                                    <exclude>JAVAC.SYNTHMETH</exclude>
+                                    <exclude>**/*Config*.*</exclude>
+                                    <exclude>**/*Configuration.*</exclude>
+                                    <exclude>**/*Application.*</exclude>
+                                    <exclude>**/*Constant*.*</exclude>
+                                    <exclude>**/dto/**/*</exclude>
+                                    <exclude>**/model/**/*</exclude>
+                                    <exclude>${jacoco.additional.exclude1}</exclude>
+                                    <exclude>${jacoco.additional.exclude2}</exclude>
+                                    <exclude>${jacoco.additional.exclude3}</exclude>
+                                    <exclude>${jacoco.additional.exclude4}</exclude>
+                                    <exclude>${jacoco.additional.exclude5}</exclude>
+                                </excludes>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>merge-results</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>merge</goal>
+                            </goals>
+                            <configuration>
+                                <fileSets>
+                                    <fileSet>
+                                        <directory>${project.build.directory}/coverage-reports</directory>
+                                        <includes>
+                                            <include>*.exec</include>
+                                        </includes>
+                                    </fileSet>
+                                </fileSets>
+                                <destFile>${project.build.directory}/coverage-reports/jacoco.exec</destFile>
+                            </configuration>
+
+                        </execution>
+                        <execution>
+                            <id>check</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+
+                            <configuration>
+                                <excludes>
+                                    <exclude>JAVAC.SYNTHCLASS</exclude>
+                                    <exclude>JAVAC.SYNTHMETH</exclude>
+                                    <exclude>**/*Config*.*</exclude>
+                                    <exclude>**/*Configuration.*</exclude>
+                                    <exclude>**/*Application.*</exclude>
+                                    <exclude>**/*Constant*.*</exclude>
+                                    <exclude>**/dto/**/*</exclude>
+                                    <exclude>**/model/**/*</exclude>
+                                    <exclude>${jacoco.additional.exclude1}</exclude>
+                                    <exclude>${jacoco.additional.exclude2}</exclude>
+                                    <exclude>${jacoco.additional.exclude3}</exclude>
+                                    <exclude>${jacoco.additional.exclude4}</exclude>
+                                    <exclude>${jacoco.additional.exclude5}</exclude>
+                                </excludes>
+                                <dataFile>${project.build.directory}/coverage-reports/jacoco.exec</dataFile>
+                                <rules>
+                                    <rule>
+                                        <element>BUNDLE</element>
+                                        <limits>
+                                            <limit>
+                                                <counter>INSTRUCTION</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.easyms.instr.coverage}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>BRANCH</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.easyms.branch.coverage}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>CLASS</counter>
+                                                <value>MISSEDCOUNT</value>
+                                                <maximum>${jacoco.easyms.class.missed}</maximum>
+                                            </limit>
+                                        </limits>
+                                    </rule>
+                                </rules>
                             </configuration>
                         </execution>
                     </executions>
@@ -329,6 +437,7 @@
                                 <fail>true</fail>
                                 <failFast>true</failFast>
                                 <rules>
+                                   <!-- <dependencyConvergence/> -->
                                     <requireMavenVersion>
                                         <version>[${maven.version},)</version>
                                         <message>You are running an older version of Maven.
@@ -816,51 +925,19 @@
         </profile>
         <profile>
             <id>docker</id>
-            <!--activation>
-                <file>
-                    <exists>src/main/distrib/config</exists>
-                </file>
-            </activation -->
             <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.spotify</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <version>${docker-maven-spotify-plugin.version}</version>
-                            <executions>
-                                <execution>
-                                    <phase>install</phase>
-                                    <goals>
-                                        <goal>build</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                            <configuration>
-                                <serverId>docker-push-hub</serverId>
-                                <registryUrl>https://${target.docker.registry.url}</registryUrl>
-                                <dockerDirectory>${docker.dockerfile.directory}</dockerDirectory>
-                                <!-- <useConfigFile>true</useConfigFile>  -->
-                                <imageName>${docker.image.name}</imageName>
-                                <resources>
-                                    <resource>
-                                        <targetPath>/</targetPath>
-                                        <directory>
-                                            ${distrib.dir}/${project.artifactId}-${project.version}/${project.artifactId}-${project.version}
-                                        </directory>
-                                    </resource>
-                                </resources>
-                                <imageTags>
-                                    <imageTag>${docker.image.version}</imageTag>
-                                </imageTags>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
                 <plugins>
                     <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
