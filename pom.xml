@@ -30,6 +30,7 @@
         <module>easyms-azure-test</module>
         <module>easyms-azure-ad-secured-rest-starter</module>
         <module>easyms-samples</module>
+        <module>easyms-logging-starter</module>
 
     </modules>
 
@@ -74,6 +75,7 @@
         <spring.boot-admin.version>2.1.5</spring.boot-admin.version>
         <swagger.version>2.9.2</swagger.version>
         <logstash-logback-encoder.version>6.0</logstash-logback-encoder.version>
+        <rakugakibox.logback.version>2.7.1</rakugakibox.logback.version>
         <spring.config.name>${project.artifactId}</spring.config.name>
         <spring.profiles.active>dev</spring.profiles.active>
         <app.id>${project.artifactId}</app.id>
@@ -655,6 +657,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.rakugakibox.spring.boot</groupId>
+                <artifactId>logback-access-spring-boot-starter</artifactId>
+                <version>${rakugakibox.logback.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
