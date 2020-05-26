@@ -2,6 +2,7 @@ package com.easyms.security.azuread.autoconfigure;
 
 
 import com.easyms.rest.autoconfigure.EasyMsAutoConfiguration;
+import com.easyms.security.azuread.ms.config.EasymsAdUserPrincipalManager;
 import com.easyms.security.azuread.ms.filter.RoleAndAuthoritiesMappingProperties;
 import com.easyms.security.azuread.ms.filter.WithAuthoritiesAADAppRoleStatelessAuthenticationFilter;
 import com.microsoft.azure.spring.autoconfigure.aad.AADAppRoleStatelessAuthenticationFilter;
@@ -51,7 +52,7 @@ public class EasyMsAzureAdSecuredAutoConfiguration {
                                                             AADAuthenticationProperties aadAuthProps) {
         log.info("Creating UserPrincipalManager bean.");
         final boolean useExplicitAudienceCheck = true;
-        return new UserPrincipalManager(serviceEndpointsProps, aadAuthProps,
+        return new EasymsAdUserPrincipalManager(serviceEndpointsProps, aadAuthProps,
                 resourceRetriever, useExplicitAudienceCheck);
     }
 }
