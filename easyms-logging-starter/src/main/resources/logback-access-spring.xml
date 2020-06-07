@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <springProperty name="logging.logstash.enabled" source="easyms.logging.logstash.enabled" defaultValue="false"/>
+    <springProperty name="logging.file.enabled" source="easyms.logging.file.enabled" defaultValue="false"/>
+    <springProperty name="logging.application" source="easyms.logging.application.name" defaultValue="easyms"/>
+    <springProperty name="logging.service" source="easyms.logging.service.name"/>
+    <springProperty name="logging.environment" source="easyms.logging.environment.name" defaultValue="env.test"/>
+    <springProperty name="logging.logstash.url" source="easyms.logging.logstash.url" defaultValue="localhost:9701"/>
+
+    <property resource="META-INF/build-info.properties"/>
+
+    <if condition='isDefined("logging.logstash.url") &amp;&amp; property("logging.logstash.enabled").equals("true")'>
+        <then>
+            <appender name="LOGSTASH_APPENDER" class="net.logstash.logback.appender.LogstashAccessTcpSocketAppender">
+                <destination>${logging.logstash.url}</destination>
+                <encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">
+                    <providers>
+                        <timestamp/>
+                        <pattern>
+                            <omitEmptyFields>true</omitEmptyFields>
+                            <pattern>
+                                {
+                                "@service":"${logging.service}",
+                                "@version":"${build.version}",
+                                "@env":"${logging.environment}",
+                                "@app":"${logging.application}",
+                                "@hostname":"${HOSTNAME}",
+                                "@trace_id":"%i{X-B3-TraceId}",
+                                "@span_id":"%i{X-B3-SpanId}",
+                                "index":"http-access",
+                                "remote_ip":"%a",
+                                "elapsed":"%D",
+                                "referer":"%i{Referer}",
+                                "user_agent":"%i{User-Agent}",
+                                "method":"%m",
+                                "params":"%q",
+                                "user":"%u",
+                                "bytes":"#asLong{%b}",
+                                "uri":"%U",
+                                "status":"%s"
+                                }
+                            </pattern>
+                        </pattern>
+                    </providers>
+                </encoder>
+            </appender>
+        </then>
+    </if>
+
+    <if condition='isDefined("logging.logstash.url") &amp;&amp; property("logging.logstash.enabled").equals("true")'>
+        <then>
+            <appender-ref ref="LOGSTASH_APPENDER"/>
+        </then>
+    </if>
+</configuration>
+

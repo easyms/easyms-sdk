@@ -65,9 +65,6 @@ easyms:
   logging:
     logstash: # Forward logs to logstash over a socket, used by LoggingConfig
       enabled: false
-      host: localhost
-      port: 5000
-      queue-size: 512
 
 management.endpoints.web.exposure.include: "*"
 

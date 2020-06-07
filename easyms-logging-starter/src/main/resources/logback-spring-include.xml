@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<included>
+    <springProperty name="logging.logstash.enabled" source="easyms.logging.logstash.enabled" defaultValue="false"/>
+    <springProperty name="logging.file.enabled" source="easyms.logging.file.enabled" defaultValue="false"/>
+    <springProperty name="logging.application" source="easyms.logging.application.name" defaultValue="easyms"/>
+    <springProperty name="logging.service" source="easyms.logging.service.name"/>
+    <springProperty name="logging.environment" source="easyms.logging.environment.name" defaultValue="env.test"/>
+    <springProperty name="logging.logstash.url" source="easyms.logging.logstash.url" defaultValue="localhost:9701"/>
+
+    <property resource="META-INF/build-info.properties"/>
+
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <property name="STE_EXCLUSIONS" value="\$\$FastClassByCGLIB\$\$,\$\$EnhancerBySpringCGLIB\$\$,^sun\.reflect\..*\.invoke,^com\.sun\.,^sun\.net\.,^net\.sf\.cglib\.proxy\.MethodProxy\.invoke,^org\.springframework\.cglib\.,^org\.springframework\.transaction\.,^org\.springframework\.validation\.,^org\.springframework\.app\.,^org\.springframework\.aop\.,^java\.lang\.reflect\.Method\.invoke,^org\.springframework\.ws\..*\.invoke,^org\.springframework\.ws\.transport\.,^org\.springframework\.ws\.soap\.saaj\.SaajSoapMessage\.,^org\.springframework\.ws\.client\.core\.WebServiceTemplate\.,^org\.springframework\.web\.filter\.,^org\.springframework\.boot\.web\.filter\.,^org\.springframework\.util\.ReflectionUtils\.invokeMethod$,^org\.apache\.tomcat\.,^org\.apache\.catalina\.,^org\.apache\.coyote\.,^java\.util\.concurrent\.ThreadPoolExecutor\.runWorker,^java\.lang\.Thread\.run$,^rx\."/>
+    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}${service}-spring.log}"/>
+
+    <conversionRule conversionWord="loggerName" converterClass="com.easyms.logging.ms.LoggerNameConverter"/>
+
+
+    <!-- Declare logstash appender -->
+    <if condition='isDefined("logging.logstash.url") &amp;&amp; property("logging.logstash.enabled").equals("true")'>
+        <then>
+            <appender name="LOGSTASH_APPENDER" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+                <destination>${logging.logstash.url}</destination>
+                <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                    <providers>
+                        <timestamp/>
+                        <message/>
+                        <loggerName/>
+                        <logstashMarkers/>
+                        <logLevel/>
+                        <threadName/>
+                        <stackTrace>
+                            <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                                <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                                <maxLength>2048</maxLength>
+                                <shortenedClassNameLength>20</shortenedClassNameLength>
+                                <exclusions>${STE_EXCLUSIONS}</exclusions>
+                                <rootCauseFirst>true</rootCauseFirst>
+                            </throwableConverter>
+                        </stackTrace>
+                        <pattern>
+                            <omitEmptyFields>true</omitEmptyFields>
+                            <pattern>
+                                {
+                                "@service":"${logging.service}",
+                                "@version":"${build.version}",
+                                "@env":"${logging.environment}",
+                                "@app":"${logging.application}",
+                                "@hostname":"${HOSTNAME}",
+                                "@trace_id":"%mdc{X-B3-TraceId}",
+                                "@span_id":"%mdc{X-B3-SpanId}",
+                                "index":"%loggerName"
+                                }
+                            </pattern>
+                        </pattern>
+                    </providers>
+                </encoder>
+            </appender>
+        </then>
+    </if>
+
+    <!-- add file appender -->
+    <if condition='property("logging.file.enabled").equals("true")'>
+        <then>
+            <appender name="FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${LOG_FILE}</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                    <fileNamePattern>${LOG_FILE}-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+                    <maxHistory>10</maxHistory>
+                    <maxFileSize>100MB</maxFileSize>
+                    <totalSizeCap>600MB</totalSizeCap>
+                </rollingPolicy>
+                <encoder>
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${logging.service}] [${build.version}] [${build.version}] [%thread] %-5level %logger{35} - %msg%n</pattern>
+                </encoder>
+
+            </appender>
+        </then>
+    </if>
+
+
+    <!-- add logstash logger -->
+    <if condition='isDefined("logging.logstash.url") &amp;&amp; property("logging.logstash.enabled").equals("true")'>
+        <then>
+            <root level="INFO">
+                <appender-ref ref="LOGSTASH_APPENDER"/>
+            </root>
+        </then>
+    </if>
+
+    <!-- add file logger -->
+    <if condition='property("logging.file.enabled").equals("true")'>
+        <then>
+            <root level="INFO">
+                <appender-ref ref="FILE_APPENDER"/>
+            </root>
+        </then>
+    </if>
+
+    <!-- add console logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</included>
