@@ -1,0 +1,7 @@
+easyms:
+  logging:
+    service:
+      name: ${spring.application.name:default-value-will-not-be-used-if-spring.application.name-is-set}
+
+
+

@@ -104,6 +104,7 @@
         <jacoco.additional.exclude3>SET_ME</jacoco.additional.exclude3>
         <jacoco.additional.exclude4>SET_ME</jacoco.additional.exclude4>
         <jacoco.additional.exclude5>SET_ME</jacoco.additional.exclude5>
+        <source.application.config.dir>src/main/resources</source.application.config.dir>
     </properties>
 
 
@@ -593,6 +594,11 @@
                 <artifactId>easyms-basic-starter</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>com.easyms</groupId>
+                <artifactId>easyms-logging-starter</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.easyms</groupId>
@@ -758,7 +764,7 @@
             <id>microservice</id>
             <activation>
                 <file>
-                    <exists>/src/main/resources/application.yml</exists>
+                    <exists>${source.application.config.dir}/application.yml</exists>
                 </file>
             </activation>
             <dependencies>
@@ -801,67 +807,6 @@
                                     <java.target>${maven.compiler.target}</java.target>
                                 </additionalProperties>
                             </configuration>
-                        </plugin>
-                        <!-- dependency plugin : unpacking inherited resources from other artifacts-->
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-dependency-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>copy-inherited-resources</id>
-                                    <phase>generate-resources</phase>
-                                    <goals>
-                                        <goal>unpack</goal>
-                                    </goals>
-                                    <configuration>
-                                        <artifactItems>
-                                            <artifactItem>
-                                                <groupId>com.easyms</groupId>
-                                                <artifactId>easyms-basic-starter</artifactId>
-                                                <version>${easyms.sdk.version}</version>
-                                                <type>jar</type>
-                                                <overWrite>true</overWrite>
-                                                <outputDirectory>${inherited.resources.dir}</outputDirectory>
-                                            </artifactItem>
-                                        </artifactItems>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <!-- assembly plugin : assembly builing -->
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-assembly-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>build-assembly</id>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>single</goal>
-                                    </goals>
-                                    <configuration>
-                                        <descriptorRefs>
-                                            <descriptorRef>easyms-assembly</descriptorRef>
-                                        </descriptorRefs>
-                                        <appendAssemblyId>false</appendAssemblyId>
-                                        <outputDirectory>${distrib.dir}</outputDirectory>
-                                        <formats>
-                                            <format>zip</format>
-                                            <format>dir</format>
-                                        </formats>
-                                        <delimiters>
-                                            <delimiter>%_*_%</delimiter>
-                                        </delimiters>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>com.easyms</groupId>
-                                    <artifactId>easyms-basic-starter</artifactId>
-                                    <version>${easyms.sdk.version}</version>
-                                </dependency>
-                            </dependencies>
                         </plugin>
                     </plugins>
                 </pluginManagement>

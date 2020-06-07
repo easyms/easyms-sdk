@@ -17,6 +17,10 @@
             <groupId>com.easyms</groupId>
             <artifactId>easyms-rest-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.easyms</groupId>
+            <artifactId>easyms-logging-starter</artifactId>
+        </dependency>
     </dependencies>
 
 

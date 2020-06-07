@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
-    <springProperty name="logstash.enabled" source="easyms.logging.logstash.enabled"/>
-    <springProperty name="file.enabled" source="easyms.logging.file.enabled" defaultValue="false"/>
-    <springProperty name="application" source="easyms.logging.application.name"/>
-    <springProperty name="service" source="easyms.logging.service.name"/>
-    <springProperty name="environment" source="easyms.logging.environment.name"/>
-    <springProperty name="logstash.url" source="easyms.logging.logstash.url"/>
+    <springProperty name="logging.logstash.enabled" source="easyms.logging.logstash.enabled" defaultValue="false"/>
+    <springProperty name="logging.file.enabled" source="easyms.logging.file.enabled" defaultValue="false"/>
+    <springProperty name="logging.application" source="easyms.logging.application.name" defaultValue="easyms"/>
+    <springProperty name="logging.service" source="easyms.logging.service.name"/>
+    <springProperty name="logging.environment" source="easyms.logging.environment.name" defaultValue="env.test"/>
+    <springProperty name="logging.logstash.url" source="easyms.logging.logstash.url" defaultValue="localhost:9701"/>
 
     <property resource="META-INF/build-info.properties"/>
 
-    <if condition='isDefined("logstash.url") &amp;&amp; property("logstash.enabled").equals("true")'>
+    <if condition='isDefined("logging.logstash.url") &amp;&amp; property("logging.logstash.enabled").equals("true")'>
         <then>
             <appender name="LOGSTASH_APPENDER" class="net.logstash.logback.appender.LogstashAccessTcpSocketAppender">
-                <detination>${logstash.url}</detination>
+                <destination>${logging.logstash.url}</destination>
                 <encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">
                     <providers>
                         <timestamp/>
@@ -20,10 +20,10 @@
                             <omitEmptyFields>true</omitEmptyFields>
                             <pattern>
                                 {
-                                "@service":"${service}",
+                                "@service":"${logging.service}",
                                 "@version":"${build.version}",
-                                "@env":"${environment}",
-                                "@app":"${application}",
+                                "@env":"${logging.environment}",
+                                "@app":"${logging.application}",
                                 "@hostname":"${HOSTNAME}",
                                 "@trace_id":"%i{X-B3-TraceId}",
                                 "@span_id":"%i{X-B3-SpanId}",
@@ -47,13 +47,10 @@
         </then>
     </if>
 
-    <if condition='isDefined("logstash.url") &amp;&amp; property("logstash.enabled").equals("true")'>
+    <if condition='isDefined("logging.logstash.url") &amp;&amp; property("logging.logstash.enabled").equals("true")'>
         <then>
-            <root level="INFO">
-                <appender-ref ref="LOGSTASH_APPENDER"/>
-            </root>
+            <appender-ref ref="LOGSTASH_APPENDER"/>
         </then>
     </if>
-
 </configuration>
 
