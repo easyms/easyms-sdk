@@ -31,9 +31,10 @@ swagger:
 
 easyms:
   logging:
+    environment:
+      name: "local-env"
     logstash:
       enabled: false
-
 
 management.endpoints.web.exposure.include: "*"
 

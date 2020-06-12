@@ -3,6 +3,7 @@ package com.easyms.logging.ms;
 import brave.Span;
 import brave.Tracer;
 import lombok.AllArgsConstructor;
+import org.apache.catalina.Valve;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
 import org.apache.catalina.valves.ValveBase;
@@ -21,13 +22,30 @@ import java.util.Objects;
  */
 @Component
 @ConditionalOnProperty(value = "spring.sleuth.enabled", havingValue = "true", matchIfMissing = true)
-@AllArgsConstructor
 public class SleuthLoggingValve extends ValveBase {
     public static final String X_B3_TRACE_ID = "X-B3-TraceId";
     public static final String X_B3_SPAN_ID = "X-B3-SpanId";
+
     private final Tracer tracer;
+
+    SleuthLoggingValve(Tracer tracer) {
+        this.tracer = tracer;
+        this.asyncSupported = true;
+    }
+
     @Override
     public void invoke(Request request, Response response) throws IOException, ServletException {
+        addTraceIdToRequestIfMissing(request);
+        Valve next = getNext();
+
+        if(next == null) {
+            return;
+        }
+
+        next.invoke(request, response);
+    }
+
+    private void addTraceIdToRequestIfMissing(Request request) {
         String header = request.getHeader(X_B3_TRACE_ID);
         if(Objects.isNull(header)) {
             org.apache.coyote.Request coyoteRequest = request.getCoyoteRequest();
