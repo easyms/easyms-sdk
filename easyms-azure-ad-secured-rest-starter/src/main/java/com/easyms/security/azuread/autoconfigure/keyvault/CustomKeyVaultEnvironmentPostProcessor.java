@@ -15,7 +15,7 @@ import org.springframework.util.ClassUtils;
 
 public class CustomKeyVaultEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
     private static final Logger log = LoggerFactory.getLogger(CustomKeyVaultEnvironmentPostProcessor.class);
-    public static final int DEFAULT_ORDER = -2147483637;
+    public static final int DEFAULT_ORDER = -2147483636;
     private int order = -2147483636;
 
     public CustomKeyVaultEnvironmentPostProcessor() {
