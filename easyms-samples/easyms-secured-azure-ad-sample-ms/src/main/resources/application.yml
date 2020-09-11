@@ -50,6 +50,21 @@ easyms:
           - PERM_MODIFY_CLIENT
           - PERM_READ_CLIENT
           - PERM_DELETE_CLIENT
+  azure:
+    internalToken:
+      enabled: true
+#      pubKeyPath: "classpath:jwtbearer-test.pub"
+      pubKeyValue: |
+              -----BEGIN PUBLIC KEY-----
+              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsMQpRL3fm1I80BgrUZxX
+              LlVuJoaI24eur9qWGnxsfjRwtoomQKjZEfbz9NBGURCTejWS4nRrIXF3YPdz9JU8
+              3HpFMOpDtrcGvMR8IIRpiqq9rHlllnI0FIX55/o8N1Er4bYMF8s7hwJZ2/lybsWs
+              VrAOU76Pz1vUq5/iD8ildZ37voSEUeCUXJOQw5dGYuZ92D1fcxyhjJYnknH9GkHS
+              SwKd1KU6Kl9w4gBOrHgMbnQxypUsYV3fF0KuMMV2ZcLSJRvWMtObl1sBzv3iOhib
+              N0tnWf/CRkT6ZLTcu44S9WtFvHf92vtfKI201c3X5fhK12BdOdlF6OU3l2oHoPeQ
+              wwIDAQAB
+              -----END PUBLIC KEY-----
+      issuer: "https://c2id.com"
 
 
   logging:
@@ -57,6 +72,7 @@ easyms:
       enabled: false
 
 management.endpoints.web.exposure.include: "*"
+
 
 ---
 spring:
@@ -97,8 +113,10 @@ spring:
 
 azure:
   keyvault:
-    enabled: false
-    uri: https://yourvault.vault.azure.net/
-    client-id: yourvault-prinicpal
-    tenant-id: yourvault-tenant
-    client-key: yourvault-client-key
+    enabled: true
+    uri: https://kv-weu-poc-museng-001.vault.azure.net/
+    client-id: e257f7f6-791d-43f3-aaa3-0d7b121a8911
+    tenant-id: 9bc3d1cd-55ca-4e13-b5a2-a9e9deaeba3f
+    client-key: Rj5wOEykAEPWIjVU
+    token-acquire-timeout-seconds: 60
+    refresh-interval: 1800000

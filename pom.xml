@@ -131,6 +131,7 @@
                 </includes>
                 <excludes>
                     <exclude>**/*.jks</exclude>
+                    <exclude>**/*.pub</exclude>
                     <exclude>**/*assembly.xml</exclude>
                     <exclude>**/*access.xml</exclude>
                     <exclude>**/*.zip</exclude>
@@ -142,6 +143,7 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.jks</include>
+                    <include>**/*.pub</include>
                     <include>**/*assembly.xml</include>
                     <include>**/*access.xml</include>
                     <include>**/*.zip</include>
@@ -167,6 +169,7 @@
                 </includes>
                 <excludes>
                     <exclude>**/*.jks</exclude>
+                    <exclude>**/*.pub</exclude>
                 </excludes>
             </testResource>
             <testResource>
@@ -174,6 +177,7 @@
                 <directory>src/test/resources</directory>
                 <includes>
                     <include>**/*.jks</include>
+                    <include>**/*.pub</include>
                 </includes>
             </testResource>
         </testResources>

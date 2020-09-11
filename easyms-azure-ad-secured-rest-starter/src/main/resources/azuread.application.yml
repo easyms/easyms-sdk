@@ -20,6 +20,11 @@ easyms:
   secured:
     azuread :
       enabled: true
+      internaltoken:
+        enabled: ${easyms.azure.internalToken.enabled:false}
+        pubKeyPath : ${easyms.azure.internalToken.pubKeyPath:}
+        pubKeyValue : ${easyms.azure.internalToken.pubKeyValue:}
+        issuer : ${easyms.azure.internalToken.issuer}
 
 azure:
   activedirectory:
