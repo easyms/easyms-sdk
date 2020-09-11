@@ -114,9 +114,9 @@ spring:
 azure:
   keyvault:
     enabled: true
-    uri: https://kv-weu-poc-museng-001.vault.azure.net/
-    client-id: e257f7f6-791d-43f3-aaa3-0d7b121a8911
-    tenant-id: 9bc3d1cd-55ca-4e13-b5a2-a9e9deaeba3f
-    client-key: Rj5wOEykAEPWIjVU
+    uri: https://yourvault.vault.azure.net/
+    client-id: yourvault-prinicpal
+    tenant-id: yourvault-tenant
+    client-key: yourvault-client-key
     token-acquire-timeout-seconds: 60
     refresh-interval: 1800000
