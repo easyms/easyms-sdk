@@ -3,6 +3,7 @@ package com.easyms.security.azuread.autoconfigure;
 
 import com.easyms.rest.autoconfigure.EasyMsAutoConfiguration;
 import com.easyms.security.azuread.ms.config.EasymsAdUserPrincipalManager;
+import com.easyms.security.azuread.ms.config.InternalTokenProperties;
 import com.easyms.security.azuread.ms.filter.RoleAndAuthoritiesMappingProperties;
 import com.easyms.security.azuread.ms.filter.WithAuthoritiesAADAppRoleStatelessAuthenticationFilter;
 import com.microsoft.azure.spring.autoconfigure.aad.AADAppRoleStatelessAuthenticationFilter;
@@ -10,8 +11,10 @@ import com.microsoft.azure.spring.autoconfigure.aad.AADAuthenticationProperties;
 import com.microsoft.azure.spring.autoconfigure.aad.ServiceEndpointsProperties;
 import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipalManager;
 import com.nimbusds.jose.util.ResourceRetriever;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,6 +22,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 import static com.microsoft.azure.spring.autoconfigure.aad.AADAuthenticationFilterAutoConfiguration.PROPERTY_PREFIX;
 
@@ -29,10 +34,13 @@ import static com.microsoft.azure.spring.autoconfigure.aad.AADAuthenticationFilt
 @Slf4j
 @Configuration
 @ConditionalOnProperty(value = "easyms.secured.azuread.enabled", havingValue = "true")
-@EnableConfigurationProperties(RoleAndAuthoritiesMappingProperties.class)
+@EnableConfigurationProperties({RoleAndAuthoritiesMappingProperties.class, InternalTokenProperties.class})
 @ComponentScan("com.easyms.security.azuread.ms")
 @AutoConfigureBefore(EasyMsAutoConfiguration.class)
+@AllArgsConstructor
 public class EasyMsAzureAdSecuredAutoConfiguration {
+
+    private final InternalTokenProperties internalTokenProperties;
 
     @Bean
     @ConditionalOnMissingBean(AADAppRoleStatelessAuthenticationFilter.class)
@@ -53,6 +61,6 @@ public class EasyMsAzureAdSecuredAutoConfiguration {
         log.info("Creating UserPrincipalManager bean.");
         final boolean useExplicitAudienceCheck = true;
         return new EasymsAdUserPrincipalManager(serviceEndpointsProps, aadAuthProps,
-                resourceRetriever, useExplicitAudienceCheck);
+                resourceRetriever, useExplicitAudienceCheck, internalTokenProperties);
     }
 }
