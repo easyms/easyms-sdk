@@ -105,19 +105,4 @@ public class EasymsAdUserPrincipalManager extends UserPrincipalManager {
 
     }
 
-    private KeyPair getInternalkeyPair()  {
-
-        String jwtBearerKeystore = internalTokenProperties.getPubKeyPath();
-        try {
-            File secretsFolder = ResourceUtils.getFile(jwtBearerKeystore);
-            InputStream inputStream = new FileInputStream(secretsFolder);
-            KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new InputStreamResource(inputStream), PASSWORD);
-            return keyStoreKeyFactory.getKeyPair(ALIAS);
-        } catch (FileNotFoundException e) {
-            throw new IllegalStateException("Cannot found private key from keystore path " + jwtBearerKeystore, e);
-        }
-
-    }
-
-
 }
