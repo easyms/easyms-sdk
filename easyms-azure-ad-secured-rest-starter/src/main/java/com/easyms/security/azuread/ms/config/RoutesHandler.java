@@ -16,37 +16,7 @@ import java.util.stream.Collectors;
  */
 public interface RoutesHandler {
 
-    // Spring boot
-    String SPRING_BOOT_ACTUATOR = "/actuator/**";
-/*    String SPRING_BOOT_AUDIT_EVENTS = "/auditevents";
-    String SPRING_BOOT_AUTOCONFIG = "/autoconfig";
-    String SPRING_BOOT_BEANS = "/beans";
-    String SPRING_BOOT_CONFIGPROPS = "/configprops";
-    String SPRING_BOOT_DUMP = "/dump";
-    String SPRING_BOOT_ENV = "/env";
-    String SPRING_BOOT_HEALTH = "/health";
-    String SPRING_BOOT_INFO = "/info";
-    String SPRING_BOOT_LOGGERS = "/loggers";
-    String SPRING_BOOT_LOGGERS_ = "/loggers/**";
-    String SPRING_BOOT_METRICS = "/metrics";
-    String SPRING_BOOT_METRICS_ = "/metrics/**";
-    String SPRING_BOOT_MAPPINGS = "/mappings";
-    String SPRING_BOOT_TRACE = "/trace";
-    String SPRING_BOOT_JOLOKIA = "/jolokia";
-    String SPRING_BOOT_JOLOKIA_ = "/jolokia/**";
-    String SPRING_BOOT_LIQUIBASE = "/liquibase";
-    String SPRING_BOOT_FLYWAY = "/flyway";
-    String SPRING_BOOT_LOG = "/logfile";
-    String SPRING_BOOT_HEAP_DUMP = "/heapdump";
-    String SPRING_BOOT_DOCS = "/docs";
-    String SPRING_BOOT_ICON = "/icon.svg";
-    String SPRING_BOOT_DEPENDENCIES = "/dependencies";
-    String SPRING_BOOT_REGISTRY = "/service-registry";
-    String SPRING_BOOT_ARCHAIUS = "/archaius";
-    String SPRING_BOOT_FEATURES = "/features";
-    String SPRING_BOOT_PROXY_STREAM = "/proxy.stream";
-    String SPRING_BOOT_HYSTRIX_STREAM = "/hystrix.stream";
-    String SPRING_BOOT_HYSTRIX = "/hystrix/**";*/
+
     String H2_CONSOLE = "/h2-console/**";
 
     // Swagger
@@ -55,45 +25,17 @@ public interface RoutesHandler {
     String SWAGGER_DOCS = "/v2/api-docs/**";
     String SWAGGER_CONFIG = "/configuration/**";
     String SWAGGER_WEBJARS = "/webjars/**";
+    String FAVICON_ICO = "/favicon.ico";
 
     default String[] technicalEndPoints() {
         return new String[]{
-                SPRING_BOOT_ACTUATOR,
-//                SPRING_BOOT_AUDIT_EVENTS,
-//                SPRING_BOOT_AUTOCONFIG,
-//                SPRING_BOOT_BEANS,
-//                SPRING_BOOT_CONFIGPROPS,
-//                SPRING_BOOT_DUMP,
-//                SPRING_BOOT_ENV,
-//                SPRING_BOOT_HEALTH,
-//                SPRING_BOOT_INFO,
-//                SPRING_BOOT_LOGGERS,
-//                SPRING_BOOT_LOGGERS_,
-//                SPRING_BOOT_METRICS,
-//                SPRING_BOOT_METRICS_,
-//                SPRING_BOOT_MAPPINGS,
-//                SPRING_BOOT_TRACE,
-//                SPRING_BOOT_JOLOKIA,
-//                SPRING_BOOT_JOLOKIA_,
-//                SPRING_BOOT_LIQUIBASE,
-//                SPRING_BOOT_FLYWAY,
-//                SPRING_BOOT_LOG,
-//                SPRING_BOOT_HEAP_DUMP,
-//                SPRING_BOOT_DOCS,
-//                SPRING_BOOT_ICON,
-//                SPRING_BOOT_DEPENDENCIES,
-//                SPRING_BOOT_REGISTRY,
-//                SPRING_BOOT_ARCHAIUS,
-//                SPRING_BOOT_FEATURES,
                 SWAGGER_INDEX,
                 SWAGGER_RESOURCES,
                 SWAGGER_DOCS,
                 SWAGGER_CONFIG,
                 SWAGGER_WEBJARS,
-                /*SPRING_BOOT_HYSTRIX_STREAM,
-                SPRING_BOOT_PROXY_STREAM,
-                SPRING_BOOT_HYSTRIX,*/
                 H2_CONSOLE,
+                FAVICON_ICO,
                 "/csrf"
         };
     }

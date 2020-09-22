@@ -65,9 +65,13 @@ easyms:
   logging:
     logstash: # Forward logs to logstash over a socket, used by LoggingConfig
       enabled: false
+  security:
+    actuator:
+      password: easymsActuatorPass!
 
 management.endpoints.web.exposure.include: "*"
 
+#logging.level.org.springframework.security: DEBUG
 #logging.level.org.springframework.boot.autoconfigure: TRACE
 
 ---
