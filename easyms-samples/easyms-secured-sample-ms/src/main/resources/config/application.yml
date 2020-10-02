@@ -34,6 +34,10 @@ spring:
           metadata:
             enable-oauth2: true
 
+  security:
+    actuator:
+      password: easymsActuatorPass!
+
 security:
   oauth2:
     resource:
@@ -105,3 +109,17 @@ spring.profiles.include:
   - h2
 
 liquibase.contexts: testData
+
+---
+spring:
+  profiles: azure-vault
+
+azure:
+  keyvault:
+    enabled: false
+    uri: https://yourvault.vault.azure.net/
+    client-id: yourvault-prinicpal
+    tenant-id: yourvault-tenant
+    client-key: yourvault-client-key
+    token-acquire-timeout-seconds: 60
+    refresh-interval: 1800000
