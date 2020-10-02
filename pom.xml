@@ -847,6 +847,7 @@
                             <exclude>**/*assembly.xml</exclude>
                             <exclude>**/*access.xml</exclude>
                             <exclude>**/*.zip</exclude>
+                            <exclude>**/*.jks</exclude>
                             <exclude>**/*.gz</exclude>
                             <exclude>**/*.docx</exclude>
                         </excludes>
@@ -858,25 +859,13 @@
                             <include>**/*assembly.xml</include>
                             <include>**/*access.xml</include>
                             <include>**/*.zip</include>
+                            <include>**/*.jks</include>
                             <include>**/*.gz</include>
                             <include>**/*.docx</include>
                         </includes>
                     </resource>
                     <resource>
                         <directory>${project.build.directory}/generated-resources</directory>
-                    </resource>
-                    <!-- copying resources that will be in config -->
-                    <resource>
-                        <targetPath>${project.build.directory}/config</targetPath>
-                        <filtering>true</filtering>
-                        <directory>src/main/distrib/config</directory>
-                        <excludes>
-                            <exclude>**/*assembly.xml</exclude>
-                            <exclude>**/*access.xml</exclude>
-                            <exclude>**/*.zip</exclude>
-                            <exclude>**/*.gz</exclude>
-                            <exclude>**/*.docx</exclude>
-                        </excludes>
                     </resource>
                 </resources>
                 <testResources>
@@ -885,7 +874,27 @@
                     </testResource>
                     <testResource>
                         <filtering>true</filtering>
-                        <directory>src/main/distrib/config</directory>
+                        <directory>src/test/resources</directory>
+                        <excludes>
+                            <exclude>**/*assembly.xml</exclude>
+                            <exclude>**/*access.xml</exclude>
+                            <exclude>**/*.zip</exclude>
+                            <exclude>**/*.jks</exclude>
+                            <exclude>**/*.gz</exclude>
+                            <exclude>**/*.docx</exclude>
+                        </excludes>
+                    </testResource>
+                    <testResource>
+                        <filtering>false</filtering>
+                        <directory>src/test/resources</directory>
+                        <includes>
+                            <include>**/*assembly.xml</include>
+                            <include>**/*access.xml</include>
+                            <include>**/*.zip</include>
+                            <include>**/*.jks</include>
+                            <include>**/*.gz</include>
+                            <include>**/*.docx</include>
+                        </includes>
                     </testResource>
                 </testResources>
 
