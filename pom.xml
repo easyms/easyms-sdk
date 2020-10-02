@@ -136,6 +136,7 @@
                     <exclude>**/*access.xml</exclude>
                     <exclude>**/*.zip</exclude>
                     <exclude>**/*.gz</exclude>
+                    <exclude>**/*.docx</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -148,6 +149,7 @@
                     <include>**/*access.xml</include>
                     <include>**/*.zip</include>
                     <include>**/*.gz</include>
+                    <include>**/*.docx</include>
                 </includes>
             </resource>
             <resource>
@@ -170,6 +172,7 @@
                 <excludes>
                     <exclude>**/*.jks</exclude>
                     <exclude>**/*.pub</exclude>
+                    <exclude>**/*.docx</exclude>
                 </excludes>
             </testResource>
             <testResource>
@@ -178,6 +181,7 @@
                 <includes>
                     <include>**/*.jks</include>
                     <include>**/*.pub</include>
+                    <include>**/*.docx</include>
                 </includes>
             </testResource>
         </testResources>
@@ -844,6 +848,7 @@
                             <exclude>**/*access.xml</exclude>
                             <exclude>**/*.zip</exclude>
                             <exclude>**/*.gz</exclude>
+                            <exclude>**/*.docx</exclude>
                         </excludes>
                     </resource>
                     <resource>
@@ -854,6 +859,7 @@
                             <include>**/*access.xml</include>
                             <include>**/*.zip</include>
                             <include>**/*.gz</include>
+                            <include>**/*.docx</include>
                         </includes>
                     </resource>
                     <resource>
@@ -869,6 +875,7 @@
                             <exclude>**/*access.xml</exclude>
                             <exclude>**/*.zip</exclude>
                             <exclude>**/*.gz</exclude>
+                            <exclude>**/*.docx</exclude>
                         </excludes>
                     </resource>
                 </resources>
