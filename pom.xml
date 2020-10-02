@@ -28,7 +28,7 @@
         <module>easyms-basic-starter</module>
         <module>easyms-test</module>
         <module>easyms-azure-test</module>
-        <module>easyms-azure-ad-secured-rest-starter</module>
+        <module>easyms-azure</module>
         <module>easyms-samples</module>
         <module>easyms-logging-starter</module>
 
@@ -590,6 +590,12 @@
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-azure-ad-secured-rest-starter</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.easyms</groupId>
+                <artifactId>easyms-azure-keyvault-starter</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
 

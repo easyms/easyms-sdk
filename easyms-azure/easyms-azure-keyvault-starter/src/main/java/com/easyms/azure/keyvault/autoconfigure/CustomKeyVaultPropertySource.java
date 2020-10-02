@@ -1,5 +1,5 @@
 
-package com.easyms.security.azuread.autoconfigure.keyvault;
+package com.easyms.azure.keyvault.autoconfigure;
 
 import com.microsoft.azure.keyvault.spring.KeyVaultOperation;
 import org.springframework.core.env.EnumerablePropertySource;
