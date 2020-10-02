@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.easyms.security.azuread.autoconfigure.keyvault;
+package com.easyms.azure.keyvault.autoconfigure;
 
 import com.azure.core.credential.TokenCredential;
 import com.azure.identity.ClientCertificateCredentialBuilder;

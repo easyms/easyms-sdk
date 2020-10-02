@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.easyms.security.azuread.autoconfigure.keyvault;
+package com.easyms.azure.keyvault.autoconfigure;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
