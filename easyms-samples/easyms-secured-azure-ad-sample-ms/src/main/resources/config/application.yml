@@ -13,7 +13,6 @@ spring:
   application:
     id: @app.id@
     name: @app.id@
-className: @mainClassName@
 #  jpa:
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
 #  datasource:
