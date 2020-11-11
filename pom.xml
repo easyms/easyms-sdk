@@ -108,6 +108,7 @@
         <source.application.config.dir>src/main/resources</source.application.config.dir>
         <assembly.commons.dir>${project.build.directory}/commons</assembly.commons.dir>
         <bin.dir>${basedir}/target/classes/bin</bin.dir>
+        <certsPath>/var/certificates</certsPath>
     </properties>
 
 
@@ -551,9 +552,10 @@
 
                         <container>
                             <entrypoint>
-                                <entry>tail</entry>
-                                <entry>-f</entry>
-                                <entry>/dev/null</entry>
+                                <entry>/app/bin/entrypoint.sh</entry>
+<!--                                <entry>tail</entry>-->
+<!--                                <entry>-f</entry>-->
+<!--                                <entry>/dev/null</entry>-->
                             </entrypoint>
                             <workingDirectory>/app/work</workingDirectory>
                         </container>
@@ -950,6 +952,10 @@
                             <exclude>**/*.jks</exclude>
                             <exclude>**/*.gz</exclude>
                             <exclude>**/*.docx</exclude>
+                            <exclude>**/*.cer</exclude>
+                            <exclude>**/*.crt</exclude>
+                            <exclude>**/*.der</exclude>
+                            <exclude>**/*.pem</exclude>
                         </excludes>
                     </resource>
                     <resource>
@@ -962,6 +968,10 @@
                             <include>**/*.jks</include>
                             <include>**/*.gz</include>
                             <include>**/*.docx</include>
+                            <include>**/*.cer</include>
+                            <include>**/*.crt</include>
+                            <include>**/*.der</include>
+                            <include>**/*.pem</include>
                         </includes>
                     </resource>
                     <resource>
