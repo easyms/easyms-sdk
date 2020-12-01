@@ -11,8 +11,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <jacoco.easyms.instr.coverage>0.33</jacoco.easyms.instr.coverage>
-        <jacoco.easyms.branch.coverage>0.06</jacoco.easyms.branch.coverage>
+        <jacoco.easyms.instr.coverage>0.32</jacoco.easyms.instr.coverage>
+        <jacoco.easyms.branch.coverage>0.02</jacoco.easyms.branch.coverage>
         <jacoco.easyms.class.missed>1</jacoco.easyms.class.missed>
     </properties>
 
