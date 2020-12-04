@@ -86,7 +86,7 @@
             <root level="INFO">
                 <appender-ref ref="LOGSTASH_APPENDER"/>
             </root>
-            <logger name="custom-business-events" additivity="false" level="info">
+            <logger name="custom-business-events" additivity="false" level="INFO">
                 <appender-ref ref="LOGSTASH_APPENDER"/>
             </logger>
         </then>
