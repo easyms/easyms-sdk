@@ -1,0 +1,43 @@
+
+spring:
+  cloud:
+    stream:
+      default:
+        destination: easyms-exchange
+        content-type: application/json
+        consumer:
+          autoBindDlq: true
+          bindQueue: true
+
+
+---
+spring:
+  profiles: rabbit
+  rabbitmq:
+    host: localhost
+    port: 3600
+    username: myuser
+    password: password
+#    virtual-host: easyms-vhost
+#    dynamic: true
+#    ssl:
+#      enabled: false
+    publisher-confirms: true
+    publisher-returns: true
+
+  cloud:
+    stream:
+      rabbit:
+        default:
+          producer:
+            routing-key-expression: headers['routeTo']
+            delivery-mode: PERSISTENT
+            confirmAckChannel: confirmChannel
+          consumer:
+            autoBindDlq: false
+        bindings:
+          confirmChannel:
+            group: publisher-confirm-queue
+            consumer:
+              concurrency: 10
+
