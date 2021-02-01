@@ -1,0 +1,43 @@
+
+spring:
+  cloud:
+    stream:
+      default:
+        destination: easyms-exchange
+        content-type: application/json
+      bindings:
+        publishingChannel:
+          producer:
+            error-channel-enabled: true
+
+
+
+---
+spring:
+  profiles: rabbit
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+#    virtual-host: easyms-vhost
+#    dynamic: true
+#    ssl:
+#      enabled: false
+    publisher-confirms: true
+    publisher-returns: true
+
+  cloud:
+    stream:
+      rabbit:
+        default:
+          producer:
+            routing-key-expression: headers['routeTo']
+            delivery-mode: PERSISTENT
+            confirmAckChannel: acks
+          consumer:
+            deadLetterExchange: exchange.dlx
+            autoBindDlq: true
+            republishToDlq: true
+
+

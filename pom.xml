@@ -32,6 +32,7 @@
         <module>easyms-samples</module>
         <module>easyms-logging-starter</module>
         <module>main-class-extrator-plugin</module>
+        <module>easyms-messaging</module>
 
     </modules>
 
@@ -661,6 +662,11 @@
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-basic-starter</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.easyms</groupId>
+                <artifactId>easyms-messaging</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
