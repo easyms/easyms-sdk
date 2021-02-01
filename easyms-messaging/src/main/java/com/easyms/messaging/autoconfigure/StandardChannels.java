@@ -10,7 +10,4 @@ public interface StandardChannels {
 
     @Output("publishingChannel")
     MessageChannel publishingChannel();
-
-    @Input("confirmChannel")
-    SubscribableChannel confirmChannel();
 }
