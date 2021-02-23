@@ -70,13 +70,14 @@ public class ClientResource {
         log.info("get client by id {}", id);
         Optional<Client> client = clientService.getById(id);
 
-        DummyMessage dummyMessage = DummyMessage.builder()
+        /*DummyMessage dummyMessage = DummyMessage.builder()
                 .title("this is a title")
                 .description("this is the description")
                 .metadata("this is metadata").build();
 
         //we send a message with the correct routing herder that will be used for inputChannel binding.
         sendMessage(dummyMessage);
+         */
         return client.map(clientDto -> ResponseEntity.ok().body(clientDto)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
