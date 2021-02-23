@@ -10,6 +10,8 @@ import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jose.util.ResourceRetriever;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTParser;
 import com.nimbusds.jwt.SignedJWT;
 import com.nimbusds.jwt.proc.BadJWTException;
 import org.bouncycastle.util.io.pem.PemReader;
@@ -43,10 +45,24 @@ public class EasymsAdUserPrincipalManager extends UserPrincipalManager {
                                         boolean explicitAudienceCheck, InternalTokenProperties internalTokenProperties) {
         super(serviceEndpointsProps, aadAuthProps, resourceRetriever, explicitAudienceCheck);
         this.internalTokenProperties = internalTokenProperties;
-        if(internalTokenProperties.isEnabled()) {
+        if (internalTokenProperties.isEnabled()) {
             jwsVerifier = new RSASSAVerifier(getInternalPubKey());
         }
 
+    }
+
+    @Override
+    public boolean isTokenIssuedByAAD(String token) {
+        return super.isTokenIssuedByAAD(token) || isInternallyValidatedIdToken(token);
+
+    }
+
+    private boolean isInternallyValidatedIdToken(String token) {
+        try {
+            return tryToBuildUserPrincipalFromInternallyValidatedIdToken(token).isPresent();
+        } catch (ParseException | JOSEException | BadJWTException e) {
+            return false;
+        }
     }
 
     @Override
@@ -56,7 +72,7 @@ public class EasymsAdUserPrincipalManager extends UserPrincipalManager {
         //We don't use OrElseGet here because we don't want to loose initial Exceptions BadJWTException, ...,
         //since Lambda can only throw RuntimeException
         UserPrincipal userPrincipal;
-        if(userPrincipalOptional.isEmpty()) {
+        if (userPrincipalOptional.isEmpty()) {
             userPrincipal = super.buildUserPrincipal(idToken);
         } else {
             userPrincipal = userPrincipalOptional.get();
@@ -81,15 +97,15 @@ public class EasymsAdUserPrincipalManager extends UserPrincipalManager {
         return Optional.empty();
     }
 
-    private RSAPublicKey getInternalPubKey()  {
+    private RSAPublicKey getInternalPubKey() {
 
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
             Reader pubKeyReader;
-            if(! StringUtils.isEmpty(internalTokenProperties.getPubKeyPath())) {
+            if (!StringUtils.isEmpty(internalTokenProperties.getPubKeyPath())) {
                 File secretsFolder = ResourceUtils.getFile(internalTokenProperties.getPubKeyPath());
                 pubKeyReader = new InputStreamReader(new FileInputStream(secretsFolder));
-            } else if(! StringUtils.isEmpty(internalTokenProperties.getPubKeyValue())) {
+            } else if (!StringUtils.isEmpty(internalTokenProperties.getPubKeyValue())) {
                 pubKeyReader = new StringReader(internalTokenProperties.getPubKeyValue());
             } else {
                 throw new IllegalStateException("Either pubKey path or pubKey value should be provided");
@@ -97,7 +113,7 @@ public class EasymsAdUserPrincipalManager extends UserPrincipalManager {
 
 
             byte[] publicKeyBytes = new PemReader(pubKeyReader).readPemObject().getContent();
-            return  (RSAPublicKey) kf.generatePublic(new X509EncodedKeySpec(publicKeyBytes));
+            return (RSAPublicKey) kf.generatePublic(new X509EncodedKeySpec(publicKeyBytes));
 
         } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
             throw new RuntimeException("Unable to load Internal PubKey", e);
