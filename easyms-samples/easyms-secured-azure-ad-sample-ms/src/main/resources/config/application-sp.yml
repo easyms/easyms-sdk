@@ -1,0 +1,44 @@
+spring:
+  cloud:
+    azure:
+#      client-id: [service-principal-id]
+#      client-secret: [service-principal-secret]
+#      tenant-id: [tenant-id]
+#      resource-group: [resource-group]
+      credential-file-path: classpath:service-bus.json
+      resource-group: rg-talenteo-001
+
+#     Uncomment below configurations if you want to enable auto creating resources.
+#
+#      subscription-id: [subscription-id]
+#      auto-create-resources: true
+#      environment: Azure
+#      region: [region]
+
+      servicebus:
+        namespace: talenteo2
+    stream:
+      #            defaultBinder: rabbit
+      defaultBinder: servicebus-topic
+      bindings:
+        consume-in-0:
+          destination: mytopic
+          group: newsubscription
+        consumeNew-in-0:
+          destination: mynewtopic
+          group: mynewsub
+        supply-out-0:
+          destination: mytopic
+        supply2-out-0:
+          destination: mynewtopic
+      #            servicebus:
+      #                topic:
+      #                    bindings:
+      #                        consume-in-0:
+      #                            consumer:
+      #                                checkpoint-mode: MANUAL
+      function:
+        definition: consume;supply;supply2;consumeNew
+      poller:
+        fixed-delay: 1000
+        initial-delay: 0
