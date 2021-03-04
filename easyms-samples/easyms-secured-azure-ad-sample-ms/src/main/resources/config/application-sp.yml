@@ -5,15 +5,15 @@ spring:
 #      client-secret: [service-principal-secret]
 #      tenant-id: [tenant-id]
 #      resource-group: [resource-group]
-      credential-file-path: classpath:service-bus.json
+      credential-file-path: classpath:config/service-bus.json
       resource-group: rg-talenteo-001
 
 #     Uncomment below configurations if you want to enable auto creating resources.
 #
 #      subscription-id: [subscription-id]
-#      auto-create-resources: true
+      auto-create-resources: true
 #      environment: Azure
-#      region: [region]
+      region: southcentralus
 
       servicebus:
         namespace: talenteo2
@@ -31,6 +31,14 @@ spring:
           destination: mytopic
         supply2-out-0:
           destination: mynewtopic
+      servicebus:
+        topic:
+          bindings:
+            consume-in-0:
+              consumer:
+                requeueRejected: true
+#          bindings:
+
       #            servicebus:
       #                topic:
       #                    bindings:

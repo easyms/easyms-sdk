@@ -4,3 +4,6 @@ spring:
     admin:
       client:
         enabled: false
+        spring:
+  zipkin:
+    enabled: false

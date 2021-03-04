@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.spring.sample.servicebus.topic.binder;
+package com.easyms.sampleapp.servicebus;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 @Profile("manual")
 public class ManualServiceProducerConfiguration {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceBusTopicBinderApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceConsumerConfiguration.class);
 
     @Bean
     public EmitterProcessor<Message<String>> emitter() {
