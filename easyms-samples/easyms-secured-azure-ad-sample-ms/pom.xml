@@ -11,14 +11,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <jacoco.easyms.instr.coverage>0.32</jacoco.easyms.instr.coverage>
+        <jacoco.easyms.instr.coverage>0.30</jacoco.easyms.instr.coverage>
         <jacoco.easyms.branch.coverage>0.02</jacoco.easyms.branch.coverage>
-        <jacoco.easyms.class.missed>1</jacoco.easyms.class.missed>
+        <jacoco.easyms.class.missed>2</jacoco.easyms.class.missed>
     </properties>
 
     <artifactId>easyms-secured-azure-ad-sample-ms</artifactId>
     <packaging>jar</packaging>
     <dependencies>
+        <dependency>
+            <groupId>com.azure.spring</groupId>
+            <artifactId>azure-spring-cloud-stream-binder-servicebus-topic</artifactId>
+            <version>2.0.0-beta.1</version> <!-- {x-version-update;com.azure.spring:azure-spring-cloud-stream-binder-servicebus-topic;current} -->
+        </dependency>
         <dependency>
             <groupId>com.easyms</groupId>
             <artifactId>easyms-azure-ad-secured-rest-starter</artifactId>

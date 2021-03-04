@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.spring.sample.servicebus.topic.binder;
+package com.easyms.sampleapp.servicebus;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import reactor.core.publisher.EmitterProcessor;
 @Profile("manual")
 public class ServiceProducerController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceBusTopicBinderApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceConsumerConfiguration.class);
 
     @Autowired
     @Qualifier("emitter")
@@ -31,7 +31,7 @@ public class ServiceProducerController {
     @Qualifier("emitter2")
     private EmitterProcessor<Message<String>> emitterProcessor2;
 
-    @PostMapping("/messages")
+    @PostMapping("/api/messages")
     public ResponseEntity<String> sendMessage(@RequestParam String message) {
         LOGGER.info("Going to add message {} to emitter", message);
         emitterProcessor.onNext(MessageBuilder.withPayload(message).build());
