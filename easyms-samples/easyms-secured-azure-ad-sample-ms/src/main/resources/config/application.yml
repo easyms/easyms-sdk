@@ -83,6 +83,17 @@ spring:
 
 liquibase.contexts: data
 
+---
+spring:
+  profiles: local
+easyms:
+  azure:
+    activedirectory:
+      tenant: ${easyms.sampleazure.tenant}
+      clientId: ${easyms.sampleazure.aad.clientId}
+      appIdUri: ${easyms.sampleazure.aad.appIdUri}
+      swaggerclientId: ${easyms.sampleazure.aad.swaggerclientId}
+      swaggerscopes: {easyms.sampleazure.aad.swaggerscopes}
 
 ---
 spring:
@@ -116,10 +127,16 @@ spring:
 
 azure:
   keyvault:
-    enabled: false
-    uri: https://yourvault.vault.azure.net/
-    client-id: yourvault-prinicpal
-    tenant-id: yourvault-tenant
-    client-key: yourvault-client-key
+    enabled: true
+    uri: ${easyms.sampleazure.kv.uri}
+    client-id: ${easyms.sampleazure.kv.client-id}
+    tenant-id: ${easyms.sampleazure.tenant}
+    client-key: ${easyms.sampleazure.kv.client-key}
     token-acquire-timeout-seconds: 60
     refresh-interval: 1800000
+
+easyms.spring.cloud.azure.servicebus.credentials.file:
+  clientId: ${kvsecret-azurebus-sp}
+  clientSecret: ${kvsecret-azurebus-secret}
+  subscriptionId: ${kvkvsecret-azurebus-subscription}
+

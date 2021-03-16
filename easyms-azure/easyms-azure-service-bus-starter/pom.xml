@@ -9,12 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>easyms-azure-keyvault-starter</artifactId>
+    <artifactId>easyms-azure-service-bus-starter</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-keyvault-secrets-spring-boot-starter</artifactId>
+            <groupId>com.azure.spring</groupId>
+            <artifactId>azure-spring-cloud-stream-binder-servicebus-topic</artifactId>
+            <version>2.0.0-beta.1</version>
         </dependency>
 
     </dependencies>
