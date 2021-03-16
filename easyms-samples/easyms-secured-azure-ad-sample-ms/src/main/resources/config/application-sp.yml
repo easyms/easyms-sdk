@@ -1,24 +1,24 @@
+easyms.spring.cloud.azure.servicebus.credentials.file:
+  tenantId: ${easyms.sampleazure.tenantId}
+  clientId: ${easyms.sampleazure.servicebus.clientId}
+  clientSecret: ${easyms.sampleazure.servicebus.clientSecret}
+  subscriptionId: ${easyms.sampleazure.servicebus.subscriptionId}
+  activeDirectoryEndpointUrl: "https://login.microsoftonline.com"
+  resourceManagerEndpointUrl: "https://management.azure.com/"
+  activeDirectoryGraphResourceId: "https://graph.windows.net/"
+  sqlManagementEndpointUrl: "https://management.core.windows.net:8443/"
+  galleryEndpointUrl: "https://gallery.azure.com/"
+  managementEndpointUrl: "https://management.core.windows.net/"
+
 spring:
   cloud:
     azure:
-#      client-id: [service-principal-id]
-#      client-secret: [service-principal-secret]
-#      tenant-id: [tenant-id]
-#      resource-group: [resource-group]
-      credential-file-path: classpath:config/service-bus.json
-      resource-group: rg-talenteo-001
-
-#     Uncomment below configurations if you want to enable auto creating resources.
-#
-#      subscription-id: [subscription-id]
+      resource-group: ${easyms.sampleazure.servicebus.resourcegroup}
       auto-create-resources: true
-#      environment: Azure
-      region: southcentralus
-
+      region: ${easyms.sampleazure.region}
       servicebus:
-        namespace: talenteo2
+        namespace: ${easyms.sampleazure.servicebus.namespace}
     stream:
-      #            defaultBinder: rabbit
       defaultBinder: servicebus-topic
       bindings:
         consume-in-0:
@@ -37,14 +37,6 @@ spring:
             consume-in-0:
               consumer:
                 requeueRejected: true
-#          bindings:
-
-      #            servicebus:
-      #                topic:
-      #                    bindings:
-      #                        consume-in-0:
-      #                            consumer:
-      #                                checkpoint-mode: MANUAL
       function:
         definition: consume;supply;supply2;consumeNew
       poller:

@@ -20,10 +20,10 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-cloud-stream-binder-servicebus-topic</artifactId>
-            <version>2.0.0-beta.1</version> <!-- {x-version-update;com.azure.spring:azure-spring-cloud-stream-binder-servicebus-topic;current} -->
+            <groupId>com.easyms</groupId>
+            <artifactId>easyms-azure-service-bus-starter</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.easyms</groupId>
             <artifactId>easyms-azure-ad-secured-rest-starter</artifactId>

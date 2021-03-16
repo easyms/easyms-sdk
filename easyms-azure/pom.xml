@@ -14,7 +14,7 @@
 
     <modules>
         <module>easyms-azure-ad-secured-rest-starter</module>
-        <module>easyms-azure-keyvault-starter</module>
+        <module>easyms-azure-service-bus-starter</module>
     </modules>
 
     <dependencyManagement>

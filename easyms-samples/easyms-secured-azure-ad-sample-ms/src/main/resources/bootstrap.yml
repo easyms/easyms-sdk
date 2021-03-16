@@ -1,11 +1,11 @@
 spring:
   cloud:
     config:
-      uri: ${sampleapp.spring.cloud.config.uri}
+      uri: http://localhost:2001
 
 ---
 spring:
   profiles: local
   cloud:
     config:
-      uri: http://localhost:2001
+      enabled: false
