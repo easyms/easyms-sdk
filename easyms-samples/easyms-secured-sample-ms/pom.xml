@@ -21,10 +21,6 @@
     <dependencies>
         <dependency>
             <groupId>com.easyms</groupId>
-            <artifactId>easyms-azure-keyvault-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.easyms</groupId>
             <artifactId>easyms-secured-rest-starter</artifactId>
         </dependency>
         <dependency>
