@@ -9,7 +9,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author abessa
  */
 @Configuration
-@EnableSwagger2
 @AllArgsConstructor
 public class SwaggerConfig {
 }
