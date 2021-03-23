@@ -2,8 +2,8 @@ package com.easyms.azure.servicebus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Files;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
@@ -15,15 +15,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ServiceBusConfigPostProcessor implements EnvironmentPostProcessor, Ordered {
+public class ServiceBusContextInitializer implements
+        ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
 
-    public static String AZURE_CREDENTIALS_FILE = "easyms.spring.cloud.azure.servicebus.credentials.file";
     public static int order = Integer.MAX_VALUE;
+    public static String AZURE_CREDENTIALS_FILE = "easyms.spring.cloud.azure.servicebus.credentials.file";
 
     @Override
-    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-
-        ServiceBusCredentials serviceBusCredentials = loadServiceBusCredentials(AZURE_CREDENTIALS_FILE, environment);
+    public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+        ConfigurableEnvironment environment = configurableApplicationContext.getEnvironment();
+        ServiceBusCredentials serviceBusCredentials = loadServiceBusCredentials(AZURE_CREDENTIALS_FILE,
+                environment);
         String onFlightProperties = "onFlightAzureBusProperties";
         if (isNotYetInitializedAzureBusProperties(environment, onFlightProperties) &&
                 serviceBusCredentials.getClientId() != null && serviceBusCredentials.getClientSecret() != null) {
@@ -49,6 +51,7 @@ public class ServiceBusConfigPostProcessor implements EnvironmentPostProcessor, 
                 throw new RuntimeException("Execption while creaing temp azure credential file", e);
             }
         }
+
     }
 
     private boolean isNotYetInitializedAzureBusProperties(ConfigurableEnvironment environment, String onFlightProperties) {

@@ -1,2 +1,2 @@
-org.springframework.boot.env.EnvironmentPostProcessor=\
-  com.easyms.azure.servicebus.ServiceBusConfigPostProcessor
+org.springframework.context.ApplicationContextInitializer=\
+  com.easyms.azure.servicebus.ServiceBusContextInitializer
