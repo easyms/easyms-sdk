@@ -21,10 +21,7 @@
             <groupId>com.easyms</groupId>
             <artifactId>easyms-logging-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.easyms</groupId>
-            <artifactId>easyms-messaging</artifactId>
-        </dependency>
+
     </dependencies>
 
 
