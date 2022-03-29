@@ -41,27 +41,4 @@ public class EasyMsAzureAdSecuredAutoConfiguration {
     private final InternalTokenProperties internalTokenProperties;
     private final AADResourceServerConfiguration aadResourceServerConfiguration;
 
-
-
-//    @Bean
-//    @ConditionalOnMissingBean(AADAppRoleStatelessAuthenticationFilter.class)
-//    @ConditionalOnProperty(prefix = PROPERTY_PREFIX, value = "session-stateless", havingValue = "true")
-//    public WithAuthoritiesAADAppRoleStatelessAuthenticationFilter customAzureADStatelessAuthFilter(UserPrincipalManager userPrincipalManager,
-//                                                                                                   RoleAndAuthoritiesMappingProperties roleAndAuthoritiesMappingProperties) {
-//        log.info("Creating WithAuthoritiesAADAppRoleStatelessAuthenticationFilter bean.");
-//        final boolean useExplicitAudienceCheck = true;
-//        return new WithAuthoritiesAADAppRoleStatelessAuthenticationFilter(userPrincipalManager, roleAndAuthoritiesMappingProperties);
-//    }
-//
-//    @Bean
-//    @ConditionalOnMissingBean(UserPrincipalManager.class)
-//    @ConditionalOnProperty(prefix = PROPERTY_PREFIX, value = "session-stateless", havingValue = "true")
-//    public UserPrincipalManager provideUserPrincipalManager(ResourceRetriever resourceRetriever,
-//                                                            AADAuthorizationServerEndpoints aadAuthorizationServerEndpoints,
-//                                                            AADAuthenticationProperties aadAuthProps) {
-//        log.info("Creating UserPrincipalManager bean.");
-//        final boolean useExplicitAudienceCheck = true;
-//        return new EasymsAdUserPrincipalManager(aadAuthorizationServerEndpoints, aadAuthProps,
-//                resourceRetriever, useExplicitAudienceCheck, internalTokenProperties);
-//    }
 }
