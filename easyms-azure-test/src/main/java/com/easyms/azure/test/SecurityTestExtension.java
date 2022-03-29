@@ -1,8 +1,7 @@
 package com.easyms.azure.test;
 
-import com.google.common.collect.Lists;
-import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipal;
-import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipalManager;
+import com.azure.spring.autoconfigure.aad.UserPrincipal;
+import com.azure.spring.autoconfigure.aad.UserPrincipalManager;
 import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -36,7 +35,6 @@ public class SecurityTestExtension implements BeforeEachCallback {
         when(userPrincipalManager.buildUserPrincipal(Mockito.any())).thenReturn(userPrincipal);
 
     }
-
 
 
     public JSONArray getRolesAndAuthorities(List<String> authorities, List<String> roles) {

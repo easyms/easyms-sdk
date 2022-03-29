@@ -7,6 +7,7 @@ import feign.RequestTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -29,8 +30,8 @@ public class FeignInterceptor implements RequestInterceptor {
     }
 
     private String generateToken(Authentication auth) {
-        EasymsAdUserPrincipal principal = (EasymsAdUserPrincipal) auth.getPrincipal();
-        return Objects.nonNull(principal) ? principal.getToken() : null;
+        BearerTokenAuthentication bearerTokenAuthentication = (BearerTokenAuthentication) auth;
+        return bearerTokenAuthentication.getToken().getTokenValue();
     }
 
 }

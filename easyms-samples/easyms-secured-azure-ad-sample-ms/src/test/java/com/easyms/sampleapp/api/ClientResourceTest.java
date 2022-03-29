@@ -19,7 +19,7 @@ public class ClientResourceTest extends AbstractResourceTest {
     @Test
     @WithMockUser(username="jean.dupont@toto.com",authorities={"PERM_READ_CLIENT_NO"})
     public void should_return_forbidden_when_not_permitted() throws Exception {
-        mockMvc.perform(get(API_HR_ID, "1").with(bearerToken())
+        mockMvc.perform(get(API_HR_ID, "1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
@@ -29,7 +29,7 @@ public class ClientResourceTest extends AbstractResourceTest {
     @Test
     @WithMockUser(username="jean.dupont@toto.com",authorities={"PERM_READ_CLIENT"})
     public void should_return_client_when_client_exists() throws Exception {
-        mockMvc.perform(get(API_HR_ID, "1").with(bearerToken())
+        mockMvc.perform(get(API_HR_ID, "1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -37,7 +37,7 @@ public class ClientResourceTest extends AbstractResourceTest {
     @Test
     @WithMockUser(username="jean.dupont@toto.com",authorities={"PERM_READ_CLIENT"})
     public void should_return_notfound_when_client_not_exists() throws Exception {
-        mockMvc.perform(get(API_HR_ID, "2").with(bearerToken())
+        mockMvc.perform(get(API_HR_ID, "2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

@@ -1,3 +1,15 @@
+profiles:
+  group:
+    test:
+      - dev
+      - local
+      - sample
+      - h2
+      - base-test
+      - azure-vault
+
+---
+
 server:
   port: 8092
 
@@ -13,7 +25,14 @@ spring:
   application:
     id: @app.id@
     name: @app.id@
-#  jpa:
+  cloud:
+    config:
+      import-check:
+        enabled: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  #  jpa:
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
 #  datasource:
 #    url: ${datasource.url}
@@ -44,6 +63,9 @@ easyms:
           - SUPER_ADMIN_CLIENT
       rolesToAuthorities:
         ADMIN_CLIENT:
+          - PERM_MODIFY_CLIENT
+          - PERM_READ_CLIENT
+        BusinessManager:
           - PERM_MODIFY_CLIENT
           - PERM_READ_CLIENT
         SUPER_ADMIN_CLIENT:
@@ -79,25 +101,32 @@ management.endpoints.web.exposure.include: "*"
 
 ---
 spring:
-  profiles: sample
+  config:
+    activate:
+      on-profile: sample
 
 liquibase.contexts: data
 
 ---
 spring:
-  profiles: local
+  config:
+    activate:
+      on-profile: local
+
 easyms:
   azure:
     activedirectory:
-      tenant: ${easyms.sampleazure.tenant}
+      tenant: ${easyms.sampleazure.aad.tenant}
       clientId: ${easyms.sampleazure.aad.clientId}
       appIdUri: ${easyms.sampleazure.aad.appIdUri}
       swaggerclientId: ${easyms.sampleazure.aad.swaggerclientId}
-      swaggerscopes: {easyms.sampleazure.aad.swaggerscopes}
+      swaggerscopes: ${easyms.sampleazure.aad.swaggerscopes}
 
 ---
 spring:
-  profiles: h2
+  config:
+    activate:
+      on-profile: h2
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
   datasource:
@@ -111,19 +140,20 @@ spring:
 
 ---
 spring:
-  profiles: test
+  config:
+    activate:
+      on-profile: base-test
   jpa:
     hibernate.ddl-auto: none
   h2.console.enabled: false
-
-spring.profiles.include:
-  - h2
 
 liquibase.contexts: testData
 
 ---
 spring:
-  profiles: azure-vault
+  config:
+    activate:
+      on-profile: azure-vault
 
 azure:
   keyvault:
