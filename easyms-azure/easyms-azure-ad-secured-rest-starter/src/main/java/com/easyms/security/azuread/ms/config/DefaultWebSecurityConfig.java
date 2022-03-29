@@ -5,30 +5,42 @@
  */
 package com.easyms.security.azuread.ms.config;
 
-import com.microsoft.azure.spring.autoconfigure.aad.AADAppRoleStatelessAuthenticationFilter;
+import com.azure.spring.aad.webapi.AADJwtBearerTokenAuthenticationConverter;
+import com.azure.spring.aad.webapi.AADResourceServerProperties;
+import com.azure.spring.aad.webapi.AADResourceServerWebSecurityConfigurerAdapter;
+import com.azure.spring.autoconfigure.aad.AADAppRoleStatelessAuthenticationFilter;
+import com.easyms.security.azuread.ms.filter.RawAADAppRolesConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@EnableGlobalMethodSecurity(securedEnabled = true,
-        prePostEnabled = true)
-public class DefaultWebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class DefaultWebSecurityConfig extends AADResourceServerWebSecurityConfigurerAdapter {
+
 
     @Autowired
-    private AADAppRoleStatelessAuthenticationFilter aadAuthFilter;
+    AADResourceServerProperties properties;
+
+    @Autowired
+    RawAADAppRolesConverter rawAADAppRolesConverter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // @formatter:off
+        http.oauth2ResourceServer()
+                .jwt()
+                .jwtAuthenticationConverter(
+                        new CustomAADJwtBearerTokenAuthenticationConverter(
+                                properties.getPrincipalClaimName(), properties.getClaimToAuthorityPrefixMap(), rawAADAppRolesConverter));
+        // @formatter:off
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable()
-                .authorizeRequests().anyRequest().authenticated()
-                .and().addFilterBefore(aadAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .authorizeRequests().anyRequest().authenticated();
 
     }
 }

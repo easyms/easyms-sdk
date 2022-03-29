@@ -1,3 +1,15 @@
+profiles:
+  group:
+    test:
+      - dev
+      - local
+      - sample
+      - h2
+      - base-test
+      - azure-vault
+
+---
+
 server:
   port: 8095
 
@@ -14,6 +26,13 @@ spring:
   application:
     id: @app.id@
     name: @app.id@
+  cloud:
+    config:
+      import-check:
+        enabled: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
 #  jpa:
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
 #  datasource:
@@ -80,13 +99,17 @@ management.endpoints.web.exposure.include: "*"
 
 ---
 spring:
-  profiles: sample
+  config:
+    activate:
+      on-profile: sample
 
 liquibase.contexts: data
 
 ---
 spring:
-  profiles: h2
+  config:
+    activate:
+      on-profile: h2
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
   datasource:
@@ -100,19 +123,20 @@ spring:
 
 ---
 spring:
-  profiles: test
+  config:
+    activate:
+      on-profile: test-base
   jpa:
     hibernate.ddl-auto: none
   h2.console.enabled: false
-
-spring.profiles.include:
-  - h2
 
 liquibase.contexts: testData
 
 ---
 spring:
-  profiles: azure-vault
+  config:
+    activate:
+      on-profile: azure-vault
 
 azure:
   keyvault:

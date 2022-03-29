@@ -1,6 +1,6 @@
 package com.easyms.azure.test;
 
-import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipalManager;
+import com.azure.spring.autoconfigure.aad.UserPrincipalManager;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;

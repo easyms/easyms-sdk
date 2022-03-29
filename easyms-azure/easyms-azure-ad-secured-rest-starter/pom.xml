@@ -5,20 +5,27 @@
     <parent>
         <artifactId>easyms-azure</artifactId>
         <groupId>com.easyms</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.26-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>easyms-azure-ad-secured-rest-starter</artifactId>
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-jwt -->
+
         <dependency>
             <groupId>com.easyms</groupId>
             <artifactId>easyms-rest-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-active-directory-spring-boot-starter</artifactId>
+            <groupId>com.azure.spring</groupId>
+            <artifactId>azure-spring-boot-starter-active-directory</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -29,8 +36,8 @@
             <artifactId>spring-security-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-keyvault-secrets-spring-boot-starter</artifactId>
+            <groupId>com.azure.spring</groupId>
+            <artifactId>azure-spring-boot-starter-keyvault-secrets</artifactId>
         </dependency>
 
     </dependencies>

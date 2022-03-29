@@ -1,11 +1,11 @@
 package com.easyms.security.azuread.ms.config;
 
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
-import java.util.Objects;
+
 
 @ConfigurationProperties("easyms.secured.azuread.internaltoken")
 @Data

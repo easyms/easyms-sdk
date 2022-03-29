@@ -6,14 +6,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>2.6.2</version>
         <relativePath/>
     </parent>
 
 
     <groupId>com.easyms</groupId>
     <artifactId>easyms-sdk</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.26-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>easyms-starter-sdk</name>
@@ -73,7 +73,7 @@
         <commons-collections4.version>4.3</commons-collections4.version>
         <app.id>${project.artifactId}</app.id>
         <swagger.project.contact>${project.description}</swagger.project.contact>
-        <spring-cloud-dependencies.version>Hoxton.SR10</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2021.0.1</spring-cloud-dependencies.version>
         <spring.boot-admin.version>2.1.5</spring.boot-admin.version>
         <swagger.version>3.0.0</swagger.version>
         <logstash-logback-encoder.version>6.0</logstash-logback-encoder.version>
@@ -84,7 +84,7 @@
         <inherited.resources.dir>${project.build.directory}/inherited-resources</inherited.resources.dir>
         <source.docker.registry.url>registry-1.docker.io</source.docker.registry.url>
         <source.docker.openjdk.image.name>openjdk</source.docker.openjdk.image.name>
-        <source.docker.openjdk.image.version>11.0.3-jdk-slim-stretch</source.docker.openjdk.image.version>
+        <source.docker.openjdk.image.version>11.0.6-jdk-slim-buster</source.docker.openjdk.image.version>
         <target.docker.registry.url>index.docker.io</target.docker.registry.url>
         <docker-maven-spotify-plugin.version>1.2.0</docker-maven-spotify-plugin.version>
         <docker.dockerfile.directory>
@@ -92,8 +92,7 @@
         </docker.dockerfile.directory>
         <docker.image.name>${target.docker.registry.url}/${app.id}</docker.image.name>
         <docker.image.postfix></docker.image.postfix>
-        <docker.image.version>${project.version}-${current.time}-${git.commit.id.abbrev}${docker.image.postfix}
-        </docker.image.version>
+        <docker.image.version>${project.version}-${current.time}-${git.commit.id.abbrev}${docker.image.postfix}</docker.image.version>
         <distrib.dir>${project.build.directory}/distrib</distrib.dir>
         <spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
         <jacoco.ut.exec.datafile>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.exec.datafile>
@@ -111,7 +110,6 @@
         <bin.dir>${basedir}/target/classes/bin</bin.dir>
         <certsPath>/etc/certificates</certsPath>
     </properties>
-
 
     <build>
         <resources>
@@ -453,7 +451,7 @@
                                 <fail>true</fail>
                                 <failFast>true</failFast>
                                 <rules>
-                                   <!-- <dependencyConvergence/> -->
+                                    <!-- <dependencyConvergence/> -->
                                     <requireMavenVersion>
                                         <version>[${maven.version},)</version>
                                         <message>You are running an older version of Maven.
@@ -596,6 +594,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
+                <version>3.10.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -638,51 +637,51 @@
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-rest-starter</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.26-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-secured-rest-starter</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.26-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-azure-ad-secured-rest-starter</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.26-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-azure-service-bus-starter</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.26-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-basic-starter</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.26-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-messaging</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.26-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-logging-starter</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.26-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-test</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.26-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>com.easyms</groupId>
                 <artifactId>easyms-azure-test</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.26-SNAPSHOT</version>
             </dependency>
 
             <dependency>
@@ -840,7 +839,7 @@
                         <plugin>
                             <groupId>com.easyms</groupId>
                             <artifactId>main-class-extrator-plugin</artifactId>
-                            <version>1.0.0-SNAPSHOT</version>
+                            <version>1.0.26-SNAPSHOT</version>
                             <executions>
                                 <execution>
                                     <phase>compile</phase>
@@ -916,10 +915,6 @@
                         <artifactId>main-class-extrator-plugin</artifactId>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                    </plugin>
-                    <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                     </plugin>
@@ -948,6 +943,7 @@
                             <exclude>**/*.crt</exclude>
                             <exclude>**/*.der</exclude>
                             <exclude>**/*.pem</exclude>
+                            <exclude>**/*.vm</exclude>
                         </excludes>
                     </resource>
                     <resource>
@@ -964,6 +960,7 @@
                             <include>**/*.crt</include>
                             <include>**/*.der</include>
                             <include>**/*.pem</include>
+                            <include>**/*.vm</include>
                         </includes>
                     </resource>
                     <resource>
@@ -984,6 +981,7 @@
                             <exclude>**/*.jks</exclude>
                             <exclude>**/*.gz</exclude>
                             <exclude>**/*.docx</exclude>
+                            <exclude>**/*.vm</exclude>
                         </excludes>
                     </testResource>
                     <testResource>
@@ -996,11 +994,10 @@
                             <include>**/*.jks</include>
                             <include>**/*.gz</include>
                             <include>**/*.docx</include>
+                            <include>**/*.vm</include>
                         </includes>
                     </testResource>
                 </testResources>
-
-
             </build>
         </profile>
         <profile>
