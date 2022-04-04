@@ -1,11 +1,15 @@
 spring:
   cloud:
     config:
-      uri: ${sampleapp.spring.cloud.config.uri}
+      import: ${sampleapp.spring.cloud.config.uri}
 
 ---
 spring:
-  profiles: local
-  cloud:
-    config:
-      uri: http://localhost:2001
+  config:
+    activate:
+      on-profile: local
+sampleapp:
+  spring:
+    cloud:
+      config:
+        uri: optional:configserver:http://localhost:2001

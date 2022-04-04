@@ -38,10 +38,3 @@ easyms:
 
 management.endpoints.web.exposure.include: "*"
 
----
-spring:
-  profiles:
-    active: dev
-  config:
-    import: optional:configserver:http://localhost:2001
-

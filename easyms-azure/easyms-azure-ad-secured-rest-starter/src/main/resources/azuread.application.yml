@@ -40,7 +40,9 @@ azure:
 
 ---
 spring:
-  profiles: test
+  config:
+    activate:
+      on-profile: test
 
 easyms:
   azure:
