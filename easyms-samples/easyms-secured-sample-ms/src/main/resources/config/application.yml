@@ -42,7 +42,7 @@ spring:
 #    driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:config/db/db.changelog-master.xml
-  profiles.active: dev
+  profiles.active: local
   boot:
     admin:
       client:

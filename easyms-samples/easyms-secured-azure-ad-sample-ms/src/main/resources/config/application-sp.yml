@@ -1,3 +1,15 @@
+easyms.spring.cloud.azure.servicebus.credentials.file:
+  tenantId: ${easyms.sampleazure.tenantId}
+  clientId: ${easyms.sampleazure.servicebus.clientId}
+  clientSecret: ${easyms.sampleazure.servicebus.clientSecret}
+  subscriptionId: ${easyms.sampleazure.servicebus.subscriptionId}
+  activeDirectoryEndpointUrl: "https://login.microsoftonline.com"
+  resourceManagerEndpointUrl: "https://management.azure.com/"
+  activeDirectoryGraphResourceId: "https://graph.windows.net/"
+  sqlManagementEndpointUrl: "https://management.core.windows.net:8443/"
+  galleryEndpointUrl: "https://gallery.azure.com/"
+  managementEndpointUrl: "https://management.core.windows.net/"
+
 spring:
   cloud:
     azure:
