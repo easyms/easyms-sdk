@@ -3,9 +3,9 @@ Mutli function starter for Java microservice projets based on spring-boot and do
 
 # Summary of set up
 + Install Git
-+ Install IntelliJ
-+ Install at least Java 11
-+ Install at least maven 3.5.2
++ Install your favorite IDE
++ Install at least Java 17
++ Install at least maven 3.8.7
 
 # Project organization : checkout always master branch
 + /home/Dev/workspace
@@ -25,7 +25,7 @@ Mutli function starter for Java microservice projets based on spring-boot and do
 # Intellij Configuration :
 + Create new Empty Project.
 + In Project Structure:
-    - Set Project SDK to jdk 11 in Project tab. 
+    - Set Project SDK to jdk 17 in Project tab. 
     - In Modules tab, click on + sign to import new modules, Select easyms-sdk and choose Import module from external model (Maven).
     - Do the same thing for easyms-config-server and easyms-oauth2.
 
@@ -46,7 +46,7 @@ Mutli function starter for Java microservice projets based on spring-boot and do
 ## Easyms-Config-Server
 + With main class : com.easyms.config.EasymsConfigServerApplication
 + With module : easyms-config-server
-+ With JRE : 11
++ With JRE : 17
 
 ## Easyms-Oauth2
 + With main class : com.easyms.security.OAuth2Application
@@ -55,7 +55,7 @@ Mutli function starter for Java microservice projets based on spring-boot and do
 -DSpring.profiles.active=local,h2,dev
 ```
 + With module : easyms-oauth2
-+ With JRE : 11
++ With JRE : 17
 ## Easyms-Secured-Sample-Ms
 + With main class : com.easyms.sampleapp.EasyMsSecuredSampleApplication
 + With VM Options :
@@ -63,7 +63,7 @@ Mutli function starter for Java microservice projets based on spring-boot and do
 -DSpring.profiles.active=local,h2,dev
 ```
 + With module : easyms-secured-sample-ms 
-+ With JRE : 11
++ With JRE : 17
 
 # H2 Database Access:
 + easyms-oauth2 : http://localhost:2000/h2-console
