@@ -1,20 +1,15 @@
 package com.easyms.security.azuread.ms.config;
 
-import com.azure.spring.aad.AADAuthorizationServerEndpoints;
 import com.azure.spring.aad.webapi.AADResourceServerConfiguration;
-import com.azure.spring.aad.webapi.validator.AADJwtAudienceValidator;
-import com.azure.spring.aad.webapi.validator.AADJwtIssuerValidator;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.AllArgsConstructor;
 import org.bouncycastle.util.io.pem.PemReader;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
@@ -25,7 +20,6 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.text.ParseException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 

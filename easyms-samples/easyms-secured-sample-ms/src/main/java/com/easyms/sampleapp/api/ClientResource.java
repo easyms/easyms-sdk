@@ -5,19 +5,16 @@ import com.easyms.sampleapp.model.dto.ClientRequest;
 import com.easyms.sampleapp.service.ClientService;
 import com.easyms.sampleapp.service.ClientValidationService;
 import io.micrometer.core.annotation.Timed;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.annotation.PostConstruct;
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +34,7 @@ public class ClientResource {
     private final ClientValidationService clientValidationService;
 
 
-    @ApiOperation("returns all details of a client")
+    @Operation(summary = "returns all details of a client")
     @Timed
     @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/{id}")
@@ -47,20 +44,20 @@ public class ClientResource {
 
     }
 
-    @ApiOperation("returns all details of a client by email")
+    @Operation(summary = "returns all details of a client by email")
     @Timed
     @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/by-email")
-    public ResponseEntity<ClientDto> findByEmail(@RequestParam String email){
+    public ResponseEntity<ClientDto> findByEmail(@RequestParam String email) {
         ClientDto clientDto = clientService.getByEmail(email);
         return ResponseEntity.ok().body(clientDto);
     }
 
 
-    @ApiOperation("create new client")
+    @Operation(summary = "create new client")
     @Timed
     @PostMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients")
-    ResponseEntity<ClientDto> createClient(@RequestBody @Valid ClientRequest clientRequest){
+    ResponseEntity<ClientDto> createClient(@RequestBody @Valid ClientRequest clientRequest) {
         log.info("create new client");
         clientValidationService.validateCreateClient(clientRequest);
         ClientDto clientDto = clientService.create(clientRequest);
@@ -68,10 +65,10 @@ public class ClientResource {
         return ResponseEntity.created(location).body(clientDto);
     }
 
-    @ApiOperation("search all clients")
+    @Operation(summary = "search all clients")
     @Timed
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients")
-    ResponseEntity<List<ClientDto>> getAllClients(){
+    ResponseEntity<List<ClientDto>> getAllClients() {
 
         List<ClientDto> clientDtos = clientService.getAll();
         return ResponseEntity.ok().body(clientDtos);
@@ -79,3 +76,4 @@ public class ClientResource {
 
 
 }
+

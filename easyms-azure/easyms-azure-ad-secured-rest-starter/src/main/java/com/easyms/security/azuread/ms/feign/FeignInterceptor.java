@@ -1,7 +1,6 @@
 package com.easyms.security.azuread.ms.feign;
 
 
-import com.easyms.security.azuread.ms.config.EasymsAdUserPrincipal;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class FeignInterceptor implements RequestInterceptor {
         if (!template.headers().containsKey(AUTHORIZATION_HEADER)) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (Objects.nonNull(auth)) {
-                template.header(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, generateToken(auth)));
+                template.header(AUTHORIZATION_HEADER, "%s %s".formatted(BEARER_TOKEN_TYPE, generateToken(auth)));
             }
         }
     }
@@ -35,3 +34,4 @@ public class FeignInterceptor implements RequestInterceptor {
     }
 
 }
+

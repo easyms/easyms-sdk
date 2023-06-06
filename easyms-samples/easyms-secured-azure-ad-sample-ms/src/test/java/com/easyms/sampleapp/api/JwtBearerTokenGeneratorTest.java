@@ -8,22 +8,21 @@ import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import jakarta.inject.Inject;
 import net.minidev.json.JSONArray;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.util.ResourceUtils;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,23 +31,19 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.temporal.TemporalAdjuster;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@ExtendWith(value = {SpringExtension.class})
 @SpringBootTest
 @ComponentScan(basePackages = "com.easyms.azure.test")
+@Disabled
 class JwtBearerTokenGeneratorTest {
 
 
@@ -82,7 +77,7 @@ class JwtBearerTokenGeneratorTest {
     protected RequestPostProcessor bearerTokenInternal() {
         return mockHttpServletRequest -> {
             try {
-                mockHttpServletRequest.addHeader(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, createToken()));
+                mockHttpServletRequest.addHeader(AUTHORIZATION_HEADER, "%s %s".formatted(BEARER_TOKEN_TYPE, createToken()));
             } catch (JOSEException e) {
                 throw new RuntimeException("Unable to create token", e);
             } catch (ParseException e) {

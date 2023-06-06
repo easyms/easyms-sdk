@@ -37,4 +37,4 @@ easyms:
       enabled: false
 
 management.endpoints.web.exposure.include: "*"
-
+spring.config.import: optional:configserver:http://localhost:2001

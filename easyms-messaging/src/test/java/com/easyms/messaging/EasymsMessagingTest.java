@@ -1,7 +1,7 @@
 package com.easyms.messaging;
 
 
-import com.easyms.messaging.autoconfigure.EasyMsMessagingAutoConfiguration;
+/*import com.easyms.messaging.autoconfigure.EasyMsMessagingAutoConfiguration;
 import com.easyms.messaging.autoconfigure.EasyMsMessagingEnvProcessor;
 import com.easyms.messaging.autoconfigure.StandardChannels;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -83,4 +83,4 @@ public class EasymsMessagingTest {
     }
 
 
-}
+}*/

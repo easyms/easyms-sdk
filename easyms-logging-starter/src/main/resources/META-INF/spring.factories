@@ -1,4 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.easyms.logging.autoconfigure.EasyMsLoggingAutoconfiguration
 org.springframework.boot.env.EnvironmentPostProcessor=\
   com.easyms.logging.autoconfigure.EasyMsLoggingEnvProcessor

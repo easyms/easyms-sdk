@@ -14,7 +14,7 @@ spring:
 
 ---
 spring:
-  profiles: rabbit
+  config.activate.on-profile: rabbit
   rabbitmq:
     host: 127.0.0.1
     port: 5672

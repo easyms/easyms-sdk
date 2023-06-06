@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHandler;
-import org.springframework.messaging.SubscribableChannel;
-
-import javax.annotation.PostConstruct;
 
 @Configuration
 public class PublisherConfirmsConfiguration {

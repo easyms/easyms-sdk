@@ -103,7 +103,7 @@ spring:
     activate:
       on-profile: sample
 
-liquibase.contexts: data
+spring.liquibase.contexts: data
 
 ---
 spring:
@@ -130,7 +130,7 @@ spring:
     hibernate.ddl-auto: none
   h2.console.enabled: false
 
-liquibase.contexts: testData
+spring.liquibase.contexts: testData
 
 ---
 spring:

@@ -2,30 +2,24 @@ package com.easyms.security.oauth2.ms.config;
 
 
 import com.easyms.rest.ms.config.SwaggerProperties;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.*;
 import lombok.AllArgsConstructor;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.service.*;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.time.ZonedDateTime;
-import java.util.Collections;
-
-import static com.google.common.base.Predicates.containsPattern;
-import static com.google.common.base.Predicates.or;
 import static java.util.Collections.singletonList;
-import static springfox.documentation.builders.PathSelectors.regex;
 
 /**
  * @author abessa
  */
 @Configuration
-@EnableSwagger2
 @AllArgsConstructor
 public class SecuredSwaggerConfig {
     private static final String SECURITY_SCHEMA_O_AUTH_2 = "oauth2schema";
@@ -33,47 +27,37 @@ public class SecuredSwaggerConfig {
 
     private final SwaggerProperties properties;
 
+    @Bean
+    public OpenAPI secureAPI() {
+        Scopes scopes = new Scopes().addString(properties.getScopes(), properties.getScopes());
 
-    private ApiInfo getApiInfo() {
-        return new ApiInfoBuilder()
-                .title(properties.getApiInfoTitle())
-                .description(properties.getApiInfoDescription())
-                .version(properties.getApiInfoVersion())
-                .license(properties.getApiInfoLicense())
-                .licenseUrl(properties.getApiInfoLicenseUrl())
-                .contact(new Contact(properties.getApiInfoContactName(), properties.getApiInfoContactURL(), properties.getApiInfoContactEmail()))
-                .build();
+        return new OpenAPI()
+                .info(new Info().title(properties.getApiInfoTitle())
+                        .description(properties.getApiInfoDescription())
+                        .version(properties.getApiInfoVersion())
+                        .license(new License()
+                                .name(properties.getApiInfoLicense())
+                                .url(properties.getApiInfoLicenseUrl()))
+                        .contact(new Contact()
+                                .url(properties.getApiInfoContactURL())
+                                .email(properties.getApiInfoContactEmail())
+                                .name(properties.getApiInfoContactName())))
+                .components(new Components().addSecuritySchemes("spring_oauth", new SecurityScheme()
+                        .type(SecurityScheme.Type.OAUTH2)
+                        .description("Oauth2 Flow")
+                        .flows(new OAuthFlows().clientCredentials(new OAuthFlow()
+                                .tokenUrl(properties.getTokenUrl())
+                                .scopes(scopes)))))
+                .security(singletonList(new SecurityRequirement().addList("spring_oauth")));
     }
 
     @Bean
-    public Docket securedSwaggerSpringMvcPlugin() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(getApiInfo())
-                .select().paths(or(containsPattern(properties.getPaths())))
-                .build()
-                .directModelSubstitute(ZonedDateTime.class, String.class)
-                .securityContexts(singletonList(securityContext()))
-                .securitySchemes(singletonList(securitySchema()));
-    }
-
-
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(singletonList(securityReference()))
-                .forPaths(regex(properties.getPaths()))
+    @ConditionalOnMissingBean({GroupedOpenApi.class})
+    public GroupedOpenApi securedSwaggerSpringMvcPlugin() {
+        return GroupedOpenApi.builder()
+                .group("public")
+                .pathsToMatch(properties.getPaths())
                 .build();
     }
 
-    private SecurityScheme securitySchema() {
-        AuthorizationScope scope = new AuthorizationScope(properties.getScopes(), properties.getScopes());
-        ClientCredentialsGrant grantType = new ClientCredentialsGrant(properties.getTokenUrl());
-        return new OAuth(SECURITY_SCHEMA_O_AUTH_2, Collections.singletonList(scope), singletonList(grantType));
-    }
-
-    private SecurityReference securityReference() {
-        return SecurityReference.builder()
-                .reference(SECURITY_SCHEMA_O_AUTH_2)
-                .scopes(singletonList(new AuthorizationScope(properties.getScopes(), properties.getScopes())).toArray(new AuthorizationScope[1]))
-                .build();
-    }
 }

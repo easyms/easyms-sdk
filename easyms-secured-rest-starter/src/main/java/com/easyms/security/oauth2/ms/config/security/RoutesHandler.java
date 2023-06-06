@@ -21,7 +21,7 @@ public interface RoutesHandler {
     // Swagger
     String SWAGGER_INDEX = "/swagger-ui.html";
     String SWAGGER_RESOURCES = "/swagger-resources/**";
-    String SWAGGER_DOCS = "/v2/api-docs/**";
+    String SWAGGER_DOCS = "/v3/api-docs/**";
     String SWAGGER_CONFIG = "/configuration/**";
     String SWAGGER_WEBJARS = "/webjars/**";
     String FAVICON_ICO = "/favicon.ico";

@@ -1,31 +1,18 @@
 package com.easyms.security.azuread.ms.config;
 
-import com.azure.spring.aad.AADJwtGrantedAuthoritiesConverter;
-import com.azure.spring.aad.AADOAuth2AuthenticatedPrincipal;
 import com.azure.spring.aad.implementation.constants.AADTokenClaim;
 import com.azure.spring.aad.implementation.constants.AuthorityPrefix;
 import com.azure.spring.aad.webapi.AADJwtBearerTokenAuthenticationConverter;
 import com.azure.spring.aad.webapi.AADResourceServerProperties;
 import com.easyms.security.azuread.ms.filter.RawAADAppRolesConverter;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 import org.springframework.util.Assert;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 public class CustomAADJwtBearerTokenAuthenticationConverter extends AADJwtBearerTokenAuthenticationConverter {
 

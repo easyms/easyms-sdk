@@ -2,10 +2,15 @@ spring:
   cloud:
     stream:
       bindings:
-        dummyQueueChannel:
-          group: dummy.channel.group
-      rabbit:
-        bindings:
-          dummyQueueChannel:
-            consumer:
-              bindingRoutingKey: dummy.channel.queue
+        shareDummy-in-0:
+          destination: dummy
+          group: dummy-api
+        shareDummy-out-0:
+          destination: dummy-shared
+        onReceive-in-0:
+          group: dummy-api
+          destination: dummy-shared
+      default:
+        contentType: application/json
+    function:
+     definition: shareDummy;onReceive

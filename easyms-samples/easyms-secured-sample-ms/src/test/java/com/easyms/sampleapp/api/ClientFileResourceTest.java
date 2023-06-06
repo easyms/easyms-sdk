@@ -1,9 +1,9 @@
 package com.easyms.sampleapp.api;
-
+/*
 import com.easyms.test.AbstractResourceTest;
-import net.logstash.logback.encoder.org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -13,19 +13,15 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.inject.Inject;
-
+import jakarta.inject.Inject;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
 
 @Disabled
-@WithMockUser(username="jean.dupont@titi.com",authorities={"ROLE_ADMIN_CLIENT5"})
+@WithMockUser(username = "jean.dupont@titi.com", authorities = {"ROLE_ADMIN_CLIENT5"})
 @EnableFeignClients
-public class ClientFileResourceTest extends AbstractResourceTest {
+class ClientFileResourceTest extends AbstractResourceTest {
 
     private static final String API_UPLOAD = "/api/upload";
     @Inject
@@ -36,8 +32,8 @@ public class ClientFileResourceTest extends AbstractResourceTest {
 
 
     @Test
-    @WithMockUser(username="jean.dupont@toto.com")
-    public void should_send_multipartfile() throws Exception {
+    @WithMockUser(username = "jean.dupont@toto.com")
+    void should_send_multipartfile() throws Exception {
 
         Resource resource = resourceLoader.getResource("classpath:application.yml");
 
@@ -54,7 +50,6 @@ public class ClientFileResourceTest extends AbstractResourceTest {
                 fileItem);
 
 
-
         byte[] bytes = multipartFile.getBytes();
 
         clientFeignClient.uploadFiles(ArrayUtils.toArray(multipartFile));
@@ -62,4 +57,4 @@ public class ClientFileResourceTest extends AbstractResourceTest {
     }
 
 
-}
+}*/

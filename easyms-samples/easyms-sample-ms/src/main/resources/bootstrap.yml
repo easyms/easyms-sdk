@@ -2,6 +2,10 @@ spring:
   profiles:
     active: dev
 
-  cloud:
-    config:
-      uri: http://localhost:2001
+#config:
+#    import : optional:configserver:http://localhost:2001
+
+
+#   cloud:
+#     config:
+#       uri: http://localhost:2001

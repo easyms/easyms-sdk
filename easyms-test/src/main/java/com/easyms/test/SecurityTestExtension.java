@@ -1,3 +1,4 @@
+/*
 package com.easyms.test;
 
 import com.google.common.collect.Lists;
@@ -7,8 +8,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.mockito.Mockito;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
@@ -55,3 +54,4 @@ public class SecurityTestExtension implements BeforeEachCallback {
     }
 
 }
+*/

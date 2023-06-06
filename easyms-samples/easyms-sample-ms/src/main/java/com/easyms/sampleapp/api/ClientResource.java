@@ -1,30 +1,23 @@
 package com.easyms.sampleapp.api;
 
-import com.easyms.messaging.autoconfigure.StandardChannels;
 import com.easyms.sampleapp.dto.Client;
 import com.easyms.sampleapp.dto.DummyMessage;
 import com.easyms.sampleapp.service.ClientService;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.annotation.Timed;
-import io.swagger.annotations.ApiOperation;
-import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.SubscribableChannel;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.io.IOException;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -33,23 +26,26 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/api")
 @Validated
-@NoArgsConstructor
 @Timed
 public class ClientResource {
 
-    @Inject
-    private ClientService clientService;
-    @Inject
-    private StandardChannels standardChannels;
 
-    @Autowired
-    @Qualifier("dummyQueueChannel")
-    private SubscribableChannel receivingChannel;
+    private final ClientService clientService;
 
-    @Inject
-    private ObjectMapper objectMapper;
+    /*    @Inject
+        private StandardChannels standardChannels;
 
-    @PostConstruct
+        @Autowired
+        @Qualifier("dummyQueueChannel")
+        private SubscribableChannel receivingChannel;*/
+    private final StreamBridge streamBridge;
+
+    public ClientResource(ClientService clientService, StreamBridge streamBridge) {
+        this.clientService = clientService;
+        this.streamBridge = streamBridge;
+    }
+
+/*    @PostConstruct
     private void initSucbscriber() {
         receivingChannel.subscribe(msg -> {
             try {
@@ -61,30 +57,42 @@ public class ClientResource {
                 throw new RuntimeException("Exception while reading rabbit message", e);
             }
         });
+    }*/
+
+    @Bean
+    public Consumer<String> onReceive() {
+        return dummy -> log.info("received message {} ", dummy);
     }
 
-    @ApiOperation("returns all details of a client")
+    @Bean
+    public Function<DummyMessage, DummyMessage> shareDummy() {
+        return dummyMessage -> dummyMessage;
+    }
+
+    @Operation(summary = "returns all details of a client")
     @Timed
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/{id}")
-    public ResponseEntity<Client> findById(@PathVariable String id)  {
+    public ResponseEntity<Client> findById(@PathVariable String id) {
         log.info("get client by id {}", id);
         Optional<Client> client = clientService.getById(id);
 
-        /*DummyMessage dummyMessage = DummyMessage.builder()
+        DummyMessage dummyMessage = DummyMessage.builder()
                 .title("this is a title")
                 .description("this is the description")
                 .metadata("this is metadata").build();
 
         //we send a message with the correct routing herder that will be used for inputChannel binding.
-        sendMessage(dummyMessage);
-         */
+        //sendMessage(dummyMessage);*/
+        streamBridge.send("shareDummy-in-0", dummyMessage);
+
         return client.map(clientDto -> ResponseEntity.ok().body(clientDto)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    private void sendMessage(DummyMessage dummyMessage)  {
+/*    private void sendMessage(DummyMessage dummyMessage)  {
         standardChannels.publishingChannel().send(MessageBuilder.withPayload(dummyMessage)
                 .setHeader("routeTo", "dummy.channel.queue")
                 .build());
-    }
+    }*/
 
 }
+

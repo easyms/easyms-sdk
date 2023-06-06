@@ -1,14 +1,10 @@
 package com.easyms.security.azuread.ms.filter;
 
-import com.azure.spring.autoconfigure.aad.AADAppRoleStatelessAuthenticationFilter;
-import com.azure.spring.autoconfigure.aad.UserPrincipal;
-import com.azure.spring.autoconfigure.aad.UserPrincipalManager;
-import net.minidev.json.JSONArray;
+import jakarta.inject.Inject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;

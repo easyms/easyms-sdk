@@ -5,7 +5,7 @@ spring:
 
 ---
 spring:
-  profiles: local
+  config.activate.on-profile: local
   cloud:
     config:
       enabled: false

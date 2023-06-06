@@ -5,21 +5,20 @@
  */
 package com.easyms.security.azuread.ms.config;
 
-import com.azure.spring.aad.webapi.AADJwtBearerTokenAuthenticationConverter;
 import com.azure.spring.aad.webapi.AADResourceServerProperties;
-import com.azure.spring.aad.webapi.AADResourceServerWebSecurityConfigurerAdapter;
-import com.azure.spring.autoconfigure.aad.AADAppRoleStatelessAuthenticationFilter;
 import com.easyms.security.azuread.ms.filter.RawAADAppRolesConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.SecurityFilterChain;
 
 
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class DefaultWebSecurityConfig extends AADResourceServerWebSecurityConfigurerAdapter {
+@Configuration
+@EnableMethodSecurity
+public class DefaultWebSecurityConfig {
 
 
     @Autowired
@@ -28,8 +27,8 @@ public class DefaultWebSecurityConfig extends AADResourceServerWebSecurityConfig
     @Autowired
     RawAADAppRolesConverter rawAADAppRolesConverter;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // @formatter:off
         http.oauth2ResourceServer()
                 .jwt()
@@ -40,7 +39,9 @@ public class DefaultWebSecurityConfig extends AADResourceServerWebSecurityConfig
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable()
-                .authorizeRequests().anyRequest().authenticated();
+                .authorizeHttpRequests().anyRequest().authenticated();
+        return http.build();
 
     }
 }
+
