@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static java.util.Collections.singletonList;
+import java.util.List;
 
 /**
  * @author abessa
@@ -48,7 +48,7 @@ public class SecuredSwaggerConfig {
                         .flows(new OAuthFlows().clientCredentials(new OAuthFlow()
                                 .tokenUrl(properties.getTokenUrl())
                                 .scopes(scopes)))))
-                .security(singletonList(new SecurityRequirement().addList("spring_oauth")));
+                .security(List.of(new SecurityRequirement().addList("spring_oauth")));
     }
 
     @Bean

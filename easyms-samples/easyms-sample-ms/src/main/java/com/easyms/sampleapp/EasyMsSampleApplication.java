@@ -21,12 +21,5 @@ public class EasyMsSampleApplication {
         springApplication.run(args);
     }
 
-/*
-    interface InputChannel {
-        @Input("dummyQueueChannel")
-        SubscribableChannel dummyMessageChannel();
-    }
-
-*/
 }
 

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -29,45 +28,32 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Timed
 public class ClientResource {
 
-
     private final ClientService clientService;
-
-    /*    @Inject
-        private StandardChannels standardChannels;
-
-        @Autowired
-        @Qualifier("dummyQueueChannel")
-        private SubscribableChannel receivingChannel;*/
     private final StreamBridge streamBridge;
+
 
     public ClientResource(ClientService clientService, StreamBridge streamBridge) {
         this.clientService = clientService;
         this.streamBridge = streamBridge;
     }
 
-/*    @PostConstruct
-    private void initSucbscriber() {
-        receivingChannel.subscribe(msg -> {
-            try {
-
-                JsonNode message     = objectMapper.readTree(new String((byte[]) msg.getPayload()));
-                log.info("received message " + objectMapper.writeValueAsString(message));
-
-            } catch (IOException e) {
-                throw new RuntimeException("Exception while reading rabbit message", e);
-            }
-        });
-    }*/
-
     @Bean
-    public Consumer<String> onReceive() {
+    public Consumer<DummyMessage> onDummyReceive() {
         return dummy -> log.info("received message {} ", dummy);
     }
 
-    @Bean
+ /*   @Bean
     public Function<DummyMessage, DummyMessage> shareDummy() {
         return dummyMessage -> dummyMessage;
-    }
+    }*/
+
+/*    @Bean
+    public Supplier<DummyMessage> sendDummy() {
+        return () -> DummyMessage.builder()
+                .title("this is a title")
+                .description("this is the description")
+                .metadata("this is metadata").build();
+    }*/
 
     @Operation(summary = "returns all details of a client")
     @Timed
@@ -81,18 +67,9 @@ public class ClientResource {
                 .description("this is the description")
                 .metadata("this is metadata").build();
 
-        //we send a message with the correct routing herder that will be used for inputChannel binding.
-        //sendMessage(dummyMessage);*/
-        streamBridge.send("shareDummy-in-0", dummyMessage);
-
+        streamBridge.send("sendDummy-out-0", dummyMessage);
         return client.map(clientDto -> ResponseEntity.ok().body(clientDto)).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-/*    private void sendMessage(DummyMessage dummyMessage)  {
-        standardChannels.publishingChannel().send(MessageBuilder.withPayload(dummyMessage)
-                .setHeader("routeTo", "dummy.channel.queue")
-                .build());
-    }*/
 
 }
 

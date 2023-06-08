@@ -24,7 +24,7 @@ public class AbstractResourceTest extends AbstractTest {
 
     protected RequestPostProcessor bearerToken() {
         return mockHttpServletRequest -> {
-            mockHttpServletRequest.addHeader(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, "fake-token"));
+            mockHttpServletRequest.addHeader(AUTHORIZATION_HEADER, "%s %s".formatted(BEARER_TOKEN_TYPE, "fake-token"));
             return mockHttpServletRequest;
         };
     }

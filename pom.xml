@@ -818,7 +818,6 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>4.0.2</version>
         </dependency>
 
         <dependency>
@@ -906,7 +905,7 @@
                             <version>1.1.0-SNAPSHOT</version>
                             <executions>
                                 <execution>
-                                  <!--  <phase>compile</phase>-->
+                                    <phase>compile</phase>
                                     <goals>
                                         <goal>sayhi</goal>
                                     </goals>

@@ -1,16 +1,28 @@
+# spring:
+#   cloud:
+#     stream:
+#       bindings:
+#         shareDummy-in-0:
+#           destination: dummy
+#           group: dummy-api
+#         shareDummy-out-0:
+#           destination: dummy-shared
+#         onReceive-in-0:
+#           group: dummy-api
+#           destination: dummy-shared
+#       default:
+#         contentType: application/json
+#     function:
+#      definition: shareDummy;onReceive
 spring:
   cloud:
+    function:
+     definition: sendDummy;onDummyReceive
     stream:
       bindings:
-        shareDummy-in-0:
-          destination: dummy
-          group: dummy-api
-        shareDummy-out-0:
-          destination: dummy-shared
-        onReceive-in-0:
-          group: dummy-api
-          destination: dummy-shared
-      default:
-        contentType: application/json
-    function:
-     definition: shareDummy;onReceive
+        sendDummy-out-0:
+          destination: dummy-topic
+        onDummyReceive-in-0:
+          destination: dummy-topic
+      poller:
+        fixed-delay: 500

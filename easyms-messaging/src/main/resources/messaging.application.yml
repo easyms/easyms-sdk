@@ -20,10 +20,6 @@ spring:
     port: 5672
     username: guest
     password: guest
-#    virtual-host: easyms-vhost
-#    dynamic: true
-#    ssl:
-#      enabled: false
     publisher-confirms: true
     publisher-returns: true
 
