@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
@@ -28,28 +29,22 @@ public class WebSecurityConfiguration {
     private final RoutesHandler routesHandler;
 
     @Bean
-    WebSecurityCustomizer webSecurityCustomizer() throws Exception {
-        return (web) -> {
-            web.ignoring()
-                    .requestMatchers(routesHandler.technicalEndPoints())
-                    .requestMatchers(routesHandler.publicEndpoints());
-        };
+    WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+                .requestMatchers(routesHandler.technicalEndPoints())
+                .requestMatchers(routesHandler.publicEndpoints());
     }
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-                .exceptionHandling()
-                .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.NEVER)
-                .and()
-                .headers()
-                .frameOptions()
-                .disable()
-                .and()
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
+                        .authenticationEntryPoint(new Http403ForbiddenEntryPoint()))
+                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                        .sessionCreationPolicy(SessionCreationPolicy.NEVER))
+                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .addFilterBefore(corsFilter, ChannelProcessingFilter.class);
         return http.build();
         // @formatter:on

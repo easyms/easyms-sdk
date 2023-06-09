@@ -17,6 +17,9 @@ import static java.util.Objects.nonNull;
  */
 public class SecurityUtils {
 
+    private SecurityUtils() {
+    }
+
     /**
      * Get the login of the current user.
      *
@@ -26,11 +29,10 @@ public class SecurityUtils {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         if (nonNull(authentication)) {
-            if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+            if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
                 return springSecurityUser.getUsername();
-            } else if (authentication.getPrincipal() instanceof String) {
-                return (String) authentication.getPrincipal();
+            } else if (authentication.getPrincipal() instanceof String principal) {
+                return principal;
             }
         }
         return null;
@@ -65,7 +67,8 @@ public class SecurityUtils {
     }
 
     public static boolean isCurrentUserInRoles(String... authorities) {
-        return Stream.of(authorities).map(SecurityUtils::isCurrentUserInRole).reduce((a, b) -> a || b).get();
+        var currentUserInRoles = Stream.of(authorities).map(SecurityUtils::isCurrentUserInRole).reduce((a, b) -> a || b);
+        return currentUserInRoles.orElse(false);
     }
 
     public static boolean isCurrentUserNotInRoles(String... authorities) {

@@ -18,9 +18,9 @@ public class ActuatorSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.securityMatcher(EndpointRequest.toAnyEndpoint())
                 .authorizeHttpRequests(
-                        (authz) -> authz.requestMatchers(EndpointRequest.to(HealthEndpoint.class, InfoEndpoint.class)).permitAll()
+                        auth -> auth.requestMatchers(EndpointRequest.to(HealthEndpoint.class, InfoEndpoint.class)).permitAll()
                                 .anyRequest().hasRole("ACTUATOR")
-                ).httpBasic().authenticationEntryPoint(authenticationEntryPoint());
+                ).httpBasic(httpSecurityHttpBasicConfigurer -> httpSecurityHttpBasicConfigurer.authenticationEntryPoint(authenticationEntryPoint()));
         return http.build();
     }
 

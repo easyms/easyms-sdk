@@ -7,11 +7,11 @@ package com.easyms.security.azuread.ms.config;
 
 import com.azure.spring.aad.webapi.AADResourceServerProperties;
 import com.easyms.security.azuread.ms.filter.RawAADAppRolesConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -21,25 +21,20 @@ import org.springframework.security.web.SecurityFilterChain;
 public class DefaultWebSecurityConfig {
 
 
-    @Autowired
-    AADResourceServerProperties properties;
-
-    @Autowired
-    RawAADAppRolesConverter rawAADAppRolesConverter;
-
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http, AADResourceServerProperties properties, RawAADAppRolesConverter rawAADAppRolesConverter) throws Exception {
         // @formatter:off
-        http.oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(
-                        new CustomAADJwtBearerTokenAuthenticationConverter(
-                                properties.getPrincipalClaimName(), properties.getClaimToAuthorityPrefixMap(), rawAADAppRolesConverter));
+        http.oauth2ResourceServer(httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer
+                        .jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(new CustomAADJwtBearerTokenAuthenticationConverter(
+                                properties.getPrincipalClaimName(), properties.getClaimToAuthorityPrefixMap(), rawAADAppRolesConverter))));
         // @formatter:off
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().csrf().disable()
-                .authorizeHttpRequests().anyRequest().authenticated();
+        http.sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
+                        .anyRequest()
+                        .authenticated());
         return http.build();
 
     }

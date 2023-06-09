@@ -20,7 +20,7 @@ public class ActuatorSecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(EndpointRequest.to(HealthEndpoint.class, InfoEndpoint.class)).permitAll()
                                 .anyRequest().hasRole("ACTUATOR")
-                                .and()).httpBasic().authenticationEntryPoint(authenticationEntryPoint());
+                ).httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(authenticationEntryPoint()));
         return http.build();
     }
 
