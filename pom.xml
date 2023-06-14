@@ -68,7 +68,7 @@
         <jacoco.version>0.8.4</jacoco.version>
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
-        <guava.version>28.0-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
         <javax.inject.version>1</javax.inject.version>
         <commons-collections4.version>4.3</commons-collections4.version>
         <app.id>${project.artifactId}</app.id>
