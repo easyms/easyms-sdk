@@ -1,4 +1,4 @@
-package com.easyms.security.oauth2.ms.config.security;
+/*package com.easyms.security.oauth2.ms.config.security;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,4 +44,4 @@ public class CORSFilter implements Filter {
     public void destroy() {
         // do nothing
     }
-}
+}*/

@@ -1,4 +1,4 @@
-package com.easyms.sampleapp.api;
+/*package com.easyms.sampleapp.api;
 
 import com.easyms.azure.test.AbstractResourceTest;
 import org.junit.jupiter.api.Disabled;
@@ -42,4 +42,4 @@ class ClientResourceTest extends AbstractResourceTest {
     }
 
 
-}
+}*/

@@ -26,20 +26,18 @@ spring:
   application:
     id: @app.id@
     name: @app.id@
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: http://localhost:8080/realms/oauth-kk
+            jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+      actuator:
+        password: easymsActuatorPass!
   cloud:
     config:
       import-check:
         enabled: false
-  mvc:
-    pathmatch:
-      matching-strategy: ant-path-matcher
-#  jpa:
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
-#  datasource:
-#    url: ${datasource.url}
-#    username: ${datasource.username}
-#    password: ${datasource.password}
-#    driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:config/db/db.changelog-master.xml
   profiles.active: dev
@@ -53,38 +51,17 @@ spring:
           metadata:
             enable-oauth2: true
 
-  security:
-    actuator:
-      password: easymsActuatorPass!
-
-security:
-  oauth2:
-    resource:
-      jwt:
-        key-value: |
-          -----BEGIN PUBLIC KEY-----
-          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjp5THs6U8BmJzmUNA0ze
-          YXELAPfG7J7FxPz5GLB4bgwpkQYth3/06H+zvUX6SR3ilAhUWYIyGqG21s60tSF2
-          0DNcZxC0rnKf5iQ5F/GfVZF9zdiu3AONXGWn6EA0lgWNKWA2XRTL7DfUwJ9Elxco
-          6j4KrM3wl9q1uSngDPXohogZvXp8qtZMXYTulXuUpfRT9HG+t2ycrIrRIwfr9XCk
-          Eojo1P+8gDoLbk4C1OzZ4awgiCp+SmUZ+bKOqqVZ/PXn59a0PwyQUrQ+act7gLPq
-          0pudl9QdNS22j0Z78bmgAlLCLbMqhIZ/lf+NWxNCfL9rKWzqOHP/uQG3OkBzM858
-          EwIDAQAB
-          -----END PUBLIC KEY-----
+jwt:
+  auth:
+    converter:
+      resource-id: oauth-kk-client
+      principal-attribute: preferred_username
+      jwk-set-uri: http://localhost:8080/realms/oauth-kk/protocol/openid-connect/certs
 
 swagger:
   paths: /api.*
-  securityDefinitions:
-    oauthSecurity:
-      type: oauth2
-      tokenUrl: http://localhost:2000/oauth/token
-      flow: password
-      scopes:
 
 easyms:
-  secured:
-    oauth2: true
-
   logging:
     logstash: # Forward logs to logstash over a socket, used by LoggingConfig
       enabled: false
@@ -94,8 +71,12 @@ easyms:
 
 management.endpoints.web.exposure.include: "*"
 
-#logging.level.org.springframework.security: DEBUG
-#logging.level.org.springframework.boot.autoconfigure: TRACE
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
 
 ---
 spring:

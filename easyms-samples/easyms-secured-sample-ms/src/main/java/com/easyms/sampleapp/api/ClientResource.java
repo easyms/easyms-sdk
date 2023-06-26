@@ -36,7 +36,7 @@ public class ClientResource {
 
     @Operation(summary = "returns all details of a client")
     @Timed
-    @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/{id}")
     public ResponseEntity<ClientDto> findById(@PathVariable Long id) {
         Optional<ClientDto> clientDto = clientService.getById(id);
@@ -46,7 +46,7 @@ public class ClientResource {
 
     @Operation(summary = "returns all details of a client by email")
     @Timed
-    @PreAuthorize("hasAuthority('ROLE_ADMIN_CLIENT')")
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/by-email")
     public ResponseEntity<ClientDto> findByEmail(@RequestParam String email) {
         ClientDto clientDto = clientService.getByEmail(email);

@@ -9,10 +9,7 @@
         <artifactId>easyms-sdk</artifactId>
         <version>1.1.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>easyms-secured-rest-starter</artifactId>
-    <packaging>jar</packaging>
-
     <name>easyms-secured-rest-starter</name>
     <description>Easy Microservice Secured Rest Starter</description>
 
@@ -24,12 +21,15 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-            <version>2.2.5.RELEASE</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
     </dependencies>
 

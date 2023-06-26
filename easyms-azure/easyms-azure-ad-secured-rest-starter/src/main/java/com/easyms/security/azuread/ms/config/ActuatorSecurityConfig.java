@@ -16,11 +16,12 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
 public class ActuatorSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.securityMatcher(EndpointRequest.toAnyEndpoint())
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers(EndpointRequest.to(HealthEndpoint.class, InfoEndpoint.class)).permitAll()
-                                .anyRequest().hasRole("ACTUATOR")
-                ).httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(authenticationEntryPoint()));
+        http.securityMatchers(securityMatcher -> securityMatcher
+                        .requestMatchers(EndpointRequest.toAnyEndpoint())
+                        .requestMatchers(EndpointRequest.to(HealthEndpoint.class, InfoEndpoint.class)))
+                .authorizeHttpRequests(
+                        auth -> auth.anyRequest().hasRole("ACTUATOR").anyRequest().permitAll()
+                ).httpBasic(httpSecurityHttpBasicConfigurer -> httpSecurityHttpBasicConfigurer.authenticationEntryPoint(authenticationEntryPoint()));
         return http.build();
     }
 

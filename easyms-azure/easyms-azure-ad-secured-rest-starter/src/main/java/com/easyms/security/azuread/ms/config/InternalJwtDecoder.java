@@ -1,4 +1,4 @@
-package com.easyms.security.azuread.ms.config;
+/*package com.easyms.security.azuread.ms.config;
 
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
@@ -46,4 +46,4 @@ public abstract class InternalJwtDecoder implements JwtDecoder {
 //        throw new JwtException("Internal token validation not supported");
 //
 //    }
-}
+}*/

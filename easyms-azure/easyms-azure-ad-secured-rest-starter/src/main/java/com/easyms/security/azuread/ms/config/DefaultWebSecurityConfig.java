@@ -3,6 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for
  * license information.
  */
+/*
 package com.easyms.security.azuread.ms.config;
 
 import com.azure.spring.aad.webapi.AADResourceServerProperties;
@@ -20,9 +21,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class DefaultWebSecurityConfig {
 
+    AADResourceServerProperties properties;
+    RawAADAppRolesConverter rawAADAppRolesConverter;
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http, AADResourceServerProperties properties, RawAADAppRolesConverter rawAADAppRolesConverter) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // @formatter:off
         http.oauth2ResourceServer(httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer
                         .jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(new CustomAADJwtBearerTokenAuthenticationConverter(
@@ -40,3 +43,4 @@ public class DefaultWebSecurityConfig {
     }
 }
 
+*/

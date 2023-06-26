@@ -1,3 +1,4 @@
+/*
 package com.easyms.security.azuread.ms.config;
 
 import com.azure.spring.aad.webapi.AADResourceServerConfiguration;
@@ -7,7 +8,7 @@ import org.bouncycastle.util.io.pem.PemReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.DelegatingOAuth3TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.util.ResourceUtils;
@@ -97,3 +98,4 @@ public class CustomJwtDecoderConfiguration {
 
     }
 }
+*/

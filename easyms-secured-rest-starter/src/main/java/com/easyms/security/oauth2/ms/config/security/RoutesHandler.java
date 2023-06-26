@@ -11,8 +11,10 @@ public interface RoutesHandler {
 
     // Swagger
     String SWAGGER_INDEX = "/swagger-ui.html";
+    String SWAGGER_INDEX_HTML = "/swagger-ui/**";
     String SWAGGER_RESOURCES = "/swagger-resources/**";
     String SWAGGER_DOCS = "/v3/api-docs/**";
+    String SWAGGER_DOCS_V3 = "/v3/api-docs";
     String SWAGGER_CONFIG = "/configuration/**";
     String SWAGGER_WEBJARS = "/webjars/**";
     String FAVICON_ICO = "/favicon.ico";
@@ -20,13 +22,16 @@ public interface RoutesHandler {
     default String[] technicalEndPoints() {
         return new String[]{
                 SWAGGER_INDEX,
+                SWAGGER_INDEX_HTML,
+                SWAGGER_DOCS_V3,
                 SWAGGER_RESOURCES,
                 SWAGGER_DOCS,
                 SWAGGER_CONFIG,
                 SWAGGER_WEBJARS,
                 H2_CONSOLE,
                 FAVICON_ICO,
-                "/csrf"
+                "/csrf",
+                "/swagger-ui/index.html"
         };
     }
 

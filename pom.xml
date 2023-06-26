@@ -66,8 +66,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.version>3.8.7</maven.version>
         <jakarta.inject.api.version>2.0.1</jakarta.inject.api.version>
-        <jacoco.version>0.8.8</jacoco.version>
-        <junit-jupiter.version>5.9.3</junit-jupiter.version>
+        <jacoco.version>0.8.10</jacoco.version>
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
         <guava.version>31.0.1-jre</guava.version>
@@ -94,7 +93,8 @@
         </docker.dockerfile.directory>
         <docker.image.name>${target.docker.registry.url}/${app.id}</docker.image.name>
         <docker.image.postfix></docker.image.postfix>
-        <docker.image.version>${project.version}-${current.time}-${git.commit.id.abbrev}${docker.image.postfix}</docker.image.version>
+        <docker.image.version>${project.version}-${current.time}-${git.commit.id.abbrev}${docker.image.postfix}
+        </docker.image.version>
         <distrib.dir>${project.build.directory}/distrib</distrib.dir>
         <jacoco.ut.exec.datafile>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.exec.datafile>
         <jacoco.it.exec.datafile>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.exec.datafile>
@@ -219,7 +219,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.15.0</version>
+                    <version>2.16.0</version>
                     <configuration>
                         <generateBackupPoms>false</generateBackupPoms>
                     </configuration>
@@ -228,7 +228,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.11.0</version>
                     <configuration>
                         <release>17</release>
                         <fork>true</fork>
@@ -423,9 +423,9 @@
                         </execution>
                         <execution>
                             <id>check</id>
-                           <!-- <goals>
-                                <goal>check</goal>
-                            </goals>-->
+                            <!-- <goals>
+                                 <goal>check</goal>
+                             </goals>-->
 
                             <configuration>
                                 <excludes>
@@ -517,7 +517,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.4.0</version>
                     <executions>
                         <execution>
                             <id>timestamp-property</id>
@@ -608,7 +608,7 @@
                     <version>4.46.0</version>
                     <configuration>
                         <activeRecipes>
-                            <!--<recipe>org.openrewrite.java.migrate.UpgradeToJava17</recipe>-->
+                            <recipe>org.openrewrite.java.migrate.UpgradeToJava17</recipe>
                             <recipe>org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_0</recipe>
                         </activeRecipes>
                     </configuration>
@@ -681,6 +681,7 @@
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
+                <version>4.9.10</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -769,16 +770,6 @@
                 <version>${openapi.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-security</artifactId>
-                <version>${openapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
-                <version>${openapi.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash-logback-encoder.version}</version>
@@ -812,6 +803,10 @@
             <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+        <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
@@ -819,7 +814,6 @@
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
         </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -861,18 +855,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- junit 5 -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit-jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

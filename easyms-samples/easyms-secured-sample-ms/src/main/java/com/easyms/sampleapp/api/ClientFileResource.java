@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +28,13 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 public class ClientFileResource {
 
 
-    @Operation(summary="create new client file")
+    @Operation(summary = "create new client file")
     @Timed
     @PostMapping(value = "/upload", consumes = MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity uploadFiles(@RequestPart(name = "file") MultipartFile[] file) throws IOException {
 
-        if(file.length > 0) {
+        if (file.length > 0) {
             InputStream inputStream = file[0].getInputStream();
 
             File targetFile = new File("/Users/anis/dev/eff/toto.yml");
@@ -51,7 +53,6 @@ public class ClientFileResource {
         System.out.println("**** received uploaded file ****");
         return ResponseEntity.ok().build();
     }
-
 
 
 }

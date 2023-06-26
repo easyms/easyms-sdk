@@ -1,3 +1,4 @@
+/*
 package com.easyms.security.azuread.ms.feign;
 
 
@@ -35,3 +36,4 @@ public class FeignInterceptor implements RequestInterceptor {
 
 }
 
+*/

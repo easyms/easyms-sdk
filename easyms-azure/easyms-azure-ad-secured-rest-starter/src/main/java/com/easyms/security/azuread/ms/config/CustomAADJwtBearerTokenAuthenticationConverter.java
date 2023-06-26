@@ -1,3 +1,4 @@
+/*
 package com.easyms.security.azuread.ms.config;
 
 import com.azure.spring.aad.implementation.constants.AADTokenClaim;
@@ -18,40 +19,48 @@ public class CustomAADJwtBearerTokenAuthenticationConverter extends AADJwtBearer
 
     private RawAADAppRolesConverter rolesConverter;
 
-    /**
+    */
+/**
      * Construct AADJwtBearerTokenAuthenticationConverter by AADTokenClaim.SUB and
      * DEFAULT_CLAIM_TO_AUTHORITY_PREFIX_MAP.
-     */
+     *//*
+
     public CustomAADJwtBearerTokenAuthenticationConverter() {
         super(AADTokenClaim.SUB, AADResourceServerProperties.DEFAULT_CLAIM_TO_AUTHORITY_PREFIX_MAP);
     }
 
-    /**
+    */
+/**
      * Construct AADJwtBearerTokenAuthenticationConverter with the authority claim.
      *
      * @param authoritiesClaimName authority claim name
-     */
+     *//*
+
     public CustomAADJwtBearerTokenAuthenticationConverter(String authoritiesClaimName) {
         super(authoritiesClaimName, AuthorityPrefix.SCOPE);
     }
 
-    /**
+    */
+/**
      * Construct AADJwtBearerTokenAuthenticationConverter with the authority claim name and prefix.
      *
      * @param authoritiesClaimName authority claim name
      * @param authorityPrefix the prefix name of the authority
-     */
+     *//*
+
     public CustomAADJwtBearerTokenAuthenticationConverter(String authoritiesClaimName,
                                                     String authorityPrefix) {
        super(authoritiesClaimName, authorityPrefix);
     }
 
-    /**
+    */
+/**
      * Using spring security provides JwtGrantedAuthoritiesConverter, it can resolve the access token of scp or roles.
      *
      * @param principalClaimName authorities claim name
      * @param claimToAuthorityPrefixMap the authority name and prefix map
-     */
+     *//*
+
     public CustomAADJwtBearerTokenAuthenticationConverter(String principalClaimName,
                                                           Map<String, String> claimToAuthorityPrefixMap,
                                                           RawAADAppRolesConverter rolesConverter) {
@@ -64,15 +73,15 @@ public class CustomAADJwtBearerTokenAuthenticationConverter extends AADJwtBearer
     public AbstractAuthenticationToken convert(Jwt jwt) {
         var authenticationToken = super.convert(jwt);
 
-        var authorities = rolesConverter.toSimpleGrantedAuthoritySet(authenticationToken.getAuthorities());
-        var principal = (OAuth2AuthenticatedPrincipal) authenticationToken.getPrincipal();
+        var authorities = rolesConverter.toSimpleGrantedAuthoritySet(authenticationToken != null ? authenticationToken.getAuthorities() : null);
+        var principal = (OAuth2AuthenticatedPrincipal) (authenticationToken != null ? authenticationToken.getPrincipal() : null);
 
         OAuth2AuthenticatedPrincipal newPrincipal = new EasymsAdUserPrincipal(authorities, principal);
 
-        var bearerTokenAuthentication = new BearerTokenAuthentication(newPrincipal,
+        return new BearerTokenAuthentication(newPrincipal,
                 (OAuth2AccessToken) authenticationToken.getCredentials(),  authorities);
-        return bearerTokenAuthentication;
     }
 
 
 }
+*/

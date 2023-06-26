@@ -1,6 +1,7 @@
 package com.easyms.sampleapp.api;
-/*
-import com.easyms.test.AbstractResourceTest;
+
+import com.easyms.test.AbstractTest;
+import jakarta.inject.Inject;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -9,19 +10,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.mock.web.MockMultipartFile;
 
-import jakarta.inject.Inject;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 
-@Disabled
-@WithMockUser(username = "jean.dupont@titi.com", authorities = {"ROLE_ADMIN_CLIENT5"})
 @EnableFeignClients
-class ClientFileResourceTest extends AbstractResourceTest {
+@Disabled
+class ClientFileResourceTest extends AbstractTest {
 
     private static final String API_UPLOAD = "/api/upload";
     @Inject
@@ -32,10 +29,9 @@ class ClientFileResourceTest extends AbstractResourceTest {
 
 
     @Test
-    @WithMockUser(username = "jean.dupont@toto.com")
     void should_send_multipartfile() throws Exception {
 
-        Resource resource = resourceLoader.getResource("classpath:application.yml");
+        Resource resource = resourceLoader.getResource("classpath:bootstrap.yml");
 
         DiskFileItem fileItem = new DiskFileItem("file", "text/plain", true, "fileName", 0,
                 null);
@@ -46,8 +42,8 @@ class ClientFileResourceTest extends AbstractResourceTest {
             IOUtils.copy(in, out);
         }
 
-        MultipartFile multipartFile = new CommonsMultipartFile(
-                fileItem);
+        MockMultipartFile multipartFile = new MockMultipartFile("bootstrap.yml",
+                fileItem.getInputStream().readAllBytes());
 
 
         byte[] bytes = multipartFile.getBytes();
@@ -57,4 +53,4 @@ class ClientFileResourceTest extends AbstractResourceTest {
     }
 
 
-}*/
+}

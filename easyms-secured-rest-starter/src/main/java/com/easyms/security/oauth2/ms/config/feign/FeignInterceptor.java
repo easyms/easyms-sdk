@@ -6,7 +6,7 @@ import feign.RequestTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -29,8 +29,8 @@ public class FeignInterceptor implements RequestInterceptor {
     }
 
     private String generateToken(Authentication auth) {
-        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
-        return Objects.nonNull(details) ? details.getTokenValue() : null;
+        OAuth2AuthorizationCodeAuthenticationToken details = (OAuth2AuthorizationCodeAuthenticationToken) auth.getDetails();
+        return Objects.nonNull(details) ? details.getAccessToken().getTokenValue() : null;
     }
 
 }
