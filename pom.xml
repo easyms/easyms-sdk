@@ -74,7 +74,7 @@
         <app.id>${project.artifactId}</app.id>
         <swagger.project.contact>${project.description}</swagger.project.contact>
         <spring-cloud-dependencies.version>2021.0.1</spring-cloud-dependencies.version>
-        <spring.boot-admin.version>2.1.5</spring.boot-admin.version>
+        <spring.boot-admin.version>3.1.2</spring.boot-admin.version>
         <swagger.version>3.0.0</swagger.version>
         <logstash-logback-encoder.version>6.0</logstash-logback-encoder.version>
         <rakugakibox.logback.version>2.7.1</rakugakibox.logback.version>
