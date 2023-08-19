@@ -1,4 +1,3 @@
-/*
 package com.easyms.security.azuread.ms.config;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -41,4 +40,4 @@ public class EasymsAdUserPrincipal implements OAuth2AuthenticatedPrincipal {
     public String getName() {
         return delegate.getName();
     }
-}*/
+}

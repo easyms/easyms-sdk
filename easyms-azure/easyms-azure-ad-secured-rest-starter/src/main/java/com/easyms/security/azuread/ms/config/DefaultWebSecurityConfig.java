@@ -3,44 +3,38 @@
  * Licensed under the MIT License. See LICENSE in the project root for
  * license information.
  */
-/*
 package com.easyms.security.azuread.ms.config;
 
-import com.azure.spring.aad.webapi.AADResourceServerProperties;
+import com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.properties.AadResourceServerProperties;
+import com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadResourceServerHttpSecurityConfigurer;
 import com.easyms.security.azuread.ms.filter.RawAADAppRolesConverter;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 
-@Configuration
-@EnableMethodSecurity
+
 public class DefaultWebSecurityConfig {
+/*
+    @Autowired
+    AadResourceServerProperties properties;
 
-    AADResourceServerProperties properties;
+    @Autowired
     RawAADAppRolesConverter rawAADAppRolesConverter;
-
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // @formatter:off
-        http.oauth2ResourceServer(httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer
-                        .jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(new CustomAADJwtBearerTokenAuthenticationConverter(
-                                properties.getPrincipalClaimName(), properties.getClaimToAuthorityPrefixMap(), rawAADAppRolesConverter))));
-        // @formatter:off
-
-        http.sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .anyRequest()
-                        .authenticated());
+        AadResourceServerHttpSecurityConfigurer aadResourceServerHttpSecurityConfigurer = new AadResourceServerHttpSecurityConfigurer().jwtGrantedAuthoritiesConverter(new CustomJwtGrantedAuthoritiesConverter(rawAADAppRolesConverter, properties.getClaimToAuthorityPrefixMap()));
+        http.apply(aadResourceServerHttpSecurityConfigurer)
+                .and()
+                .authorizeHttpRequests()
+                .anyRequest().authenticated();
         return http.build();
 
-    }
+    }*/
 }
-
-*/

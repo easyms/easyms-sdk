@@ -1,4 +1,11 @@
 spring:
+  cloud:
+    azure:
+      active-directory:
+        enabled: true
+        credential:
+          client-id: ${easyms.azure.activedirectory.clientId}
+        app-id-uri: ${easyms.azure.activedirectory.clientId}
   security:
     oauth2:
       client:
@@ -29,14 +36,6 @@ easyms:
         pubKeyPath : ${easyms.azure.internalToken.pubKeyPath:}
         pubKeyValue : ${easyms.azure.internalToken.pubKeyValue:}
         issuer : ${easyms.azure.internalToken.issuer}
-
-azure:
-  activedirectory:
-    jwtConnectTimeout: 3000
-    jwtReadTimeout: 3000
-    session-stateless: true
-    client-id: ${easyms.azure.activedirectory.clientId}
-    appIdUri: ${easyms.azure.activedirectory.appIdUri}
 
 ---
 spring:

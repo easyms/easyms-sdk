@@ -1,11 +1,13 @@
 package com.easyms.security.azuread.ms.config;
 
+import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.bouncycastle.util.io.pem.PemReader;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
@@ -22,38 +24,34 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+@Aspect
+@Slf4j
 @AllArgsConstructor
-public class CustomJwtDecoderConfiguration {
+public class JwtDecoderInterceptor {
 
-    private final JwtDecoder standardDecoder;
     private final InternalTokenProperties internalTokenProperties;
 
-    @Bean
-    @Primary
-    public JwtDecoder customJwtDecoder() {
+
+    @Around(value = "execution(* org.springframework.security.oauth2.jwt.NimbusJwtDecoder.decode(..))")
+    public Jwt interceptJwtDecode(final ProceedingJoinPoint joinPoint) throws Throwable {
+        String token = joinPoint.getArgs().toString();
         var internalDecoder = internalJwtDecoder();
 
-        return token -> {
-
-            if (internalTokenProperties.isEnabled()) {
-                try {
-                    SignedJWT signedJWT = SignedJWT.parse(token);
-                    if (signedJWT.getJWTClaimsSet().getIssuer().equals(internalTokenProperties.getIssuer())) {
-                        return internalDecoder.decode(token);
-                    } else {
-                        return standardDecoder.decode(token);
-                    }
-                } catch (ParseException e) {
-                    throw new JwtException("Exception while parsing JWT", e);
+        if (internalTokenProperties.isEnabled()) {
+            try {
+                SignedJWT signedJWT = SignedJWT.parse(token);
+                if (signedJWT.getJWTClaimsSet().getIssuer().equals(internalTokenProperties.getIssuer())) {
+                    return internalDecoder.decode(token);
+                } else {
+                    return (Jwt) joinPoint.proceed();
                 }
+            } catch (ParseException e) {
+                throw new JwtException("Exception while parsing JWT", e);
             }
+        }
 
-            return standardDecoder.decode(token);
-        };
+        return (Jwt) joinPoint.proceed();
     }
-
-
     public JwtDecoder internalJwtDecoder() {
         var nimbusJwtDecoder = NimbusJwtDecoder.withPublicKey(getInternalPubKey()).build();
         List<OAuth2TokenValidator<Jwt>> internalJwtValidators = createInternalJwtValidators();

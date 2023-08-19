@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
 @Configuration
 @Order(1)
 public class ActuatorSecurityConfig {
-    @Bean
+    /*@Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.securityMatchers(securityMatcher -> securityMatcher
                         .requestMatchers(EndpointRequest.toAnyEndpoint())
@@ -31,6 +31,6 @@ public class ActuatorSecurityConfig {
         basicAuthenticationEntryPoint.setRealmName("actuator");
         return basicAuthenticationEntryPoint;
     }
-
+*/
 }
 

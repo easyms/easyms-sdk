@@ -1,6 +1,6 @@
 package com.easyms.azure.test;
 
-import com.azure.spring.autoconfigure.aad.UserPrincipalManager;
+import com.azure.spring.cloud.autoconfigure.implementation.aad.filter.UserPrincipalManager;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
