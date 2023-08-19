@@ -56,10 +56,5 @@ public class EasyMsAzureAdFilterChainAutoConfiguration {
         return http.build();
 
     }
-
-    @Bean
-    String test() {
-        return "test";
-    }
 }
 

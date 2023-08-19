@@ -72,6 +72,8 @@ easyms:
           - PERM_MODIFY_CLIENT
           - PERM_READ_CLIENT
           - PERM_DELETE_CLIENT
+        API-READ:
+          - PERM_READ_CLIENT
   azure:
     internalToken:
       enabled: true

@@ -1,4 +1,4 @@
-package com.easyms.security.azuread.ms.config;
+package com.easyms.sampleapp.config;
 
 import com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.properties.AadAuthenticationProperties;
 import com.azure.spring.cloud.autoconfigure.implementation.aad.security.jwt.AadJwtIssuerValidator;
@@ -138,5 +138,4 @@ public class CustomJwtDecoderConfiguration {
         validators.add(new JwtTimestampValidator());
         return validators;
     }
-
 }

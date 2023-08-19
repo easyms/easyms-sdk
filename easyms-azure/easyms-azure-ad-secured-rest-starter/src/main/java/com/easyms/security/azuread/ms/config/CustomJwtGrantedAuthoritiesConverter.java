@@ -21,7 +21,6 @@ public class CustomJwtGrantedAuthoritiesConverter extends AadJwtGrantedAuthoriti
     @Override
     public Collection<GrantedAuthority> convert(Jwt jwt) {
         Collection<GrantedAuthority> grantedAuthorities = super.convert(jwt);
-        grantedAuthorities.add(new SimpleGrantedAuthority("APPROLE_PERM_READ_CLIENT"));
         return rolesConverter.toSimpleGrantedAuthoritySet(grantedAuthorities);
     }
 }

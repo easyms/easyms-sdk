@@ -43,8 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest
 @ComponentScan(basePackages = "com.easyms.azure.test")
-@Disabled
-class JwtBearerTokenGeneratorTest {
+public class JwtBearerTokenGeneratorTest {
 
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
