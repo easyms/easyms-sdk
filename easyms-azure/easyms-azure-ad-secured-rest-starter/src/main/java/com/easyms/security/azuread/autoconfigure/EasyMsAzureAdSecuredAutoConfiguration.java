@@ -41,9 +41,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @OpenAPIDefinition
 public class EasyMsAzureAdSecuredAutoConfiguration {
 
-    @Bean(name="testbean")
-    String test2() {
-        return "test";
-    }
+    private final InternalTokenProperties internalTokenProperties;
+
 }
 

@@ -153,6 +153,7 @@
                     <include>**/*.sh</include>
                     <include>**/*.args</include>
                     <include>**/*.factories</include>
+                    <include>**/*.imports</include>
                     <include>**/*dockerfile</include>
                     <include>**/*.wsdl</include>
                     <include>**/*.pem</include>

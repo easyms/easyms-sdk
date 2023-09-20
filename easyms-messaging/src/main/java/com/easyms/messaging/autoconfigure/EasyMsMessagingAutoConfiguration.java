@@ -1,16 +1,16 @@
 package com.easyms.messaging.autoconfigure;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHandler;
 
 import java.util.function.Function;
 
-@Configuration
+@AutoConfiguration
 @ComponentScan
 @Slf4j
 public class EasyMsMessagingAutoConfiguration {
