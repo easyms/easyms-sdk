@@ -39,6 +39,7 @@ public class EasyMsAutoConfiguration {
 
 
     @Bean
+    @ConditionalOnMissingBean({OpenAPI.class})
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info().title(properties.getApiInfoTitle())

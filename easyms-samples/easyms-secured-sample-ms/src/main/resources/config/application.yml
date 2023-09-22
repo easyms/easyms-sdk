@@ -59,7 +59,7 @@ jwt:
       jwk-set-uri: http://localhost:8080/realms/oauth-kk/protocol/openid-connect/certs
 
 swagger:
-  paths: /api.*
+  paths: /api/**
 
 easyms:
   logging:

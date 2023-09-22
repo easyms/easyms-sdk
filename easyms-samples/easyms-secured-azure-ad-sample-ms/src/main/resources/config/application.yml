@@ -72,7 +72,7 @@ easyms:
           - PERM_MODIFY_CLIENT
           - PERM_READ_CLIENT
           - PERM_DELETE_CLIENT
-        API-READ:
+        hia-readers:
           - PERM_READ_CLIENT
   azure:
     internalToken:
@@ -100,6 +100,7 @@ easyms:
 
 
 management.endpoints.web.exposure.include: "*"
+management.health.rabbit.enabled: false
 
 ---
 spring:

@@ -13,11 +13,18 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
@@ -29,60 +36,33 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
  */
 @Configuration
 @EnableWebSecurity
-@Order(SecurityProperties.BASIC_AUTH_ORDER)
+@EnableMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class PublicEndpointsWebSecurityConfig {
 
     private final CORSFilter corsFilter;
     private final RoutesHandler routesHandler;
 
-    @Autowired
-    AadResourceServerProperties properties;
-
-    @Autowired
-    RawAADAppRolesConverter rawAADAppRolesConverter;
-
     @Bean
-    WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring()
-                .requestMatchers(routesHandler.technicalEndPoints())
-                .requestMatchers(routesHandler.publicEndpoints());
-    }
-
-    public AuthenticationEntryPoint authenticationEntryPoint() {
-        BasicAuthenticationEntryPoint basicAuthenticationEntryPoint = new BasicAuthenticationEntryPoint();
-        basicAuthenticationEntryPoint.setRealmName("actuator");
-        return basicAuthenticationEntryPoint;
-    }
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Order(SecurityProperties.BASIC_AUTH_ORDER)
+    SecurityFilterChain filterChainPublic(HttpSecurity http) throws Exception {
         // @formatter:off
-        // Public Endpoints Web Security Config
         http
+                .securityMatchers(securityMatcher -> securityMatcher
+                        .requestMatchers(routesHandler.technicalEndPoints())
+                        .requestMatchers(routesHandler.publicEndpoints()))
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
-                        .authenticationEntryPoint(new Http403ForbiddenEntryPoint()))
+                       .authenticationEntryPoint(new Http403ForbiddenEntryPoint()))
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.NEVER))
+                .httpBasic(HttpBasicConfigurer::disable)
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .addFilterBefore(corsFilter, ChannelProcessingFilter.class);
 
-        //Actuator Security Config
-        /*http.securityMatchers(securityMatcher -> securityMatcher
-                        .requestMatchers(EndpointRequest.toAnyEndpoint())
-                        .requestMatchers(EndpointRequest.to(HealthEndpoint.class, InfoEndpoint.class)))
-                .authorizeHttpRequests(
-                        auth -> auth.anyRequest().hasRole("ACTUATOR").anyRequest().permitAll()
-                ).httpBasic(httpSecurityHttpBasicConfigurer -> httpSecurityHttpBasicConfigurer.authenticationEntryPoint(authenticationEntryPoint()));*/
-
-        // Aad Security Config
-        AadResourceServerHttpSecurityConfigurer aadResourceServerHttpSecurityConfigurer = new AadResourceServerHttpSecurityConfigurer().jwtGrantedAuthoritiesConverter(new CustomJwtGrantedAuthoritiesConverter(rawAADAppRolesConverter, properties.getClaimToAuthorityPrefixMap()));
-        http.apply(aadResourceServerHttpSecurityConfigurer)
-                .and()
-                .authorizeHttpRequests()
-                .anyRequest().authenticated();
-        return http.build();
-
         // @formatter:on
+
+        return http.build();
     }
 }

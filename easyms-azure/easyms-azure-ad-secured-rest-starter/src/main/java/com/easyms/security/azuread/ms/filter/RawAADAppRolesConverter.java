@@ -1,6 +1,7 @@
 package com.easyms.security.azuread.ms.filter;
 
 import jakarta.inject.Inject;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -12,19 +13,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
-public class RawAADAppRolesConverter {
+
+public class RawAADAppRolesConverter implements RolesConverter{
 
     private static final String ROLE_PREFIX = "APPROLE_";
     private static final String SCOPE_PREFIX = "SCOPE_";
     private final RoleAndAuthoritiesMappingProperties roleAndAuthoritiesMappingProperties;
 
-    @Inject
     public RawAADAppRolesConverter(RoleAndAuthoritiesMappingProperties roleAndAuthoritiesMappingProperties) {
         this.roleAndAuthoritiesMappingProperties = roleAndAuthoritiesMappingProperties;
     }
 
 
+    @Override
     public Set<GrantedAuthority> toSimpleGrantedAuthoritySet(Collection<GrantedAuthority> rawAuthorities) {
 
         var normalizedRoles = normalizeRawRolesAndScope(rawAuthorities);
