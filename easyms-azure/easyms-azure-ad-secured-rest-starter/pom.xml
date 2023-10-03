@@ -35,7 +35,10 @@
             <artifactId>azure-core</artifactId>
             <version>1.41.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.azure.spring</groupId>
+            <artifactId>spring-cloud-azure-starter-keyvault-secrets</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

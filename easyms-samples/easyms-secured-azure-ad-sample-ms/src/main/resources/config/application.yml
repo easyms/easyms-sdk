@@ -157,16 +157,19 @@ spring:
   config:
     activate:
       on-profile: azure-vault
-
-azure:
-  keyvault:
-    enabled: true
-    uri: ${easyms.sampleazure.kv.uri}
-    client-id: ${easyms.sampleazure.kv.client-id}
-    tenant-id: ${easyms.sampleazure.tenant}
-    client-key: ${easyms.sampleazure.kv.client-key}
-    token-acquire-timeout-seconds: 60
-    refresh-interval: 1800000
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-source-enabled: true
+          property-sources:
+            - name: key-vault-property-source-1
+              endpoint: ${easyms.sampleazure.kv.uri}
+              credential:
+                client-id: ${easyms.sampleazure.kv.client-id}
+                client-secret: ${easyms.sampleazure.tenant}
+              profile:
+                tenant-id: ${easyms.sampleazure.kv.client-key}
 
 easyms.spring.cloud.azure.servicebus.credentials.file:
   clientId: ${kvsecret-azurebus-sp}

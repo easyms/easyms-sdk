@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
@@ -33,7 +32,7 @@ public class JwtDecoderInterceptor {
     private final InternalTokenProperties internalTokenProperties;
 
 
-    @Pointcut(value = "this(* org.springframework.security.oauth2.jwt.NimbusJwtDecoder.decode(..))")
+    @Around(value = "execution(* org.springframework.security.oauth2.jwt.NimbusJwtDecoder.decode(..))")
     public Jwt interceptJwtDecode(final ProceedingJoinPoint joinPoint) throws Throwable {
         String token = joinPoint.getArgs().toString();
         var internalDecoder = internalJwtDecoder();
