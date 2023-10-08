@@ -1,4 +1,4 @@
-package com.easyms.security.azuread.ms.config;
+package com.easyms.security.common.ms.config.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;

@@ -15,7 +15,7 @@
 
         <dependency>
             <groupId>com.easyms</groupId>
-            <artifactId>easyms-rest-starter</artifactId>
+            <artifactId>easyms-common-secured-rest-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.inject</groupId>

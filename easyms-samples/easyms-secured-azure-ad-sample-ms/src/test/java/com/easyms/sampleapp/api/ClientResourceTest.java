@@ -1,4 +1,4 @@
-/*package com.easyms.sampleapp.api;
+package com.easyms.sampleapp.api;
 
 import com.easyms.azure.test.AbstractResourceTest;
 import org.junit.jupiter.api.Disabled;
@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@Disabled
 class ClientResourceTest extends AbstractResourceTest {
 
     private static final String API_HR_ID = "/api/v1/clients/{id}";
@@ -42,4 +41,4 @@ class ClientResourceTest extends AbstractResourceTest {
     }
 
 
-}*/
+}

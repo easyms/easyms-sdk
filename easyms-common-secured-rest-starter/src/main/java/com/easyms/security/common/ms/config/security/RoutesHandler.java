@@ -1,9 +1,9 @@
-package com.easyms.security.oauth2.ms.config.security;
+package com.easyms.security.common.ms.config.security;
 
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
- * @author khames.
+ * @author mob.
  */
 public interface RoutesHandler {
 

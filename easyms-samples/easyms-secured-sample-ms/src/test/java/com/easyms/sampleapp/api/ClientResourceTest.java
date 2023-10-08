@@ -1,6 +1,6 @@
 package com.easyms.sampleapp.api;
 
-import com.easyms.security.oauth2.ms.config.security.DefaultRoutesHandlerConfig;
+import com.easyms.security.common.ms.config.security.DefaultRoutesHandlerConfig;
 import com.easyms.security.oauth2.ms.config.security.JwtAuthConverter;
 import com.easyms.security.oauth2.ms.config.security.JwtAuthConverterProperties;
 import com.easyms.security.oauth2.ms.config.security.WebSecurityConfiguration;
@@ -15,11 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({JwtAuthConverterProperties.class,
-        JwtAuthConverter.class,
-        WebSecurityConfiguration.class,
-        //CORSFilter.class,
-        DefaultRoutesHandlerConfig.class})
 class ClientResourceTest extends AbstractTest {
 
 

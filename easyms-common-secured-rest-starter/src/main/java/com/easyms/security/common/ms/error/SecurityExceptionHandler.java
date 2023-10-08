@@ -1,4 +1,4 @@
-package com.easyms.security.oauth2.ms.error;
+package com.easyms.security.common.ms.error;
 
 
 import com.easyms.rest.ms.error.CommonExceptionHandler;

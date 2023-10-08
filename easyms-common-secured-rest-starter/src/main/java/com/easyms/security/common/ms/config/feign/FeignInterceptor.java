@@ -1,4 +1,4 @@
-package com.easyms.security.azuread.ms.feign;
+package com.easyms.security.common.ms.config.feign;
 
 
 import feign.RequestInterceptor;
@@ -6,7 +6,7 @@ import feign.RequestTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -29,9 +29,8 @@ public class FeignInterceptor implements RequestInterceptor {
     }
 
     private String generateToken(Authentication auth) {
-        BearerTokenAuthentication bearerTokenAuthentication = (BearerTokenAuthentication) auth;
-        return bearerTokenAuthentication.getToken().getTokenValue();
+        OAuth2AuthorizationCodeAuthenticationToken details = (OAuth2AuthorizationCodeAuthenticationToken) auth.getDetails();
+        return Objects.nonNull(details) ? details.getAccessToken().getTokenValue() : null;
     }
 
 }
-

@@ -1,6 +1,7 @@
-package com.easyms.security.azuread.ms.config;
+package com.easyms.security.common.ms.config;
 
 
+import com.easyms.rest.ms.config.SwaggerProperties;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -9,20 +10,21 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.*;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import static java.util.Collections.singletonList;
 
 /**
- * @author abessa
+ * @author mob.
  */
 @Configuration
 @AllArgsConstructor
 public class SecuredSwaggerConfig {
 
 
-    private final AzureAdSwaggerProperties properties;
+    private final SwaggerProperties properties;
 
     private Info getInfo() {
         return new Info().title(properties.getApiInfoTitle())
@@ -38,6 +40,7 @@ public class SecuredSwaggerConfig {
     }
 
     @Bean
+    @ConditionalOnMissingBean({OpenAPI.class})
     public OpenAPI secureAPI() {
         Scopes scopes = new Scopes();
         properties.getScopes().forEach(s -> scopes.addString(s, s));
@@ -56,6 +59,7 @@ public class SecuredSwaggerConfig {
     }
 
     @Bean
+    @ConditionalOnMissingBean({GroupedOpenApi.class})
     public GroupedOpenApi securedSwaggerSpringMvcPlugin() {
         return GroupedOpenApi.builder()
                 .group("public")

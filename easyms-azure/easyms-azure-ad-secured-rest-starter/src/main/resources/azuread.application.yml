@@ -6,6 +6,17 @@ spring:
         credential:
           client-id: ${easyms.azure.activedirectory.clientId}
         app-id-uri: ${easyms.azure.activedirectory.appIdUri}
+      keyvault:
+        secret:
+          property-source-enabled: ${easyms.azure.keyvault.enabled}
+          property-sources:
+            - name: key-vault-property-source
+              endpoint: ${easyms.azure.keyvault.endpoint}
+              credential:
+                client-id: ${easyms.azure.keyvault.clientId}
+                client-secret: ${easyms.azure.keyvault.clientSecret}
+              profile:
+                tenant-id: ${easyms.azure.keyvault.tenant}
   security:
     oauth2:
       client:

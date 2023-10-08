@@ -1,4 +1,4 @@
-package com.easyms.security.oauth2.ms.config.feign;
+package com.easyms.security.common.ms.config.feign;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
