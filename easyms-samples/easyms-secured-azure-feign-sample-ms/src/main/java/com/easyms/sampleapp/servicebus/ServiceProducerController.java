@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Sinks;
+import reactor.core.publisher.EmitterProcessor;
 
 @RestController
 @Profile("manual")
@@ -25,21 +25,21 @@ public class ServiceProducerController {
 
     @Autowired
     @Qualifier("emitter")
-    private Sinks.Many<Message<String>> emitterProcessor;
+    private EmitterProcessor<Message<String>> emitterProcessor;
 
     @Autowired
     @Qualifier("emitter2")
-    private Sinks.Many<Message<String>> emitterProcessor2;
+    private EmitterProcessor<Message<String>> emitterProcessor2;
 
     @PostMapping("/api/messages")
     public ResponseEntity<String> sendMessage(@RequestParam String message) {
         LOGGER.info("Going to add message {} to emitter", message);
-        emitterProcessor.emitNext(MessageBuilder.withPayload(message).build(), Sinks.EmitFailureHandler.FAIL_FAST);
-        emitterProcessor2.emitNext(MessageBuilder.withPayload(message).build(), Sinks.EmitFailureHandler.FAIL_FAST);
+        emitterProcessor.onNext(MessageBuilder.withPayload(message).build());
+        emitterProcessor2.onNext(MessageBuilder.withPayload(message).build());
         return ResponseEntity.ok("Sent!");
     }
 
-    @GetMapping("/api/welcome")
+    @GetMapping("/")
     public String welcome() {
         return "welcome";
     }

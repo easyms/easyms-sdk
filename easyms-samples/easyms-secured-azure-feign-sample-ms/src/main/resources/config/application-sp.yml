@@ -1,0 +1,49 @@
+spring:
+  cloud:
+    azure:
+      client-id: ${easyms.sampleazure.servicebus.client-id}
+      client-secret: ${easyms.sampleazure.servicebus.client-secret}
+      tenant-id: ${easyms.sampleazure.servicebus.tenant-id}
+      resource-group: ${easyms.sampleazure.servicebus.resourcegroup}
+
+      #     Uncomment below configurations if you want to enable auto creating resources.
+      #
+      #      subscription-id: [subscription-id]
+      auto-create-resources: true
+      #      environment: Azure
+      #      region: southcentralus
+      region: ${easyms.sampleazure.servicebus.region}
+      servicebus:
+        namespace: ${easyms.sampleazure.servicebus.namespace}
+    stream:
+      defaultBinder: servicebus-topic
+      bindings:
+        consume-in-0:
+          destination: mytopic
+          group: newsubscription
+        consumeNew-in-0:
+          destination: mynewtopic
+          group: mynewsub
+        supply-out-0:
+          destination: mytopic
+        supply2-out-0:
+          destination: mynewtopic
+      servicebus:
+        topic:
+          bindings:
+            consume-in-0:
+              consumer:
+                requeueRejected: true
+      #          bindings:
+
+      #            servicebus:
+      #                topic:
+      #                    bindings:
+      #                        consume-in-0:
+      #                            consumer:
+      #                                checkpoint-mode: MANUAL
+      function:
+        definition: consume;supply;supply2;consumeNew
+      poller:
+        fixed-delay: 1000
+        initial-delay: 0

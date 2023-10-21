@@ -11,7 +11,7 @@ profiles:
 ---
 
 server:
-  port: 8092
+  port: 8098
 
 #Admin configuration
 info:
@@ -35,12 +35,12 @@ spring:
     pathmatch:
       matching-strategy: ant-path-matcher
   #  jpa:
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
-#  datasource:
-#    url: ${datasource.url}
-#    username: ${datasource.username}
-#    password: ${datasource.password}
-#    driver-class-name: org.postgresql.Driver
+  #    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  #  datasource:
+  #    url: ${datasource.url}
+  #    username: ${datasource.username}
+  #    password: ${datasource.password}
+  #    driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:config/db/db.changelog-master.xml
   profiles.active: dev
@@ -76,20 +76,21 @@ easyms:
           - PERM_DELETE_CLIENT
         hia-readers:
           - PERM_READ_CLIENT
+          - PERM_UPDATE_CLIENT
   azure:
     internalToken:
       enabled: true
-#      pubKeyPath: "classpath:jwtbearer-test.pub"
+      #      pubKeyPath: "classpath:jwtbearer-test.pub"
       pubKeyValue: |
-              -----BEGIN PUBLIC KEY-----
-              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsMQpRL3fm1I80BgrUZxX
-              LlVuJoaI24eur9qWGnxsfjRwtoomQKjZEfbz9NBGURCTejWS4nRrIXF3YPdz9JU8
-              3HpFMOpDtrcGvMR8IIRpiqq9rHlllnI0FIX55/o8N1Er4bYMF8s7hwJZ2/lybsWs
-              VrAOU76Pz1vUq5/iD8ildZ37voSEUeCUXJOQw5dGYuZ92D1fcxyhjJYnknH9GkHS
-              SwKd1KU6Kl9w4gBOrHgMbnQxypUsYV3fF0KuMMV2ZcLSJRvWMtObl1sBzv3iOhib
-              N0tnWf/CRkT6ZLTcu44S9WtFvHf92vtfKI201c3X5fhK12BdOdlF6OU3l2oHoPeQ
-              wwIDAQAB
-              -----END PUBLIC KEY-----
+        -----BEGIN PUBLIC KEY-----
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsMQpRL3fm1I80BgrUZxX
+        LlVuJoaI24eur9qWGnxsfjRwtoomQKjZEfbz9NBGURCTejWS4nRrIXF3YPdz9JU8
+        3HpFMOpDtrcGvMR8IIRpiqq9rHlllnI0FIX55/o8N1Er4bYMF8s7hwJZ2/lybsWs
+        VrAOU76Pz1vUq5/iD8ildZ37voSEUeCUXJOQw5dGYuZ92D1fcxyhjJYnknH9GkHS
+        SwKd1KU6Kl9w4gBOrHgMbnQxypUsYV3fF0KuMMV2ZcLSJRvWMtObl1sBzv3iOhib
+        N0tnWf/CRkT6ZLTcu44S9WtFvHf92vtfKI201c3X5fhK12BdOdlF6OU3l2oHoPeQ
+        wwIDAQAB
+        -----END PUBLIC KEY-----
       issuer: "https://c2id.com"
 
 
@@ -184,4 +185,3 @@ easyms.spring.cloud.azure.servicebus.credentials.file:
   clientSecret: ${kvsecret-azurebus-secret}
   tenantId: ${kvsecret-azurebus-tenant}
   subscriptionId: ${kvkvsecret-azurebus-subscription}
-
