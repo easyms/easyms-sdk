@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>easyms-samples</artifactId>
+        <groupId>com.easyms</groupId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <jacoco.easyms.instr.coverage>0.30</jacoco.easyms.instr.coverage>
+        <jacoco.easyms.branch.coverage>0.02</jacoco.easyms.branch.coverage>
+        <jacoco.easyms.class.missed>2</jacoco.easyms.class.missed>
+    </properties>
+
+    <artifactId>easyms-secured-azure-feign-sample-ms</artifactId>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>com.easyms</groupId>
+            <artifactId>easyms-azure-service-bus-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.easyms</groupId>
+            <artifactId>easyms-azure-ad-secured-rest-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <version>${jakarta.inject.api.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.easyms</groupId>
+            <artifactId>easyms-azure-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+</project>

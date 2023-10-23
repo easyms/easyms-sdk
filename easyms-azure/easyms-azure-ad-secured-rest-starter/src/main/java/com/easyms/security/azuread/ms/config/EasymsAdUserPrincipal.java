@@ -1,7 +1,5 @@
 package com.easyms.security.azuread.ms.config;
 
-import com.azure.spring.autoconfigure.aad.UserPrincipal;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;

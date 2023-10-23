@@ -1,4 +1,22 @@
 spring:
+  cloud:
+    azure:
+      active-directory:
+        enabled: true
+        credential:
+          client-id: ${easyms.azure.activedirectory.clientId}
+        app-id-uri: ${easyms.azure.activedirectory.appIdUri}
+      keyvault:
+        secret:
+          property-source-enabled: ${easyms.azure.keyvault.enabled}
+          property-sources:
+            - name: key-vault-property-source
+              endpoint: ${easyms.azure.keyvault.endpoint}
+              credential:
+                client-id: ${easyms.azure.keyvault.clientId}
+                client-secret: ${easyms.azure.keyvault.clientSecret}
+              profile:
+                tenant-id: ${easyms.azure.keyvault.tenant}
   security:
     oauth2:
       client:
@@ -10,8 +28,23 @@ spring:
       password: ${easyms.security.actuator.password}
       roles: ACTUATOR
 
+management:
+  endpoint:
+    health:
+      show-details: when-authorized
+      roles: ACTUATOR
+
+springdoc:
+  swagger-ui:
+    oauth:
+      use-pkce-with-authorization-code-grant: true
+      client-id: ${easyms.azure.activedirectory.swaggerclientId}
+  oAuthFlow:
+    authorizationUrl: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/oauth2/v2.0/authorize
+    tokenUrl: https://login.microsoftonline.com/${easyms.azure.activedirectory.tenant}/oauth2/v2.0/token
+
 swagger:
-  paths: /api.*
+  paths: /api/**
   securityDefinitions:
     oauthSecurity:
       type: oauth2
@@ -30,17 +63,9 @@ easyms:
         pubKeyValue : ${easyms.azure.internalToken.pubKeyValue:}
         issuer : ${easyms.azure.internalToken.issuer}
 
-azure:
-  activedirectory:
-    jwtConnectTimeout: 3000
-    jwtReadTimeout: 3000
-    session-stateless: true
-    client-id: ${easyms.azure.activedirectory.clientId}
-    appIdUri: ${easyms.azure.activedirectory.appIdUri}
-
 ---
 spring:
-  profiles: test
+  config.activate.on-profile: test
 
 easyms:
   azure:

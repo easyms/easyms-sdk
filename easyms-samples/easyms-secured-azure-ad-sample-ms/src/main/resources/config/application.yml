@@ -25,6 +25,8 @@ spring:
   application:
     id: @app.id@
     name: @app.id@
+  config:
+    import: optional:configserver:http://localhost:2001
   cloud:
     config:
       import-check:
@@ -72,6 +74,8 @@ easyms:
           - PERM_MODIFY_CLIENT
           - PERM_READ_CLIENT
           - PERM_DELETE_CLIENT
+        hia-readers:
+          - PERM_READ_CLIENT
   azure:
     internalToken:
       enabled: true
@@ -98,6 +102,7 @@ easyms:
 
 
 management.endpoints.web.exposure.include: "*"
+management.health.rabbit.enabled: false
 
 ---
 spring:
@@ -105,7 +110,7 @@ spring:
     activate:
       on-profile: sample
 
-liquibase.contexts: data
+spring.liquibase.contexts: data
 
 ---
 spring:
@@ -121,6 +126,12 @@ easyms:
       appIdUri: ${easyms.sampleazure.aad.appIdUri}
       swaggerclientId: ${easyms.sampleazure.aad.swaggerclientId}
       swaggerscopes: ${easyms.sampleazure.aad.swaggerscopes}
+    keyvault:
+      enabled: true
+      endpoint: ${easyms.sampleazure.kv.uri}
+      clientId: ${easyms.sampleazure.kv.client-id}
+      clientSecret: ${easyms.sampleazure.kv.client-key}
+      tenant: ${easyms.sampleazure.kv.tenant}
 
 ---
 spring:
@@ -147,26 +158,30 @@ spring:
     hibernate.ddl-auto: none
   h2.console.enabled: false
 
-liquibase.contexts: testData
+spring.liquibase.contexts: testData
 
 ---
 spring:
   config:
     activate:
       on-profile: azure-vault
-
-azure:
-  keyvault:
-    enabled: true
-    uri: ${easyms.sampleazure.kv.uri}
-    client-id: ${easyms.sampleazure.kv.client-id}
-    tenant-id: ${easyms.sampleazure.tenant}
-    client-key: ${easyms.sampleazure.kv.client-key}
-    token-acquire-timeout-seconds: 60
-    refresh-interval: 1800000
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-source-enabled: ${easyms.azure.keyvault.enabled}
+          property-sources:
+            - name: key-vault-property-source
+              endpoint: ${easyms.azure.keyvault.endpoint}
+              credential:
+                client-id: ${easyms.azure.keyvault.clientId}
+                client-secret: ${easyms.azure.keyvault.clientSecret}
+              profile:
+                tenant-id: ${easyms.azure.keyvault.tenant}
 
 easyms.spring.cloud.azure.servicebus.credentials.file:
   clientId: ${kvsecret-azurebus-sp}
   clientSecret: ${kvsecret-azurebus-secret}
+  tenantId: ${kvsecret-azurebus-tenant}
   subscriptionId: ${kvkvsecret-azurebus-subscription}
 

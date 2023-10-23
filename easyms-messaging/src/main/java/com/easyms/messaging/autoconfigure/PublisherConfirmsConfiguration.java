@@ -6,9 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHandler;
-import org.springframework.messaging.SubscribableChannel;
 
-import javax.annotation.PostConstruct;
+import java.util.function.Function;
 
 @Configuration
 public class PublisherConfirmsConfiguration {
@@ -16,21 +15,21 @@ public class PublisherConfirmsConfiguration {
 
     @Autowired
     @Qualifier("publisherConfirmsHandler")
-    MessageHandler confirmHandler;
+    Function<Message<?>, MessageHandler> confirmHandler;
 
 
     @Autowired
     @Qualifier("publisherErrorsHandler")
-    MessageHandler errorsHandler;
+    Function<Message<?>, MessageHandler> errorsHandler;
 
     @ServiceActivator(inputChannel = "acks")
     public void acks(Message<?> ack) {
-        confirmHandler.handleMessage(ack);
+        confirmHandler.apply(ack);
         System.out.println("Ack: " + ack);
     }
 
     @ServiceActivator(inputChannel = "easyms-exchange.errors")
     public void errors(Message<?> error) {
-        errorsHandler.handleMessage(error);
+        errorsHandler.apply(error);
     }
 }

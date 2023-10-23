@@ -1,11 +1,15 @@
 spring:
   cloud:
+    function:
+     definition: onDummyReceive
     stream:
+      default:
+        destination: dummy-topic
+        content-type: application/json
       bindings:
-        dummyQueueChannel:
-          group: dummy.channel.group
-    rabbit:
-      bindings:
-        dummyQueueChannel:
-          consumer:
-            bindingRoutingKey: dummy.channel.queue
+        sendDummy-out-0:
+          destination: dummy-topic
+        onDummyReceive-in-0:
+          destination: dummy-topic
+      poller:
+        fixed-delay: 500

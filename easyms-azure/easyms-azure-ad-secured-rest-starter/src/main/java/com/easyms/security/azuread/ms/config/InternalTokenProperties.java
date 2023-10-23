@@ -1,10 +1,9 @@
 package com.easyms.security.azuread.ms.config;
 
+import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import javax.annotation.PostConstruct;
 
 
 @ConfigurationProperties("easyms.secured.azuread.internaltoken")
@@ -27,3 +26,4 @@ public class InternalTokenProperties {
         }
     }
 }
+

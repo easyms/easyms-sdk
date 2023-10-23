@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    azure:
+      credential:
+        client-id: ${easyms.spring.cloud.azure.servicebus.credentials.file.clientId}
+        client-secret: ${easyms.spring.cloud.azure.servicebus.credentials.file.clientSecret}
+      profile:
+        tenant-id: ${easyms.spring.cloud.azure.servicebus.credentials.file.tenantId}
+        subscription-id: ${easyms.spring.cloud.azure.servicebus.credentials.file.subscriptionId}
+  config:
+    activate:
+      on-profile: sp

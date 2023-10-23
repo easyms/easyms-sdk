@@ -14,16 +14,12 @@ spring:
 
 ---
 spring:
-  profiles: rabbit
+  config.activate.on-profile: rabbit
   rabbitmq:
     host: 127.0.0.1
     port: 5672
     username: guest
     password: guest
-#    virtual-host: easyms-vhost
-#    dynamic: true
-#    ssl:
-#      enabled: false
     publisher-confirms: true
     publisher-returns: true
 

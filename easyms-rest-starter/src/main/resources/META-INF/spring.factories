@@ -1,4 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.easyms.rest.autoconfigure.EasyMsAutoConfiguration
 org.springframework.boot.env.EnvironmentPostProcessor=\
   com.easyms.rest.autoconfigure.EasyMsRestEnvProcessor

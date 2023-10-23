@@ -2,7 +2,7 @@ package com.easyms.logging.ms;
 
 import brave.Span;
 import brave.Tracer;
-import lombok.AllArgsConstructor;
+import jakarta.servlet.ServletException;
 import org.apache.catalina.Valve;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
@@ -12,7 +12,6 @@ import org.apache.tomcat.util.http.MimeHeaders;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.Objects;
 

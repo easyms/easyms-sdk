@@ -60,7 +60,7 @@ public abstract class AbstractYmlLoaderEnvPostProcessor implements EnvironmentPo
     }
 
     private PropertySourceWithProfile buildPropertySourceWithProfile(PropertySource<?> propertySource) {
-        return new PropertySourceWithProfile(propertySource, (String) propertySource.getProperty("spring.profiles"));
+        return new PropertySourceWithProfile(propertySource, (String) propertySource.getProperty("spring.config.activate.on-profile"));
     }
 
     private boolean matchAnyActiveProfiles(PropertySourceWithProfile propertySourceWithProfile, ConfigurableEnvironment env) {

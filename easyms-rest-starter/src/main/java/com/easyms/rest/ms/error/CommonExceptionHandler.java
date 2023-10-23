@@ -1,12 +1,16 @@
 package com.easyms.rest.ms.error;
 
 import com.google.common.collect.Lists;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -21,25 +25,17 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
-
 
 @Slf4j
 @ControllerAdvice
 @ConditionalOnMissingBean(annotation = ControllerAdvice.class)
 public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Map<Class, HttpStatus> CLIENT_EXCEPTIONS = new HashMap<Class, HttpStatus>() {{
-        put(IllegalStateException.class, BAD_REQUEST);
-        put(ResourceAccessException.class, NOT_FOUND);
-    }};
-
+    private static final Map<Class, HttpStatus> CLIENT_EXCEPTIONS = Map.of(IllegalStateException.class, BAD_REQUEST, ResourceAccessException.class, NOT_FOUND);
 
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<Object> handleHttpClientErrorException(HttpServletRequest req, HttpClientErrorException ex) {
@@ -77,7 +73,7 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         String url = ((ServletWebRequest) request).getRequest().getRequestURL().toString();
         List<ErrorItemDto> fieldErrorDtos = ex.getBindingResult().getFieldErrors().stream()
@@ -85,9 +81,10 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
                 .collect(Collectors.toList());
         ErrorDto errorDto = ErrorDto.builder().url(url)
                 .code(status.value())
-                .message(status.getReasonPhrase())
+                .message(HttpStatus.valueOf(status.value()).getReasonPhrase())
                 .errors(fieldErrorDtos).build();
         return handleExceptionInternal(ex, errorDto, new HttpHeaders(), status, request);
+
     }
 
     @ExceptionHandler(IllegalStateException.class)
@@ -123,12 +120,12 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         String url = ((ServletWebRequest) request).getRequest().getRequestURL().toString();
         ErrorDto errorDto = ErrorDto.builder().url(url)
                 .code(status.value())
-                .message(status.getReasonPhrase())
+                .message(HttpStatus.valueOf(status.value()).getReasonPhrase())
                 .errors(Lists.newArrayList(new ErrorItemDto(ex.getParameterName(), CommonErrorMessages.missing_required_parameters.getErrorKey()))).build();
 
         return handleExceptionInternal(ex, errorDto, new HttpHeaders(), status, request);
@@ -136,18 +133,18 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String url = ((ServletWebRequest) request).getRequest().getRequestURL().toString();
-        log(ex, status, url);
-        return super.handleExceptionInternal(ex, buildBody(body, status, url), headers, status, request);
+        log(ex, HttpStatus.valueOf(status.value()), url);
+        return super.handleExceptionInternal(ex, buildBody(body, HttpStatus.valueOf(status.value()), url), headers, status, request);
     }
 
     private void log(Exception ex, HttpStatus status, String url) {
         String message = "Exception while handling a Http Request URL : %s with status : %d and message : %s";
         if (status.is5xxServerError()) {
-            log.error(String.format(message, url, status.value(), ex.getMessage()), ex);
+            log.error(message.formatted(url, status.value(), ex.getMessage()), ex);
         } else {
-            log.warn(String.format(message, url, status.value(), ex.getMessage()), ex);
+            log.warn(message.formatted(url, status.value(), ex.getMessage()), ex);
         }
     }
 

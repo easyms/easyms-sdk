@@ -5,7 +5,7 @@
     <parent>
         <artifactId>easyms-samples</artifactId>
         <groupId>com.easyms</groupId>
-        <version>1.0.26-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -42,16 +42,21 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <version>${jakarta.inject.api.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.easyms</groupId>
             <artifactId>easyms-azure-test</artifactId>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
 
 </project>

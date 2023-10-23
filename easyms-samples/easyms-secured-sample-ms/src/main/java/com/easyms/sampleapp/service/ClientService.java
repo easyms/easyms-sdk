@@ -8,7 +8,6 @@ import com.easyms.sampleapp.model.entity.Client;
 import com.easyms.sampleapp.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

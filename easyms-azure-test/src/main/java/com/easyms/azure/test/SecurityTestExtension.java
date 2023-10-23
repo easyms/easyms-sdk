@@ -1,7 +1,7 @@
 package com.easyms.azure.test;
 
-import com.azure.spring.autoconfigure.aad.UserPrincipal;
-import com.azure.spring.autoconfigure.aad.UserPrincipalManager;
+import com.azure.spring.cloud.autoconfigure.implementation.aad.filter.UserPrincipal;
+import com.azure.spring.cloud.autoconfigure.implementation.aad.filter.UserPrincipalManager;
 import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;

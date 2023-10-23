@@ -1,0 +1,6 @@
+spring:
+  security:
+    user:
+      name: ${easyms.security.actuator.user:actuator-admin}
+      password: ${easyms.security.actuator.password}
+      roles: ACTUATOR

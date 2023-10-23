@@ -1,7 +1,6 @@
 package com.easyms.sampleapp.repository;
 
 
-import com.easyms.sampleapp.model.dto.ClientDto;
 import com.easyms.sampleapp.model.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

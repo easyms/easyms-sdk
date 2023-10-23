@@ -1,4 +1,2 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
   com.easyms.security.oauth2.autoconfigure.EasyMsSecuredEnvProcessor
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.easyms.security.oauth2.autoconfigure.EasyMsSecuredAutoConfiguration
