@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Sinks;
 
+import java.time.Duration;
+
 @RestController
 @Profile("manual")
 public class ServiceProducerController {
@@ -34,8 +36,8 @@ public class ServiceProducerController {
     @PostMapping("/api/messages")
     public ResponseEntity<String> sendMessage(@RequestParam String message) {
         LOGGER.info("Going to add message {} to emitter", message);
-        emitterProcessor.emitNext(MessageBuilder.withPayload(message).build(), Sinks.EmitFailureHandler.FAIL_FAST);
-        emitterProcessor2.emitNext(MessageBuilder.withPayload(message).build(), Sinks.EmitFailureHandler.FAIL_FAST);
+        emitterProcessor.emitNext(MessageBuilder.withPayload(message).build(), Sinks.EmitFailureHandler.busyLooping(Duration.ofSeconds(3)));
+        emitterProcessor2.emitNext(MessageBuilder.withPayload(message).build(), Sinks.EmitFailureHandler.busyLooping(Duration.ofSeconds(3)));
         return ResponseEntity.ok("Sent!");
     }
 

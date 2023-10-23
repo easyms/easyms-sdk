@@ -34,7 +34,7 @@ public class ManualServiceProducerConfiguration {
     @Bean
     public Supplier<Flux<Message<String>>> supply(@Qualifier("emitter") Sinks.Many<Message<String>> emitter) {
         return () -> emitter.asFlux()
-                .doOnNext(m -> LOGGER.info("Manually sending message {}", m))
+                .doOnNext(m -> LOGGER.info("Manually sending message from emitter 1 {}", m))
                 .doOnError(t -> LOGGER.error("Error encountered", t));
     }
 

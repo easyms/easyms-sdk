@@ -20,6 +20,8 @@ public class FeignInterceptor implements RequestInterceptor {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_TOKEN_TYPE = "Bearer";
 
+    private final AuthenticationToTokenMapper authenticationToTokenMapper;
+
     @Override
     public void apply(RequestTemplate template) {
         template.header("requestId", UUID.randomUUID().toString());
@@ -32,14 +34,8 @@ public class FeignInterceptor implements RequestInterceptor {
     }
 
     private String generateToken(Authentication auth) {
-        OAuth2AuthorizationCodeAuthenticationToken details;
-        try{
-            details = (OAuth2AuthorizationCodeAuthenticationToken) auth.getDetails();
-        } catch (Exception exception) {
-            Jwt token = ((JwtAuthenticationToken) auth).getToken();
-            return Objects.nonNull(token) ? token.getTokenValue() : null;
-        }
-        return Objects.nonNull(details) ? details.getAccessToken().getTokenValue() : null;
+        return authenticationToTokenMapper.map2Token(auth);
+
     }
 
 }

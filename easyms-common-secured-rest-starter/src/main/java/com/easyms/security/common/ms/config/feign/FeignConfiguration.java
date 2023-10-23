@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 public class FeignConfiguration {
 
     @Bean
-    public FeignInterceptor FeignRequestInterceptor() {
-        return new FeignInterceptor();
+    public FeignInterceptor FeignRequestInterceptor(AuthenticationToTokenMapper authenticationToTokenMapper) {
+        return new FeignInterceptor(authenticationToTokenMapper);
     }
 
 }

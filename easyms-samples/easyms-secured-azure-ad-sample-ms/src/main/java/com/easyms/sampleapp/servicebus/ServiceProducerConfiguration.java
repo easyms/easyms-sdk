@@ -24,7 +24,7 @@ public class ServiceProducerConfiguration {
     @Bean
     public Supplier<Message<String>> supply() {
         return () -> {
-            LOGGER.info("Sending message, sequence {} ", i);
+            LOGGER.info("Sending message from supply, sequence {} ", i);
             return MessageBuilder.withPayload("Hello world, " + i++).build();
         };
     }

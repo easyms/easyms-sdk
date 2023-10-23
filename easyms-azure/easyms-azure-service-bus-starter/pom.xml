@@ -16,6 +16,10 @@
             <groupId>com.azure.spring</groupId>
             <artifactId>spring-cloud-azure-stream-binder-servicebus</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.easyms</groupId>
+            <artifactId>easyms-basic-starter</artifactId>
+        </dependency>
 
     </dependencies>
 </project>

@@ -27,7 +27,7 @@ public class ServiceConsumerConfiguration {
     public Consumer<Message<String>> consume() {
         return message -> {
             Checkpointer checkpointer = (Checkpointer) message.getHeaders().get(CHECKPOINTER);
-            LOGGER.info("New message received: '{}'", message);
+            LOGGER.info("New message received consume:  '{}'", message);
             checkpointer.success()
                     .doOnSuccess(s -> LOGGER.info("Message '{}' successfully checkpointed", message.getPayload()))
                     .doOnError(e -> LOGGER.error("Error found ", e))
@@ -40,7 +40,7 @@ public class ServiceConsumerConfiguration {
     public Consumer<Message<String>> consumeNew() {
         return message -> {
             Checkpointer checkpointer = (Checkpointer) message.getHeaders().get(CHECKPOINTER);
-            LOGGER.info("New message received from new sub: '{}'", message);
+            LOGGER.info("New message received from new sub consumeNew : '{}'", message);
             checkpointer.success()
                     .doOnSuccess(s -> LOGGER.info("Message '{}' successfully checkpointed", message.getPayload()))
                     .doOnError(e -> LOGGER.error("Error found", e))
