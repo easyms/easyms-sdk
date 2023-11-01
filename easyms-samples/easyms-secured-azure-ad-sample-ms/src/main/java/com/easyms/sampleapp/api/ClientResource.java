@@ -75,6 +75,14 @@ public class ClientResource {
         return ResponseEntity.ok().body(clientDtos);
     }
 
-
+    @Operation(summary="returns all details of a client by feign")
+    @Timed
+    @PreAuthorize("hasAuthority('PERM_READ_CLIENT')")
+    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v2/clients/{id}")
+    public ResponseEntity<ClientDto> findByIdWithFeign(@PathVariable Long id) {
+        log.info("get client with feign");
+        Optional<ClientDto> clientDto = clientService.getByIdWithFeign(id);
+        return clientDto.map(clDto -> ResponseEntity.ok().body(clDto)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
 

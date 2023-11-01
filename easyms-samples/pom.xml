@@ -14,7 +14,6 @@
 
     <modules>
         <module>easyms-secured-azure-ad-sample-ms</module>
-        <module>easyms-secured-azure-feign-sample-ms</module>
         <module>easyms-secured-sample-ms</module>
         <module>easyms-sample-ms</module>
     </modules>
