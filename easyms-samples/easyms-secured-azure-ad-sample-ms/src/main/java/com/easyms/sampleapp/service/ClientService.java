@@ -1,5 +1,6 @@
 package com.easyms.sampleapp.service;
 
+import com.easyms.logging.ms.CustomObjectFieldsAppendingMarker;
 import com.easyms.sampleapp.client.FeignTestClient;
 import com.easyms.sampleapp.converter.ClientConverter;
 import com.easyms.sampleapp.converter.ClientRequestConverter;
@@ -32,7 +33,7 @@ public class ClientService {
 
         //Log business event
         ClientLogging clientLogging = ClientLogging.builder().clientId(id.toString()).eventName("RequestById").clientRate(10).build();
-        customLogger.info(new ObjectFieldsAppendingMarker(clientLogging), "clientEvent");
+        customLogger.info(new CustomObjectFieldsAppendingMarker(clientLogging), "clientEvent");
 
         return client.map(cl -> ClientConverter.newInstance().convert(cl));
     }

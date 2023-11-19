@@ -2,10 +2,5 @@ spring:
   config:
     activate:
       on-profile: test
-  boot:
-    admin:
-      client:
-        enabled: false
-        spring:
-  zipkin:
-    enabled: false
+  autoconfigure:
+    exclude: org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinAutoConfiguration

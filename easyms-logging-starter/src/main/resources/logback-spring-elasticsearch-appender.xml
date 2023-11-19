@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<included>
+    <springProperty name="enabled" source="easyms.logging.elastic.enabled" defaultValue="false"/>
+    <springProperty name="destination" source="easyms.logging.elastic.url" defaultValue="http://localhost:9200"/>
+    <springProperty name="logging.service" source="easyms.logging.service.name"/>
+    <springProperty name="logging.environment" source="easyms.logging.environment.name" defaultValue="env.test"/>
+
+    <property resource="META-INF/build-info.properties"/>
+    <conversionRule conversionWord="loggerName" converterClass="com.easyms.logging.ms.LoggerNameConverter"/>
+
+
+    <!-- Declare logstash appender -->
+    <if condition='isDefined("destination") &amp;&amp; property("enabled").equals("true")'>
+        <then>
+            <appender name="ELASTIC" class="com.easyms.logging.ms.CustomElasticSearchAppender">
+                <url>${destination}/_bulk</url>
+                <index>logs</index>
+                <type>_doc</type>
+                <loggerName>es-logger</loggerName> <!-- optional -->
+                <errorLoggerName>es-error-logger</errorLoggerName> <!-- optional -->
+                <connectTimeout>30000</connectTimeout> <!-- optional (in ms, default 30000) -->
+                <errorsToStderr>false</errorsToStderr> <!-- optional (default false) -->
+                <includeCallerData>false</includeCallerData> <!-- optional (default false) -->
+                <logsToStderr>false</logsToStderr> <!-- optional (default false) -->
+                <maxQueueSize>104857600</maxQueueSize> <!-- optional (default 104857600) -->
+                <maxRetries>3</maxRetries> <!-- optional (default 3) -->
+                <readTimeout>30000</readTimeout> <!-- optional (in ms, default 30000) -->
+                <sleepTime>250</sleepTime> <!-- optional (in ms, default 250) -->
+                <rawJsonMessage>false</rawJsonMessage> <!-- optional (default false) -->
+                <includeMdc>true</includeMdc> <!-- optional (default false) -->
+                <maxMessageSize>100</maxMessageSize> <!-- optional (default -1 -->
+                <authentication class="com.agido.logback.elasticsearch.config.BasicAuthentication" /> <!-- optional -->
+                <properties>
+                    <esProperty>
+                        <name>host</name>
+                        <value>${HOSTNAME}</value>
+                        <allowEmpty>false</allowEmpty>
+                    </esProperty>
+                    <esProperty>
+                        <name>service</name>
+                        <value>${logging.service}</value>
+                        <allowEmpty>false</allowEmpty>
+                    </esProperty>
+                    <esProperty>
+                        <name>serviceVersion</name>
+                        <value>${build.version}</value>
+                        <allowEmpty>false</allowEmpty>
+                    </esProperty>
+                    <esProperty>
+                        <name>env</name>
+                        <value>${logging.environment}</value>
+                        <allowEmpty>false</allowEmpty>
+                    </esProperty>
+                    <esProperty>
+                        <name>severity</name>
+                        <value>%level</value>
+                    </esProperty>
+                    <esProperty>
+                        <name>thread</name>
+                        <value>%thread</value>
+                    </esProperty>
+                    <esProperty>
+                        <name>stacktrace</name>
+                        <value>%ex</value>
+                    </esProperty>
+                    <esProperty>
+                        <name>logger</name>
+                        <value>%logger</value>
+                    </esProperty>
+                </properties>
+                <headers>
+                    <header>
+                        <name>Content-Type</name>
+                        <value>application/json</value>
+                    </header>
+                </headers>
+            </appender>
+        </then>
+    </if>
+
+
+    <!-- add elasticsearch logger -->
+    <if condition='isDefined("destination") &amp;&amp; property("enabled").equals("true")'>
+        <then>
+            <root level="info">
+                <appender-ref ref="ELASTIC" />
+            </root>
+        </then>
+    </if>
+
+    <!-- add console logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</included>

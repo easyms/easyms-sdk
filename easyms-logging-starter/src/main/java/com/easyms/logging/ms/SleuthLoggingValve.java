@@ -1,7 +1,7 @@
 package com.easyms.logging.ms;
 
-import brave.Span;
-import brave.Tracer;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import jakarta.servlet.ServletException;
 import org.apache.catalina.Valve;
 import org.apache.catalina.connector.Request;
@@ -22,8 +22,8 @@ import java.util.Objects;
 @Component
 @ConditionalOnProperty(value = "spring.sleuth.enabled", havingValue = "true", matchIfMissing = true)
 public class SleuthLoggingValve extends ValveBase {
-    public static final String X_B3_TRACE_ID = "X-B3-TraceId";
-    public static final String X_B3_SPAN_ID = "X-B3-SpanId";
+    public static final String TRACE_ID = "traceId";
+    public static final String SPAN_ID = "spanId";
 
     private final Tracer tracer;
 
@@ -45,14 +45,14 @@ public class SleuthLoggingValve extends ValveBase {
     }
 
     private void addTraceIdToRequestIfMissing(Request request) {
-        String header = request.getHeader(X_B3_TRACE_ID);
+        String header = request.getHeader(TRACE_ID);
         if(Objects.isNull(header)) {
             org.apache.coyote.Request coyoteRequest = request.getCoyoteRequest();
             MimeHeaders mimeHeaders = coyoteRequest.getMimeHeaders();
-            Span span = tracer.newTrace();
+            Span span = tracer.spanBuilder().start();
 
-            putHeader(mimeHeaders, X_B3_TRACE_ID, span.context().traceIdString());
-            putHeader(mimeHeaders, X_B3_SPAN_ID, span.context().traceIdString());
+            putHeader(mimeHeaders, TRACE_ID, span.context().traceId());
+            putHeader(mimeHeaders, SPAN_ID, span.context().spanId());
 
         }
     }

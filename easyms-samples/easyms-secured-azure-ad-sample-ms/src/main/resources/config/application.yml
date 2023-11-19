@@ -117,6 +117,8 @@ spring:
   config:
     activate:
       on-profile: local
+  sleuth:
+    enabled: true
 
 easyms:
   azure:
@@ -126,6 +128,12 @@ easyms:
       appIdUri: ${easyms.sampleazure.aad.appIdUri}
       swaggerclientId: ${easyms.sampleazure.aad.swaggerclientId}
       swaggerscopes: ${easyms.sampleazure.aad.swaggerscopes}
+  logging:
+    service:
+      name: test
+    elastic:
+      enabled: true
+      url: http://elastic:changeme@localhost:9200
 
 ---
 spring:
