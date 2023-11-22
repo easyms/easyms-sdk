@@ -1,6 +1,7 @@
 package com.easyms.security.common.ms.config;
 
 
+import com.easyms.rest.autoconfigure.EasyMsAutoConfiguration;
 import com.easyms.rest.ms.config.SwaggerProperties;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.*;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,7 @@ import static java.util.Collections.singletonList;
  */
 @Configuration
 @AllArgsConstructor
+@AutoConfigureBefore(EasyMsAutoConfiguration.class)
 public class SecuredSwaggerConfig {
 
 

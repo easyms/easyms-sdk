@@ -58,8 +58,6 @@ jwt:
       principal-attribute: preferred_username
       jwk-set-uri: http://localhost:8080/realms/oauth-kk/protocol/openid-connect/certs
 
-swagger:
-  paths: /api/**
 
 easyms:
   logging:
@@ -75,8 +73,8 @@ logging:
   level:
     org:
       springframework:
-        security: DEBUG
-        web: DEBUG
+        security: TRACE
+        web: TRACE
 
 ---
 spring:

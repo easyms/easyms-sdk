@@ -1,15 +1,24 @@
 springdoc:
-  show-actuator: true
+  show-actuator: false
   swagger-ui:
-    client-id: oauth-kk-client
+    oauth:
+      client-id: oauth-kk-client
+      realm: oauth-kk
     groups-order: DESC
     use-root-path: true
     default-models-expand-depth: -1
     disable-swagger-default-url: true
+    csrf:
+      enabled: true
     version: '@springdoc-openapi-starter-webmvc-ui.version@'
 logging:
   level:
     org:
       springframework:
-        security: DEBUG
-        web: DEBUG
+        security: TRACE
+        web: TRACE
+swagger:
+  api:
+    info:
+      title: Easy-ms-Secured
+  paths: /api/**
