@@ -1,5 +1,6 @@
 package com.easyms.security.oauth2.ms.config.security;
 
+import com.easyms.security.common.ms.config.security.CORSFilter;
 import com.easyms.security.common.ms.config.security.RoutesHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 /**
@@ -28,16 +30,16 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 @RequiredArgsConstructor
 public class WebSecurityConfiguration {
 
-    //private final CORSFilter corsFilter;
+    private final CORSFilter corsFilter;
     private final RoutesHandler routesHandler;
     private final JwtAuthConverter jwtAuthConverter;
 
 
     @Bean
     WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().anyRequest();
-               /* .requestMatchers(routesHandler.technicalEndPoints())
-                .requestMatchers(routesHandler.publicEndpoints());*/
+        return web -> web.ignoring()
+                .requestMatchers(routesHandler.technicalEndPoints())
+                .requestMatchers(routesHandler.publicEndpoints());
     }
 
     @Bean
@@ -49,7 +51,7 @@ public class WebSecurityConfiguration {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                //.addFilterBefore(corsFilter, ChannelProcessingFilter.class)
+                .addFilterBefore(corsFilter, ChannelProcessingFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                         .requestMatchers(routesHandler.technicalEndPoints()).permitAll()

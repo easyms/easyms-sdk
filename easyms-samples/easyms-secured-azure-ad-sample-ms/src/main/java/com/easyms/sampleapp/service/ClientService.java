@@ -1,5 +1,6 @@
 package com.easyms.sampleapp.service;
 
+import com.easyms.sampleapp.client.FeignTestClient;
 import com.easyms.sampleapp.converter.ClientConverter;
 import com.easyms.sampleapp.converter.ClientRequestConverter;
 import com.easyms.sampleapp.model.dto.ClientDto;
@@ -24,6 +25,7 @@ public class ClientService {
 
     private static Logger customLogger = LoggerFactory.getLogger("custom-business-events");
     private final ClientRepository clientRepository;
+    private final FeignTestClient feignTestClient;
 
     public Optional<ClientDto> getById(Long id) {
         Optional<Client> client = clientRepository.findById(id);
@@ -49,6 +51,12 @@ public class ClientService {
     public ClientDto getByEmail(String email) {
         Optional<Client> client = clientRepository.findByEmail(email);
         return ClientConverter.newInstance().convert(client.orElse(null));
+    }
+
+    public Optional<ClientDto> getByIdWithFeign(Long id) {
+        ClientDto client = feignTestClient.getClient(id);
+
+        return Optional.ofNullable(client);
     }
 
     @Data
