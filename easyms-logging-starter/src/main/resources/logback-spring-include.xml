@@ -48,8 +48,8 @@
                                 "@env":"${logging.environment}",
                                 "@app":"${logging.application}",
                                 "@hostname":"${HOSTNAME}",
-                                "@trace_id":"%mdc{X-B3-TraceId}",
-                                "@span_id":"%mdc{X-B3-SpanId}",
+                                "@trace_id":"%mdc{traceId}",
+                                "@span_id":"%mdc{spanId}",
                                 "index":"%loggerName"
                                 }
                             </pattern>
