@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    container_name: keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: postgres
+    command: start-dev --import-realm
+    volumes:
+      - ./infra/keycloak:/opt/keycloak/data/import
+    healthcheck:
+      test: "curl -f http://localhost:8080/admin || exit 1"
+    depends_on:
+      - postgres
+
+
+  postgres:
+    image: postgres:13.0-alpine
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./infra/postgres:/docker-entrypoint-initdb.d
+volumes:
+  postgres:

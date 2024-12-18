@@ -1,11 +1,12 @@
 spring:
   cloud:
+    function:
+     definition: sendDummy;onDummyReceive
     stream:
       bindings:
-        dummyQueueChannel:
-          group: dummy.channel.group
-      rabbit:
-        bindings:
-          dummyQueueChannel:
-            consumer:
-              bindingRoutingKey: dummy.channel.queue
+        sendDummy-out-0:
+          destination: dummy-topic
+        onDummyReceive-in-0:
+          destination: dummy-topic
+      poller:
+        fixed-delay: 500

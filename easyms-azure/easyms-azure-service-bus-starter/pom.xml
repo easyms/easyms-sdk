@@ -5,7 +5,7 @@
     <parent>
         <artifactId>easyms-azure</artifactId>
         <groupId>com.easyms</groupId>
-        <version>1.0.26-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,8 +14,11 @@
     <dependencies>
         <dependency>
             <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-cloud-stream-binder-servicebus-topic</artifactId>
-            <version>2.13.0</version>
+            <artifactId>spring-cloud-azure-stream-binder-servicebus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.easyms</groupId>
+            <artifactId>easyms-basic-starter</artifactId>
         </dependency>
 
     </dependencies>

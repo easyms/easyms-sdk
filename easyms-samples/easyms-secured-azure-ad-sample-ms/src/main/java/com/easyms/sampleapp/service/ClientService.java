@@ -1,5 +1,7 @@
 package com.easyms.sampleapp.service;
 
+import com.easyms.logging.ms.CustomObjectFieldsAppendingMarker;
+import com.easyms.sampleapp.client.FeignTestClient;
 import com.easyms.sampleapp.converter.ClientConverter;
 import com.easyms.sampleapp.converter.ClientRequestConverter;
 import com.easyms.sampleapp.model.dto.ClientDto;
@@ -13,7 +15,6 @@ import net.logstash.logback.marker.ObjectFieldsAppendingMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,13 +26,14 @@ public class ClientService {
 
     private static Logger customLogger = LoggerFactory.getLogger("custom-business-events");
     private final ClientRepository clientRepository;
+    private final FeignTestClient feignTestClient;
 
     public Optional<ClientDto> getById(Long id) {
         Optional<Client> client = clientRepository.findById(id);
 
         //Log business event
         ClientLogging clientLogging = ClientLogging.builder().clientId(id.toString()).eventName("RequestById").clientRate(10).build();
-        customLogger.info(new ObjectFieldsAppendingMarker(clientLogging), "clientEvent");
+        customLogger.info(new CustomObjectFieldsAppendingMarker(clientLogging), "clientEvent");
 
         return client.map(cl -> ClientConverter.newInstance().convert(cl));
     }
@@ -50,6 +52,12 @@ public class ClientService {
     public ClientDto getByEmail(String email) {
         Optional<Client> client = clientRepository.findByEmail(email);
         return ClientConverter.newInstance().convert(client.orElse(null));
+    }
+
+    public Optional<ClientDto> getByIdWithFeign(Long id) {
+        ClientDto client = feignTestClient.getClient(id);
+
+        return Optional.ofNullable(client);
     }
 
     @Data

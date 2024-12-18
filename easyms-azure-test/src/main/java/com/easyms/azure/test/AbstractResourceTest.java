@@ -1,13 +1,12 @@
 package com.easyms.azure.test;
 
-import com.azure.spring.autoconfigure.aad.UserPrincipalManager;
+import com.azure.spring.cloud.autoconfigure.implementation.aad.filter.UserPrincipalManager;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
-
-import javax.inject.Inject;
 
 @MockBean(classes = {UserPrincipalManager.class})
 @ExtendWith(value = {SecurityTestExtension.class})
@@ -25,7 +24,7 @@ public class AbstractResourceTest extends AbstractTest {
 
     protected RequestPostProcessor bearerToken() {
         return mockHttpServletRequest -> {
-            mockHttpServletRequest.addHeader(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, "fake-token"));
+            mockHttpServletRequest.addHeader(AUTHORIZATION_HEADER, "%s %s".formatted(BEARER_TOKEN_TYPE, "fake-token"));
             return mockHttpServletRequest;
         };
     }

@@ -1,4 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.easyms.messaging.autoconfigure.EasyMsMessagingAutoConfiguration
 org.springframework.boot.env.EnvironmentPostProcessor=\
   com.easyms.messaging.autoconfigure.EasyMsMessagingEnvProcessor

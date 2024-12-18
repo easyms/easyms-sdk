@@ -5,18 +5,16 @@ import com.easyms.sampleapp.model.dto.ClientRequest;
 import com.easyms.sampleapp.service.ClientService;
 import com.easyms.sampleapp.service.ClientValidationService;
 import io.micrometer.core.annotation.Timed;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.annotation.PostConstruct;
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +34,7 @@ public class ClientResource {
     private final ClientValidationService clientValidationService;
 
 
-    @ApiOperation("returns all details of a client")
+    @Operation(summary="returns all details of a client")
     @Timed
     @PreAuthorize("hasAuthority('PERM_READ_CLIENT')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/{id}")
@@ -46,7 +44,7 @@ public class ClientResource {
 
     }
 
-    @ApiOperation("returns all details of a client by email")
+    @Operation(summary="returns all details of a client by email")
     @Timed
     @PreAuthorize("hasAuthority('PERM_READ_CLIENT')")
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients/by-email")
@@ -56,7 +54,7 @@ public class ClientResource {
     }
 
 
-    @ApiOperation("create new client")
+    @Operation(summary="create new client")
     @Timed
     @PreAuthorize("hasAuthority('PERM_MODIFY_CLIENT')")
     @PostMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients")
@@ -68,7 +66,7 @@ public class ClientResource {
         return ResponseEntity.created(location).body(clientDto);
     }
 
-    @ApiOperation("search all clients")
+    @Operation(summary="search all clients")
     @Timed
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/clients")
     ResponseEntity<List<ClientDto>> getAllClients(){
@@ -77,5 +75,14 @@ public class ClientResource {
         return ResponseEntity.ok().body(clientDtos);
     }
 
-
+    @Operation(summary="returns all details of a client by feign")
+    @Timed
+    @PreAuthorize("hasAuthority('PERM_READ_CLIENT')")
+    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v2/clients/{id}")
+    public ResponseEntity<ClientDto> findByIdWithFeign(@PathVariable Long id) {
+        log.info("get client with feign");
+        Optional<ClientDto> clientDto = clientService.getByIdWithFeign(id);
+        return clientDto.map(clDto -> ResponseEntity.ok().body(clDto)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
+

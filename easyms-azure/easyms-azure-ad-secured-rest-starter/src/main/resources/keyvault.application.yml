@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-source-enabled: ${easyms.azure.keyvault.enabled:false}
+          property-sources:
+            - name: key-vault-property-source
+              endpoint: ${easyms.azure.keyvault.endpoint:}
+              credential:
+                client-id: ${easyms.azure.keyvault.clientId:}
+                client-secret: ${easyms.azure.keyvault.clientSecret:}
+              profile:
+                tenant-id: ${easyms.azure.keyvault.tenant:}

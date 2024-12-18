@@ -5,11 +5,11 @@ import com.easyms.sampleapp.model.dto.ClientRequest;
 import com.easyms.sampleapp.model.entity.Client;
 import com.easyms.sampleapp.repository.ClientRepository;
 import com.easyms.sampleapp.utils.SampleAppMessages;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Component

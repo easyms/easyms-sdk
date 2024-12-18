@@ -1,13 +1,12 @@
 package com.easyms.sampleapp.model.dto;
 
 import com.easyms.sampleapp.utils.SampleAppMessages;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
@@ -21,3 +20,4 @@ public class ClientRequest {
     @Email(message = SampleAppMessages.INVALID_EMAIL)
     private String email;
 }
+

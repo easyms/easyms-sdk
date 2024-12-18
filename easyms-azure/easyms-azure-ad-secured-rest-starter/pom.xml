@@ -5,7 +5,7 @@
     <parent>
         <artifactId>easyms-azure</artifactId>
         <groupId>com.easyms</groupId>
-        <version>1.0.26-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,32 +13,32 @@
 
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-jwt -->
-
         <dependency>
             <groupId>com.easyms</groupId>
-            <artifactId>easyms-rest-starter</artifactId>
+            <artifactId>easyms-common-secured-rest-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <version>${jakarta.inject.api.version}</version>
         </dependency>
         <dependency>
             <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-boot-starter-active-directory</artifactId>
+            <artifactId>spring-cloud-azure-starter-active-directory</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-core</artifactId>
+            <version>1.41.0</version>
         </dependency>
         <dependency>
             <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-boot-starter-keyvault-secrets</artifactId>
+            <artifactId>spring-cloud-azure-starter-keyvault-secrets</artifactId>
         </dependency>
-
     </dependencies>
+
 </project>
