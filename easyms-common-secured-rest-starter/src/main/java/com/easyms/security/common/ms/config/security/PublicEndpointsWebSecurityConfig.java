@@ -1,13 +1,12 @@
 package com.easyms.security.common.ms.config.security;
 
 import lombok.AllArgsConstructor;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,7 +27,6 @@ public class PublicEndpointsWebSecurityConfig {
     private final RoutesHandler routesHandler;
 
     @Bean
-    @Order(SecurityProperties.BASIC_AUTH_ORDER)
     SecurityFilterChain filterChainPublic(HttpSecurity http) throws Exception {
         // @formatter:off
         http
@@ -41,6 +39,7 @@ public class PublicEndpointsWebSecurityConfig {
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 .httpBasic(HttpBasicConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .addFilterBefore(corsFilter, ChannelProcessingFilter.class);

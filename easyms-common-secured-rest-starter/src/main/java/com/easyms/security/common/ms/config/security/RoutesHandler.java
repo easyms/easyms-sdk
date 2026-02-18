@@ -31,7 +31,8 @@ public interface RoutesHandler {
                 H2_CONSOLE,
                 FAVICON_ICO,
                 "/csrf",
-                "/swagger-ui/index.html"
+                "/swagger-ui/index.html",
+                "/error"
         };
     }
 

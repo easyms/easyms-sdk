@@ -2,15 +2,18 @@ springdoc:
   show-actuator: false
   swagger-ui:
     oauth:
-      client-id: oauth-kk-client
-      realm: oauth-kk
+      use-pkce-with-authorization-code-grant: true
+      client-id: ${easyms.security.oauth2.swagger.client-id}
+      realm: ${easyms.security.oauth2.realm}
     groups-order: DESC
-    use-root-path: true
     default-models-expand-depth: -1
     disable-swagger-default-url: true
     csrf:
       enabled: true
     version: '@springdoc-openapi-starter-webmvc-ui.version@'
+  oAuthFlow:
+    authorizationUrl: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth
+    tokenUrl: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/token
 logging:
   level:
     org:
@@ -22,3 +25,10 @@ swagger:
     info:
       title: Easy-ms-Secured
   paths: /api/**
+  securityDefinitions:
+    oauthSecurity:
+      type: oauth2
+      tokenRequestUrl: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth
+      tokenUrl: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/token
+      clientId: ${easyms.security.oauth2.swagger.client-id}
+      scopes: openid
