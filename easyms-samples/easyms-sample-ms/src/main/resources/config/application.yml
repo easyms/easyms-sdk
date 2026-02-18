@@ -19,8 +19,10 @@ spring:
         username: ${boot.admin.client.username}
         password: ${boot.admin.client.password}
 
+  autoconfigure:
+    exclude: org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinAutoConfiguration
+
 swagger:
-  paths: /api.*
   api.info:
     title: @app.id@
     description: @pom.description@ Documentation

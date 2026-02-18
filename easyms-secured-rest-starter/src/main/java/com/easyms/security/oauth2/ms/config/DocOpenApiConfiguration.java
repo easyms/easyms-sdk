@@ -7,15 +7,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 
-/*@Configuration
+@Configuration
 public class DocOpenApiConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("*.html")
+        registry.addResourceHandler("/swagger-ui/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/")
                 .resourceChain(false)
                 .addResolver(new WebJarsResourceResolver())
                 .addResolver(new PathResourceResolver());
     }
-}*/
+}
